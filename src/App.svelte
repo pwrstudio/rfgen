@@ -19,10 +19,10 @@
   import Navigation from "./Components/Navigation.svelte";
 
   // *** ROUTES
-  import TileView from "./views/TileView.svelte";
-  import PageView from "./views/PageView.svelte";
-  import PostView from "./views/PostView.svelte";
-  import Error404 from "./views/Error404.svelte";
+  import TileView from "./Views/TileView.svelte";
+  import PageView from "./Views/PageView.svelte";
+  import PostView from "./Views/PostView.svelte";
+  import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
   import { language } from "./stores.js";
