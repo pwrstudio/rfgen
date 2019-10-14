@@ -1,0 +1,126 @@
+// Basics
+$rfgen-black: rgba(0, 0, 0, 1);
+$rfgen-white: rgba(255, 255, 255, 1);
+$rfgen-grey: rgba(225, 225, 225, 1);
+$rfgen-darkgrey: rgba(150, 150, 150, 1);
+
+// Highlight
+$rfgen-blue: rgba(0, 195, 255, 1);
+$rfgen-red: rgb(223, 59, 41);
+$rfgen-green: rgba(55, 240, 50, 1);
+
+// Base
+$rfgen-khaki: rgba(164, 166, 151, 1);
+$rfgen-military: rgba(84, 91, 77, 1);
+$rfgen-leaf: rgba(97, 108, 102, 1);
+$rfgen-brown: rgba(71, 63, 59, 1);
+$rfgen-beige: rgba(230, 237, 208, 1);
+
+// Typography
+$font-stack: 'HelveticaNeue', 'Helvetica Neue', helvetica, 'arial', sans-serif;
+$rfgen-font-size-small: 14px;
+$rfgen-font-size-large: 28px;
+
+// Spacing
+$navigation-top-height: 100px;
+$navigation-bottom-height: 60px;
+$rfgen-grid-unit: 5px;
+
+// Animation
+$easing: cubic-bezier(0.23, 1, 0.32, 1);
+
+@mixin hide-scroll {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+}
+
+// Responsive
+$breakpoints: (
+  'small': (
+    max-width: 700px
+  ),
+  'medium': (
+    max-width: 1000px
+  ),
+  'large': (
+    max-width: 1600px
+  ),
+  'short': (
+    max-height: 700px
+  )
+);
+
+// Colors
+.rfgen-red {
+  background: $rfgen-red;
+}
+
+.rfgen-blue {
+  background: $rfgen-blue;
+}
+
+.rfgen-green {
+  background: $rfgen-green;
+}
+
+.rfgen-khaki {
+  background: $rfgen-khaki;
+}
+
+.rfgen-military {
+  background: $rfgen-military;
+}
+
+.rfgen-leaf {
+  background: $rfgen-leaf;
+}
+
+.rfgen-brown {
+  background: $rfgen-brown;
+}
+
+.rfgen-beige {
+  background: $rfgen-beige;
+}
+
+.rfgen-black {
+  background: $rfgen-black;
+  color: $rfgen-white;
+}
+
+.rfgen-white {
+  background: $rfgen-white;
+  color: $rfgen-black;
+}
+
+.rfgen-grey {
+  background: $rfgen-grey;
+  color: $rfgen-black;
+}
+
+.text-arabic {
+  direction: rtl;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/// Responsive manager.
+/// @access public
+/// @param {String} $breakpoint - Breakpoint
+/// @requires $breakpoints
+@mixin screen-size($breakpoint) {
+  $raw-query: map-get($breakpoints, $breakpoint);
+  @if $raw-query {
+    $query: if(
+      type-of($raw-query) == 'string',
+      unquote($raw-query),
+      inspect($raw-query)
+    );
+    @media #{$query} {
+      @content;
+    }
+  } @else {
+    @error 'No value found for `#{$breakpoint}`. ' + 'Please make sure it is defined in `$breakpoints` map.';
+  }
+}

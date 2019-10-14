@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'HelveticaNeueLT Arabic 75';
+  src: url('HelveticaNeueLTArabic-Bold.woff2') format('woff2'),
+    url('HelveticaNeueLTArabic-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeueLT Arabic 55 Roman';
+  src: url('HelveticaNeueLTArabic-Roman.woff2') format('woff2'),
+    url('HelveticaNeueLTArabic-Roman.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue LT Std';
+  src: url('HelveticaNeueLTStd-Bd.woff2') format('woff2'),
+    url('HelveticaNeueLTStd-Bd.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue LT Std';
+  src: url('HelveticaNeueLTStd-Roman.woff2') format('woff2'),
+    url('HelveticaNeueLTStd-Roman.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
