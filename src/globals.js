@@ -11,7 +11,7 @@ export const categoryList = [
       english: 'Projects',
       arabic: 'صلة'
     },
-    slug: 'projects',
+    slug: 'project',
     color: 'rfgen-red'
   },
   {
@@ -19,7 +19,7 @@ export const categoryList = [
       english: 'Talks',
       arabic: 'صلة'
     },
-    slug: 'talks',
+    slug: 'talk',
     color: 'rfgen-leaf'
   },
   {
@@ -27,7 +27,7 @@ export const categoryList = [
       english: 'Performances',
       arabic: 'صلة'
     },
-    slug: 'performances',
+    slug: 'performance',
     color: 'rfgen-military'
   },
   {
@@ -43,7 +43,7 @@ export const categoryList = [
       english: 'Writings',
       arabic: 'صلة'
     },
-    slug: 'writings',
+    slug: 'writing',
     color: 'rfgen-khaki'
   },
   {
@@ -59,7 +59,7 @@ export const categoryList = [
       english: 'Participants',
       arabic: 'صلة'
     },
-    slug: 'participants',
+    slug: 'participant',
     color: 'rfgen-green'
   }
 ]

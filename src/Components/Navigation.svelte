@@ -58,6 +58,7 @@
     z-index: 1000;
     transition: background 0.5s $easing;
     user-select: none;
+    overflow: hidden;
 
     &.team,
     &.theme,
@@ -114,6 +115,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    overflow-x: scroll;
   }
 
   .category-menu-list-item {
@@ -137,7 +139,7 @@
 
     <nav>
       <a href="/" class="text-logo">
-        {$navigationColor}
+
         {#if $isEnglish}{siteInfo.title.english}{/if}
         {#if $isArabic}{siteInfo.title.arabic}{/if}
       </a>

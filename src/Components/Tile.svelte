@@ -20,6 +20,7 @@
 
   // *** GLOBALS
   import { categoryList } from "../globals.js";
+  import { urlFor } from "../sanity.js";
 
   // *** Props
   export let post = {};
@@ -27,6 +28,13 @@
   // ** CONSTANTS
 
   // ** VARIABLES
+  let color = "";
+
+  $: {
+    color = post.category
+      ? categoryList.find(cat => cat.slug === post.category).color
+      : "rfgen-white";
+  }
 
   // ** FUNCTIONS
   //   const linear = function(n) {
@@ -45,18 +53,23 @@
   .tile {
     // display: inline-block;
     width: calc(100% / 3);
+    width: 33%;
     height: $tile-height;
-    background: blue;
     margin: 0;
     float: left;
     position: relative;
+
+    @include screen-size("small") {
+      width: 50%;
+    }
   }
 
   .tile-bar {
     position: absolute;
     top: 0;
     left: 0;
-    height: $tile-bar-height;
+    height: $tile-height;
+    clip-path: inset(0px 0 320px 0);
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
@@ -66,6 +79,7 @@
     display: flex;
     justify-content: space-between;
     // padding-top: $tile-bar-height;
+    transition: clip-path 0.2s $easing;
   }
 
   .tile-image {
@@ -90,27 +104,34 @@
   }
 
   .tile:hover .tile-bar {
-    height: 100%;
+    clip-path: inset(0px 0 0px 0);
   }
 </style>
 
 <Router>
   <div class="tile" use:links>
-    <a href="{post.category.slug}/{post.title.slug}">
-      <div class="tile-bar {post.color}">
+    <a href="{post.category}/{post.slug}">
+      <div class="tile-bar {color}">
         <div class="tile-title">
-          {#if $isEnglish}{post.title.english}{/if}
-          {#if $isArabic}{post.title.arabic}{/if}
+          {#if $isEnglish}{post.en_title}{/if}
+          {#if $isArabic}{post.ar_title}{/if}
         </div>
         <div class="tile-category">
-          {#if $isEnglish}{post.category.english}{/if}
-          {#if $isArabic}{post.category.arabic}{/if}
+          {post.category}
+          <!-- {#if $isEnglish}{post.en_category}{/if}
+          {#if $isArabic}{post.ar_category}{/if} -->
         </div>
       </div>
       <div class="tile-image">
-        <img
-          src="/img/{post.image}"
-          alt={$isEnglish ? post.title.english : post.title.arabic} />
+        {#if post.mainImage}
+          <img
+            src={urlFor(post.mainImage)
+              .height(400)
+              .quality(100)
+              .auto('format')
+              .url()}
+            alt={$isEnglish ? post.en_title : post.ar_title} />
+        {/if}
       </div>
     </a>
   </div>

@@ -8,6 +8,7 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import arrayShuffle from "array-shuffle";
 
   // *** COMPONENTS
   //   import Scroller from "./Scroller.svelte";
@@ -17,177 +18,9 @@
   // *** STORES
   import { navigationColor } from "../stores.js";
 
-  // ** CONSTANTS
-  const posts = [
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img1.jpg",
-      color: "rfgen-blue"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Working Group",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img2.jpg",
-      color: "rfgen-khaki"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img3.jpg",
-      color: "rfgen-red"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img2.jpg",
-      color: "rfgen-khaki"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img3.jpg",
-      color: "rfgen-red"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img1.jpg",
-      color: "rfgen-blue"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img3.jpg",
-      color: "rfgen-red"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Working Group",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img2.jpg",
-      color: "rfgen-khaki"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img3.jpg",
-      color: "rfgen-red"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img2.jpg",
-      color: "rfgen-khaki"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img3.jpg",
-      color: "rfgen-red"
-    },
-    {
-      title: {
-        english: "Rights of Future Generations: Environment",
-        arabic: "",
-        slug: "xxx"
-      },
-      category: {
-        english: "Projects",
-        arabic: "",
-        slug: "xxx"
-      },
-      image: "img1.jpg",
-      color: "rfgen-blue"
-    }
-  ];
+  // *** GLOBALS
+  import { siteInfo, categoryList, pageList } from "../globals.js";
+  import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let category = {};
@@ -195,12 +28,35 @@
   export let slug = "";
 
   // ** CONSTANTS
+  const query =
+    '*[_type == "writing" || _type == "participant"  ]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, mainImage, "category": _type}';
 
   // ** VARIABLES
+  let posts = loadData(query, {});
+  let filteredPosts = [];
+  let currentCategory = category;
+
+  $: filteredPosts =
+    posts && posts.length && category
+      ? posts.filter(p => p.category === category)
+      : posts;
 
   navigationColor.set("rfgen-white");
 
-  onMount(async () => {});
+  async function loadData(query, params) {
+    try {
+      const res = await client.fetch(query, params);
+      console.dir(res);
+      return arrayShuffle(res.filter(r => r.mainImage));
+    } catch (err) {
+      console.log(err);
+      Sentry.captureException(err);
+    }
+  }
+
+  onMount(async () => {
+    console.dir(client);
+  });
 </script>
 
 <style lang="scss">
@@ -215,7 +71,9 @@
 </style>
 
 <div class="tile-view">
-  {#each posts as post}
-    <Tile {post} />
-  {/each}
+  {#await posts then posts}
+    {#each posts as post}
+      <Tile {post} />
+    {/each}
+  {/await}
 </div>
