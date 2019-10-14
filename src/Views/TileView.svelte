@@ -11,16 +11,14 @@
   import arrayShuffle from "array-shuffle";
 
   // *** COMPONENTS
-  //   import Scroller from "./Scroller.svelte";
-  //   import Horz from "./Scroller2.svelte";
   import Tile from "../Components/Tile.svelte";
 
   // *** STORES
-  import { navigationColor } from "../stores.js";
+  import { navigationColor, activeNavigation } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, pageList } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { siteInfo, categoryList } from "../globals.js";
+  import { client } from "../sanity.js";
 
   // *** PROPS
   export let category = {};
@@ -29,17 +27,14 @@
 
   // ** CONSTANTS
   const query =
-    '*[_type == "writing" || _type == "participant"  ]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, mainImage, "category": _type}';
+    '*[_type == "writing" || _type == "participant" || _type == "talk" || _type == "performance" || _type == "workingGroup" || _type == "project" || _type == "socialMedia"]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, mainImage, "category": _type}';
 
   // ** VARIABLES
   let posts = loadData(query, {});
-  let filteredPosts = [];
-  let currentCategory = category;
 
-  $: filteredPosts =
-    posts && posts.length && category
-      ? posts.filter(p => p.category === category)
-      : posts;
+  $: {
+    activeNavigation.set(category ? category : "");
+  }
 
   navigationColor.set("rfgen-white");
 
@@ -55,7 +50,7 @@
   }
 
   onMount(async () => {
-    console.dir(client);
+    // console.dir(client);
   });
 </script>
 
@@ -63,6 +58,7 @@
   @import "../variables.scss";
 
   .tile-view {
+    width: 100vw;
     display: inline-block;
     margin-top: $navigation-top-height;
     line-height: 0;
@@ -72,7 +68,7 @@
 
 <div class="tile-view">
   {#await posts then posts}
-    {#each posts as post}
+    {#each category.length > 0 ? posts.filter(p => p.category === category) : posts as post}
       <Tile {post} />
     {/each}
   {/await}

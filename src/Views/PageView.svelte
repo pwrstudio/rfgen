@@ -8,16 +8,21 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import get from "lodash/get";
 
   // *** COMPONENTS
-  import Tile from "../Components/Tile.svelte";
 
   // *** STORES
-  import { isArabic, isEnglish, navigationColor } from "../stores.js";
+  import {
+    isArabic,
+    isEnglish,
+    navigationColor,
+    activeNavigation
+  } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, pageList } from "../globals.js";
-  import { client, renderBlockText } from "../sanity.js";
+  import { siteInfo, pageList } from "../globals.js";
+  import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = {};
@@ -28,11 +33,15 @@
   let title = "";
 
   // ** CONSTANTS
-  const query = '*[_type == "page" && slug.current == $slug]';
+  const query = '*[_type == "page" && slug.current == $slug][0]';
   // const params = { slug: slug };
 
   $: {
     page = loadData(query, { slug: slug });
+  }
+
+  $: {
+    activeNavigation.set(slug ? slug : "");
   }
 
   //   $isSinglePage.set(true);
@@ -43,8 +52,30 @@
     try {
       const res = await client.fetch(query, params);
       console.dir(res);
-      title = res[0].en_title;
-      return res[0];
+
+      let pageConstruction = {
+        title: {
+          english: "",
+          arabic: ""
+        },
+        content: {
+          english: [],
+          arabic: []
+        },
+        mainImage: false,
+        slug: ""
+      };
+
+      pageConstruction.title.english = get(res, "en_title", "");
+      pageConstruction.title.arabic = get(res, "ar_title", "");
+      pageConstruction.content.english = get(res, "en_content", []);
+      pageConstruction.content.arabic = get(res, "ar_content", []);
+      pageConstruction.slug = get(res, "slug.current", "");
+      pageConstruction.mainImage = get(res, "mainImage", false);
+
+      console.dir(pageConstruction);
+
+      return pageConstruction;
     } catch (err) {
       console.log(err);
       Sentry.captureException(err);
@@ -67,13 +98,32 @@
   }
 
   .page-view-text {
-    width: 50%;
+    width: 50vw;
     padding-left: $rfgen-grid-unit;
+    padding-right: $rfgen-grid-unit;
     padding-top: 2 * $rfgen-grid-unit;
+    @include screen-size("small") {
+      width: 100vw;
+    }
   }
 
   .page-view-image {
-    width: 50%;
+    position: fixed;
+    width: 50vw;
+    top: $navigation-top-height;
+    right: 0;
+    height: calc(
+      100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
+    );
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  a {
+    text-decoration: underline;
   }
 </style>
 
@@ -85,16 +135,25 @@
   {#await page then page}
     {#if $isEnglish}
       <div class="page-view-text">
-        {@html renderBlockText(page.en_content)}
+        {@html renderBlockText(page.content.english)}
       </div>
     {/if}
     {#if $isArabic}
       <div class="page-view-text">
-        {@html renderBlockText(page.ar_content)}
+        {@html renderBlockText(page.content.arabic)}
       </div>
     {/if}
+
     <div class="page-view-image">
-      <img src="/img/img1.jpg" />
+      {#if page.mainImage}
+        <img
+          src={urlFor(page.mainImage)
+            .width(900)
+            .quality(80)
+            .auto('format')
+            .url()}
+          alt={$isEnglish ? page.title.english : page.title.arabic} />
+      {/if}
     </div>
   {/await}
 </div>

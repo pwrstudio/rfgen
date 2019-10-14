@@ -12,7 +12,7 @@ export const categoryList = [
       arabic: 'صلة'
     },
     slug: 'project',
-    color: 'rfgen-red'
+    color: 'rfgen-blue'
   },
   {
     name: {
@@ -28,14 +28,14 @@ export const categoryList = [
       arabic: 'صلة'
     },
     slug: 'performance',
-    color: 'rfgen-military'
+    color: 'rfgen-green'
   },
   {
     name: {
       english: 'Working Group',
       arabic: 'صلة'
     },
-    slug: 'working-group',
+    slug: 'workingGroup',
     color: 'rfgen-beige'
   },
   {
@@ -51,8 +51,8 @@ export const categoryList = [
       english: '#rfgen',
       arabic: '#rfgen'
     },
-    slug: 'social-media',
-    color: 'rfgen-blue'
+    slug: 'socialMedia',
+    color: 'rfgen-red'
   },
   {
     name: {
@@ -60,7 +60,7 @@ export const categoryList = [
       arabic: 'صلة'
     },
     slug: 'participant',
-    color: 'rfgen-green'
+    color: 'rfgen-beige'
   }
 ]
 

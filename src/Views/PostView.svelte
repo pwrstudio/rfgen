@@ -8,43 +8,92 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import get from "lodash/get";
 
   // *** COMPONENTS
-  //   import Scroller from "./Scroller.svelte";
-  //   import Horz from "./Scroller2.svelte";
   import Tile from "../Components/Tile.svelte";
 
   // *** STORES
-  import { isArabic, isEnglish, navigationColor } from "../stores.js";
+  import {
+    isArabic,
+    isEnglish,
+    navigationColor,
+    activeNavigation
+  } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, pageList } from "../globals.js";
+  import { siteInfo, categoryList } from "../globals.js";
+  import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = {};
   export let category = {};
-  export let post = {
-    title: "POST",
-    category: "projects",
-    content:
-      "Netus et malesuada fames ac. Accumsan lacus vel facilisis volutpat est. Mi sit amet mauris commodo quis imperdiet. Arcu cursus vitae congue mauris rhoncus. Rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi. Tellus id interdum velit laoreet id donec ultrices. Odio tempor orci dapibus ultrices in. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Cursus metus aliquam eleifend mi. Elementum sagittis vitae et leo duis. Sit amet justo donec enim diam. Tortor at auctor urna nunc id cursus metus aliquam eleifend. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant morbi. Tempus iaculis urna id volutpat lacus. Mollis aliquam ut porttitor leo a. Morbi tristique senectus et netus et malesuada. Dui accumsan sit amet nulla. Leo duis ut diam quam nulla porttitor massa id. Pulvinar mattis nunc sed blandit libero volutpat sed cras ornare. Laoreet id donec ultrices tincidunt arcu non sodales neque. Sed cras ornare arcu dui vivamus. Id velit ut tortor pretium viverra suspendisse potenti. Nibh praesent tristique magna sit amet purus gravida quis blandit. Dui nunc mattis enim ut tellus elementum sagittis vitae. In hac habitasse platea dictumst vestibulum rhoncus. Tristique risus nec feugiat in fermentum posuere urna nec tincidunt. Neque egestas congue quisque egestas diam in arcu cursus euismod. Ut aliquam purus sit amet. Pulvinar neque laoreet suspendisse interdum consectetur libero id. Tincidunt praesent semper feugiat nibh. Commodo sed egestas egestas fringilla. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Gravida rutrum quisque non tellus. Mattis vulputate enim nulla aliquet porttitor lacus. Bibendum at varius vel pharetra vel. Libero id faucibus nisl tincidunt eget nullam non nisi est. Cursus risus at ultrices mi. Posuere morbi leo urna molestie at elementum. Pharetra magna ac placerat vestibulum lectus. Sagittis eu volutpat odio facilisis mauris sit amet massa. Urna id volutpat lacus laoreet non. Facilisis mauris sit amet massa vitae tortor condimentum lacinia quis."
-  };
   export let location = {};
 
+  // ** VARIABLES
+  let post = {};
+  let headTitle = {
+    english: "",
+    arabic: ""
+  };
+
   // ** CONSTANTS
+  const query =
+    '*[slug.current == $slug]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
 
-  // ** VARIABLES<
+  $: {
+    post = loadData(query, { slug: slug });
+  }
 
-  //   navigationColor.set(category);
+  $: {
+    activeNavigation.set(category ? category : "");
+  }
+
+  console.log(category);
+  navigationColor.set(categoryList.find(c => c.slug == category).color);
+
+  async function loadData(query, params) {
+    try {
+      const res = await client.fetch(query, params);
+      console.dir(res);
+
+      let postConstruction = {
+        title: {
+          english: "",
+          arabic: ""
+        },
+        content: {
+          english: [],
+          arabic: []
+        },
+        mainImage: false,
+        slug: ""
+      };
+
+      postConstruction.title.english = get(res, "en_title", "");
+      postConstruction.title.arabic = get(res, "ar_title", "");
+      postConstruction.content.english = get(res, "en_content", []);
+      postConstruction.content.arabic = get(res, "ar_content", []);
+      postConstruction.mainImage = get(res, "mainImage", false);
+      postConstruction.slug = get(res, "slug", "");
+      postConstruction.category = get(res, "category", "");
+
+      console.dir(postConstruction);
+
+      return postConstruction;
+    } catch (err) {
+      console.log(err);
+      Sentry.captureException(err);
+    }
+  }
 
   onMount(async () => {
-    console.log(slug);
-    console.log(category);
-    console.log("postview loaded");
+    window.scrollTo(0, 0);
   });
 </script>
 
 <style lang="scss">
+  @import "../variables.scss";
   @import "../variables.scss";
 
   .post-view {
@@ -55,28 +104,99 @@
   }
 
   .post-view-text {
-    width: 50%;
+    position: fixed;
+    width: 50vw;
+    top: $navigation-top-height;
+    left: 0;
+    height: calc(
+      100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
+    );
     padding-left: $rfgen-grid-unit;
+    padding-right: $rfgen-grid-unit;
     padding-top: 2 * $rfgen-grid-unit;
+    @include screen-size("small") {
+      position: static;
+      float: right;
+      width: 100vw;
+      top: unset;
+      left: unset;
+      height: unset;
+    }
   }
 
   .post-view-image {
-    width: 50%;
+    position: fixed;
+    width: 50vw;
+    top: $navigation-top-height;
+    right: 0;
+    height: calc(
+      100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
+    );
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @include screen-size("small") {
+      position: static;
+      float: left;
+      width: 100vw;
+      top: unset;
+      left: unset;
+    }
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .post-view-category {
+    text-transform: capitalize;
+    margin-bottom: 1em;
+  }
+
+  .post-view-title {
+    margin-bottom: 1em;
   }
 </style>
 
 <svelte:head>
-  <title>{post.title} / {siteInfo.title.english}</title>
+  {#if $isEnglish}
+    <title>{headTitle.english} / {siteInfo.title.english}</title>
+  {/if}
+  {#if $isArabic}
+    <title>{siteInfo.title.arabic} / {headTitle.arabic}</title>
+  {/if}
 </svelte:head>
 
 <div class="post-view">
-
-  <div class="post-view-text">
-    {slug} / {category}
-    <br />
-    {post.content}
-  </div>
-  <div class="post-view-image">
-    <img src="/img/img1.jpg" />
-  </div>
+  {#await post then post}
+    {#if $isEnglish}
+      <div class="post-view-text">
+        <div class="post-view-category">{post.category}</div>
+        <div class="post-view-title">{post.title.english}</div>
+        {#if Array.isArray(post.content.english)}
+          {@html renderBlockText(post.content.english)}
+        {:else}{post.content.english}{/if}
+      </div>
+    {/if}
+    {#if $isArabic}
+      <div class="post-view-text">
+        {#if Array.isArray(post.content.arabic)}
+          {@html renderBlockText(post.content.arabic)}
+        {:else}{post.content.arabic}{/if}
+      </div>
+    {/if}
+    <div class="post-view-image">
+      {#if post.mainImage}
+        <img
+          src={urlFor(post.mainImage)
+            .width(900)
+            .quality(80)
+            .auto('format')
+            .url()}
+          alt={$isEnglish ? post.title.english : post.title.arabic} />
+      {/if}
+    </div>
+  {/await}
 </div>

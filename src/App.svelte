@@ -25,7 +25,7 @@
   import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
-  import { language } from "./stores.js";
+  import { language, isArabic, isEnglish } from "./stores.js";
 
   // ** CONSTANTS
 
@@ -57,6 +57,9 @@
     &.no-scroll {
       overflow: hidden;
     }
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+    }
   }
 
   *,
@@ -85,14 +88,39 @@
     background: #e4e4e4;
     /* Gecko Browsers */
   }
+
+  strong {
+    font-weight: normal;
+  }
+
+  .page-view {
+    a {
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .app {
+    &.arabic {
+      direction: rtl;
+      text-align: right;
+    }
+  }
 </style>
 
-<Navigation />
+<div class="app" class:arabic={$isArabic}>
 
-<Router>
-  <Route path="/" component={TileView} />
-  <Route path="/:category" component={TileView} />
-  <Route path="/:category/:slug" component={PostView} />
-  <Route path="/page/:slug" component={PageView} />
-  <Route component={Error404} title="404" />
-</Router>
+  <Navigation />
+
+  <Router>
+    <Route path="/" component={TileView} />
+    <Route path="/:category" component={TileView} />
+    <Route path="/:category/:slug" component={PostView} />
+    <Route path="/page/:slug" component={PageView} />
+    <Route component={Error404} title="404" />
+  </Router>
+
+</div>

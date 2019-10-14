@@ -7,7 +7,7 @@
 
   // ** FUNCTIONS
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import { Router, Link, links } from "svelte-routing";
 
   // *** COMPONENTS
@@ -27,20 +27,9 @@
   // ** CONSTANTS
 
   // ** VARIABLES
-  let categoryColor = "";
-
-  // $: {
-  //   console.log($activeNavigation);
-  //   if ($activeNavigation.length > 0) {
-  //     categoryColor = categoryList.find(c => c.slug === $activeNavigation)
-  //       .color;
-  //     console.log(categoryColor);
-  //   }
-  // }
 
   // ** FUNCTIONS
   const changeLanguage = () => language.set($isEnglish ? "arabic" : "english");
-  // const setActiveNavigation = slug => activeNavigation.set(slug);
 
   onMount(async () => {});
 </script>
@@ -49,7 +38,6 @@
   @import "../variables.scss";
 
   .navigation {
-    // background: $rfgen-white;
     color: $rfgen-black;
     left: 0;
     padding: $rfgen-grid-unit;
@@ -58,15 +46,6 @@
     z-index: 1000;
     transition: background 0.5s $easing;
     user-select: none;
-    overflow: hidden;
-
-    &.team,
-    &.theme,
-    &.press,
-    &.contact,
-    &.venues {
-      background: $rfgen-grey;
-    }
   }
 
   .top {
@@ -82,19 +61,23 @@
   .text-logo {
     display: inline-block;
     margin-bottom: 1em;
+    text-align: left;
+    position: relative;
+    top: 5px;
   }
 
   .language-switch {
     float: right;
+    // direction: ltr;
   }
 
   .language-switch-button {
+    background: transparent;
     display: inline-block;
     border: 0;
     outline: 0;
     border-radius: 0;
-    padding: 0;
-    margin: 0;
+    margin-right: $rfgen-grid-unit;
     font-size: $rfgen-font-size-large;
 
     border-bottom: 2px solid transparent;
@@ -104,18 +87,30 @@
     &.active {
       border-bottom: 2px solid $rfgen-black;
     }
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+    }
   }
 
   .category-menu {
     margin: 0;
     padding: 0;
+
+    &.bottom-menu {
+      float: left;
+    }
+
+    @include screen-size("small") {
+      width: 3000px;
+      // overflow-x: scroll;
+    }
   }
 
   .category-menu-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-x: scroll;
   }
 
   .category-menu-list-item {
@@ -131,6 +126,21 @@
       }
     }
   }
+
+  .sat-link {
+    float: right;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-bottom: 2px solid $rfgen-black;
+    }
+
+    @include screen-size("small") {
+      float: left;
+      display: none;
+      // overflow-x: scroll;
+    }
+  }
 </style>
 
 <Router>
@@ -139,23 +149,21 @@
 
     <nav>
       <a href="/" class="text-logo">
-
         {#if $isEnglish}{siteInfo.title.english}{/if}
         {#if $isArabic}{siteInfo.title.arabic}{/if}
       </a>
       <div class="language-switch">
-        <button
-          class="language-switch-button"
-          on:click={changeLanguage}
-          class:active={$isArabic}>
-          AR
-        </button>
-        <button
-          class="language-switch-button"
-          on:click={changeLanguage}
-          class:active={$isEnglish}>
-          EN
-        </button>
+        {#if !$isArabic}
+          <button class="language-switch-button" on:click={changeLanguage}>
+            AR
+          </button>
+        {/if}
+
+        {#if !$isEnglish}
+          <button class="language-switch-button" on:click={changeLanguage}>
+            EN
+          </button>
+        {/if}
       </div>
       <menu class="category-menu">
         <ul class="category-menu-list">
@@ -176,7 +184,7 @@
 
   <footer class="navigation bottom {$navigationColor}" use:links>
     <nav>
-      <menu class="category-menu">
+      <menu class="category-menu bottom-menu">
         <ul class="category-menu-list">
           {#each pageList as page}
             <li class="category-menu-list-item">
@@ -191,6 +199,12 @@
         </ul>
       </menu>
     </nav>
+    <a
+      href="https://www.sharjaharchitecture.org/"
+      class="sat-link"
+      target="_blank">
+      Sharjah Architecture Triennial
+    </a>
   </footer>
 
 </Router>
