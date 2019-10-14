@@ -65,8 +65,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: $tile-height;
-    clip-path: inset(0px 0 340px 0);
+    height: $tile-bar-height;
+    height: auto;
+    min-height: $tile-bar-height;
+    // clip-path: inset(0px 0 340px 0);
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
@@ -106,8 +108,9 @@
   }
 
   .tile:hover .tile-bar {
-    transition: clip-path 0.15s $easing;
-    clip-path: inset(0px 0 0px 0);
+    height: $tile-height;
+    // transition: clip-path 0.15s $easing;
+    // clip-path: inset(0px 0 0px 0);
   }
 </style>
 
