@@ -71,6 +71,7 @@
     text-align: left;
     position: relative;
     top: 5px;
+    font-weight: bold;
   }
 
   .language-switch {

@@ -10,6 +10,7 @@
   import { Router, Link, Route } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import get from "lodash/get";
+  import { fade } from "svelte/transition";
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
@@ -44,7 +45,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
+    '*[slug.current == $slug]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, "category": _type}[0]';
 
   $: {
     post = loadData(query, { slug: slug });
@@ -59,7 +60,6 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      console.dir(res);
 
       let postConstruction = {
         title: {
@@ -79,10 +79,9 @@
       postConstruction.content.english = get(res, "en_content", []);
       postConstruction.content.arabic = get(res, "ar_content", []);
       postConstruction.mainImage = get(res, "mainImage", false);
+      postConstruction.videoLink = get(res, "videoLink", "");
       postConstruction.slug = get(res, "slug", "");
       postConstruction.category = get(res, "category", "");
-
-      console.dir(postConstruction);
 
       return postConstruction;
     } catch (err) {
@@ -145,6 +144,7 @@
     width: 50vw;
     top: $navigation-top-height;
     right: 0;
+    background: rgba(0, 0, 0, 0.05);
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
@@ -153,6 +153,14 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    iframe {
+      display: block;
+      margin-top: 40px;
+      margin-left: auto;
+      margin-right: auto;
+      width: calc(100% - 10px);
     }
 
     @include screen-size("small") {
@@ -187,6 +195,7 @@
 
   .post-view-title {
     margin-bottom: 1em;
+    font-weight: bold;
   }
 </style>
 
@@ -202,7 +211,7 @@
 <div class="post-view">
   {#await post then post}
     {#if $isEnglish}
-      <div class="post-view-text">
+      <div class="post-view-text" in:fade>
         <div class="post-view-category">{post.category}</div>
         <div class="post-view-title">{post.title.english}</div>
         {#if Array.isArray(post.content.english)}
@@ -211,7 +220,7 @@
       </div>
     {/if}
     {#if $isArabic}
-      <div class="post-view-text arabic">
+      <div class="post-view-text arabic" in:fade>
         {#if Array.isArray(post.content.arabic)}
           {@html renderBlockText(post.content.arabic)}
         {:else}{post.content.arabic}{/if}
@@ -222,10 +231,20 @@
       bind:this={imageEl}
       class:loaded
       class:arabic={$isArabic}>
-      {#if post.mainImage}
+      {#if post.videoLink}
+        <iframe
+          src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
+          width="640"
+          height="360"
+          frameborder="0"
+          byline="false"
+          color="#ffffff"
+          allow="autoplay; fullscreen"
+          allowfullscreen />
+      {:else if post.mainImage}
         <img
           src={urlFor(post.mainImage)
-            .width(900)
+            .height(1400)
             .quality(90)
             .auto('format')
             .url()}

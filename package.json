@@ -23,6 +23,7 @@
     "@sanity/image-url": "^0.140.15",
     "array-shuffle": "^1.0.1",
     "core-js": "^3.3.2",
+    "embed-video": "^2.0.4",
     "imagesloaded": "^4.1.4",
     "lodash": "^4.17.15",
     "node-sass": "^4.12.0",

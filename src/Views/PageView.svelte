@@ -9,6 +9,7 @@
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
   import get from "lodash/get";
+  import { fade } from "svelte/transition";
 
   // *** COMPONENTS
 
@@ -51,7 +52,6 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      console.dir(res);
 
       let pageConstruction = {
         title: {
@@ -72,8 +72,6 @@
       pageConstruction.content.arabic = get(res, "ar_content", []);
       pageConstruction.slug = get(res, "slug.current", "");
       pageConstruction.mainImage = get(res, "mainImage", false);
-
-      console.dir(pageConstruction);
 
       return pageConstruction;
     } catch (err) {
@@ -141,12 +139,12 @@
 <div class="page-view">
   {#await page then page}
     {#if $isEnglish}
-      <div class="page-view-text">
+      <div class="page-view-text" in:fade>
         {@html renderBlockText(page.content.english)}
       </div>
     {/if}
     {#if $isArabic}
-      <div class="page-view-text">
+      <div class="page-view-text" in:fade>
         {@html renderBlockText(page.content.arabic)}
       </div>
     {/if}
@@ -155,7 +153,7 @@
       {#if page.mainImage}
         <img
           src={urlFor(page.mainImage)
-            .width(900)
+            .height(1400)
             .quality(90)
             .auto('format')
             .url()}

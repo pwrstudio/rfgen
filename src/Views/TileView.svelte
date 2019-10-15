@@ -53,7 +53,6 @@
 
   onMount(async () => {
     window.scrollTo(0, 0);
-    // console.dir(client);
   });
 </script>
 

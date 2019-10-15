@@ -6,16 +6,11 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
   import random from "lodash/random";
   import shuffle from "lodash/shuffle";
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
-
-  // *** GLOBALS
-  import { siteInfo, categoryList } from "../globals.js";
-
   // *** PROPS
   export let row = [];
   export let location = {};
@@ -34,13 +29,9 @@
 
   const pickRandomLayout = () => layouts[random(0, 4)];
 
-  onMount(async () => {
-    console.log("in row");
-    console.dir(row);
-    tileWidths = row.length === 3 ? shuffle(pickRandomLayout()) : [33, 33, 33];
-    console.dir(tileWidths);
-    // console.dir(client);
-  });
+  // onMount(async () => {
+  tileWidths = row.length === 3 ? shuffle(pickRandomLayout()) : [33, 33, 33];
+  // });
 </script>
 
 <style lang="scss">

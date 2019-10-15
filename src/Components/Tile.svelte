@@ -40,8 +40,8 @@
 
   // *** ON MOUNT
   onMount(async () => {
-    console.log(post.en_title.length);
-    console.log(isLongTitle());
+    // console.log(post.en_title.length);
+    // console.log(isLongTitle());
     imagesLoaded(tileEl, instance => {
       loaded = true;
     });
@@ -185,8 +185,8 @@
         {#if post.mainImage}
           <img
             src={urlFor(post.mainImage)
-              .height(400)
-              .minWidth(800)
+              .height(800)
+              .width(800)
               .fit('clip')
               .quality(100)
               .auto('format')

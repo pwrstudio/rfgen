@@ -91,7 +91,7 @@
   }
 
   strong {
-    font-weight: normal;
+    // font-weight: normal;
   }
 
   .page-view {
