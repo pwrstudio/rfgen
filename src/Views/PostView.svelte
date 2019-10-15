@@ -194,6 +194,8 @@
   .post-view-category {
     text-transform: capitalize;
     margin-bottom: 1em;
+    // font-size: $rfgen-font-size-small;
+    // line-height: $rfgen-font-size-small;
   }
 
   .post-view-title {

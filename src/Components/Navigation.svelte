@@ -67,11 +67,14 @@
 
   .text-logo {
     display: inline-block;
-    margin-bottom: 1em;
+    margin-bottom: 0.4em;
     text-align: left;
     position: relative;
     top: 5px;
     font-weight: bold;
+    @include screen-size("small") {
+      margin-bottom: 0.7em;
+    }
   }
 
   .language-switch {
