@@ -137,6 +137,8 @@
       left: unset;
       right: 0;
     }
+
+    padding-bottom: 80px;
   }
 
   .post-view-image {
@@ -199,14 +201,14 @@
   }
 </style>
 
-<svelte:head>
+<!-- <svelte:head>
   {#if $isEnglish}
     <title>{headTitle.english} / {siteInfo.title.english}</title>
   {/if}
   {#if $isArabic}
     <title>{siteInfo.title.arabic} / {headTitle.arabic}</title>
   {/if}
-</svelte:head>
+</svelte:head> -->
 
 <div class="post-view">
   {#await post then post}

@@ -29,7 +29,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[_type == "writing" || _type == "participant" || _type == "talk" || _type == "performance" || _type == "workingGroup" || _type == "project" || _type == "socialMedia"]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, mainImage, "category": _type}';
+    '*[_type == "writing" || _type == "participant" || _type == "talk" || _type == "performance" || _type == "workingGroup" || _type == "project" || _type == "socialMedia"]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, link, mainImage, author->{en_name, ar_name, slug}, publisherName, "category": _type}';
 
   // ** VARIABLES
   let posts = loadData(query, {});

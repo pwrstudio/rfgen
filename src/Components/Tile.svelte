@@ -7,7 +7,7 @@
 
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
-  import { Router, Link, links } from "svelte-routing";
+  import { Router, Link, links, navigate } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
 
   // *** COMPONENTS
@@ -29,6 +29,7 @@
   // ** VARIABLES
   let color = "";
   let loaded = false;
+  let linkOutActive = false;
 
   $: {
     color = post.category
@@ -38,10 +39,25 @@
 
   const isLongTitle = () => post.en_title.length > 35;
 
+  const handleClick = e => {
+    if (post.category === "writing") {
+      linkOutActive = !linkOutActive;
+    } else {
+      navigate(post.category + "/" + post.slug);
+    }
+  };
+
+  // const openOverlay = e => {
+  //   if (post.category === "writing") {
+  //     linkOutActive = true;
+  //   }
+  // };
+
   // *** ON MOUNT
   onMount(async () => {
     // console.log(post.en_title.length);
     // console.log(isLongTitle());
+    console.dir(post);
     imagesLoaded(tileEl, instance => {
       loaded = true;
     });
@@ -52,7 +68,7 @@
   @import "../variables.scss";
 
   $tile-height: 400px;
-  $tile-bar-height: 80px;
+  $tile-bar-height: 40px;
 
   .tile {
     width: 33.33%;
@@ -62,6 +78,7 @@
     position: relative;
     opacity: 0;
     transition: opacity 0.5s $easing;
+    cursor: pointer;
 
     @include screen-size("small") {
       width: 100%;
@@ -80,7 +97,7 @@
   }
 
   .width-33 {
-    width: 33%;
+    width: 33.3333%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -119,15 +136,10 @@
     top: 0;
     left: 0;
     height: $tile-bar-height;
-    // height: auto;
-    // min-height: $tile-bar-height;
-    // clip-path: inset(0px 0 340px 0);
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
     display: flex;
     justify-content: space-between;
     transition: none;
@@ -135,9 +147,29 @@
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
     }
+  }
 
-    &.double {
-      height: 80px;
+  .tile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $tile-height;
+    padding: $rfgen-grid-unit;
+    font-size: $rfgen-font-size-small;
+    line-height: $rfgen-font-size-small;
+    font-size: $rfgen-font-size-large;
+    line-height: $rfgen-font-size-large;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5 $easing;
+
+    &.active {
+      transition: opacity 0.5 $easing;
+
+      opacity: 1;
+      pointer-events: all;
     }
   }
 
@@ -162,21 +194,31 @@
     text-transform: capitalize;
   }
 
-  .tile:active .tile-bar {
-    height: $tile-height;
+  // .tile:active .tile-bar {
+  //   height: $tile-height;
+  // }
+
+  .external-link {
+    border-bottom: 2px solid $rfgen-black;
+
+    &:hover {
+      border-bottom: 2px solid transparent;
+    }
   }
 </style>
 
 <Router>
   <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
-    <a href="{post.category}/{post.slug}">
-      <div class="tile-bar {color}" class:double={post.en_title.length > 65}>
-        <div class="tile-title">
-          {#if $isEnglish}{post.en_title}{/if}
-          {#if $isArabic}{post.ar_title}{/if}
-        </div>
-        <!-- <div class="tile-category">
-          {post.category} -->
+    <div on:click={handleClick}>
+      <div class="tile-bar {color}">
+        {#if !linkOutActive}
+          <div class="tile-title">
+            {#if $isEnglish}{post.en_title}{/if}
+            {#if $isArabic}{post.ar_title}{/if}
+          </div>
+        {/if}
+        <!-- <div class="tile-category"> -->
+        <!-- {post.category} -->
         <!-- {#if $isEnglish}{post.en_category}{/if}
           {#if $isArabic}{post.ar_category}{/if} -->
         <!-- </div> -->
@@ -194,6 +236,26 @@
             alt={$isEnglish ? post.en_title : post.ar_title} />
         {/if}
       </div>
-    </a>
+      {#if post.category === 'writing'}
+        <div class="tile-overlay {color}" class:active={linkOutActive}>
+          <p>
+            {#if $isEnglish}{post.en_title}{/if}
+            {#if $isArabic}{post.ar_title}{/if}
+          </p>
+          <p>
+            <a
+              href="participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
+              class="author">
+              {post.author.en_name}
+            </a>
+          </p>
+          <p>
+            <a href={post.link} target="_blank" class="external-link">
+              Read on {post.publisherName}
+            </a>
+          </p>
+        </div>
+      {/if}
+    </div>
   </div>
 </Router>

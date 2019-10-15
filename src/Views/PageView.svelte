@@ -132,9 +132,9 @@
   }
 </style>
 
-<svelte:head>
+<!-- <svelte:head>
   <title>{title} / {siteInfo.title.english}</title>
-</svelte:head>
+</svelte:head> -->
 
 <div class="page-view">
   {#await page then page}
