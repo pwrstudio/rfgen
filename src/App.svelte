@@ -53,6 +53,7 @@
     padding: 0;
     // scroll-behavior: smooth;
     text-align: left;
+    font-display: fallback;
 
     &.no-scroll {
       overflow: hidden;
