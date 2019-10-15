@@ -171,6 +171,7 @@
       width: 100vw;
       top: unset;
       left: unset;
+      height: unset;
     }
 
     opacity: 0;

@@ -144,9 +144,9 @@
     justify-content: space-between;
     transition: none;
 
-    @include screen-size("small") {
-      font-size: $rfgen-font-size-mobile-large;
-    }
+    // @include screen-size("small") {
+    //   font-size: $rfgen-font-size-mobile-large;
+    // }
   }
 
   .tile-overlay {
