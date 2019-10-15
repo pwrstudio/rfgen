@@ -51,11 +51,18 @@
   .top {
     height: $navigation-top-height;
     top: 0;
+    @include screen-size("small") {
+      height: 80px;
+    }
   }
 
   .bottom {
     height: $navigation-bottom-height;
     bottom: 0;
+
+    @include screen-size("small") {
+      height: 50px;
+    }
   }
 
   .text-logo {
@@ -68,7 +75,12 @@
 
   .language-switch {
     float: right;
-    // direction: ltr;
+    margin-right: $rfgen-grid-unit;
+
+    &.arabic {
+      float: left;
+      margin-left: $rfgen-grid-unit;
+    }
   }
 
   .language-switch-button {
@@ -77,8 +89,8 @@
     border: 0;
     outline: 0;
     border-radius: 0;
-    margin-right: $rfgen-grid-unit;
     font-size: $rfgen-font-size-large;
+    padding: 0;
 
     border-bottom: 2px solid transparent;
     cursor: pointer;
@@ -96,6 +108,7 @@
   .category-menu {
     margin: 0;
     padding: 0;
+    white-space: nowrap;
 
     &.bottom-menu {
       float: left;
@@ -152,7 +165,7 @@
         {#if $isEnglish}{siteInfo.title.english}{/if}
         {#if $isArabic}{siteInfo.title.arabic}{/if}
       </a>
-      <div class="language-switch">
+      <div class="language-switch" class:arabic={$isArabic}>
         {#if !$isArabic}
           <button class="language-switch-button" on:click={changeLanguage}>
             AR

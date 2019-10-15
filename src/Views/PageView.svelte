@@ -105,6 +105,8 @@
     @include screen-size("small") {
       width: 100vw;
     }
+    overflow-y: auto;
+    @include hide-scroll;
   }
 
   .page-view-image {
@@ -119,6 +121,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    &.arabic {
+      right: unset;
+      left: 0;
     }
   }
 
@@ -144,12 +151,12 @@
       </div>
     {/if}
 
-    <div class="page-view-image">
+    <div class="page-view-image" class:arabic={$isArabic}>
       {#if page.mainImage}
         <img
           src={urlFor(page.mainImage)
             .width(900)
-            .quality(80)
+            .quality(90)
             .auto('format')
             .url()}
           alt={$isEnglish ? page.title.english : page.title.arabic} />

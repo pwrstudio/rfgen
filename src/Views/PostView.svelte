@@ -8,6 +8,7 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import imagesLoaded from "imagesloaded";
   import get from "lodash/get";
 
   // *** COMPONENTS
@@ -30,12 +31,16 @@
   export let category = {};
   export let location = {};
 
+  // *** DOM REFERENCES
+  let imageEl = {};
+
   // ** VARIABLES
   let post = {};
   let headTitle = {
     english: "",
     arabic: ""
   };
+  let loaded = false;
 
   // ** CONSTANTS
   const query =
@@ -49,7 +54,6 @@
     activeNavigation.set(category ? category : "");
   }
 
-  console.log(category);
   navigationColor.set(categoryList.find(c => c.slug == category).color);
 
   async function loadData(query, params) {
@@ -87,8 +91,12 @@
     }
   }
 
+  // *** ON MOUNT
   onMount(async () => {
     window.scrollTo(0, 0);
+    imagesLoaded(imageEl, instance => {
+      loaded = true;
+    });
   });
 </script>
 
@@ -122,6 +130,14 @@
       left: unset;
       height: unset;
     }
+
+    overflow-y: auto;
+    @include hide-scroll;
+
+    &.arabic {
+      left: unset;
+      right: 0;
+    }
   }
 
   .post-view-image {
@@ -132,17 +148,31 @@
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     @include screen-size("small") {
       position: static;
       float: left;
       width: 100vw;
       top: unset;
       left: unset;
+    }
+
+    opacity: 0;
+    transition: opacity 0.5s $easing;
+
+    &.loaded {
+      opacity: 1;
+    }
+
+    &.arabic {
+      right: unset;
+      left: 0;
     }
   }
 
@@ -181,18 +211,22 @@
       </div>
     {/if}
     {#if $isArabic}
-      <div class="post-view-text">
+      <div class="post-view-text arabic">
         {#if Array.isArray(post.content.arabic)}
           {@html renderBlockText(post.content.arabic)}
         {:else}{post.content.arabic}{/if}
       </div>
     {/if}
-    <div class="post-view-image">
+    <div
+      class="post-view-image"
+      bind:this={imageEl}
+      class:loaded
+      class:arabic={$isArabic}>
       {#if post.mainImage}
         <img
           src={urlFor(post.mainImage)
             .width(900)
-            .quality(80)
+            .quality(90)
             .auto('format')
             .url()}
           alt={$isEnglish ? post.title.english : post.title.arabic} />

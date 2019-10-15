@@ -8,7 +8,7 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, links } from "svelte-routing";
-  import { fade } from "svelte/transition";
+  import imagesLoaded from "imagesloaded";
 
   // *** COMPONENTS
 
@@ -21,11 +21,14 @@
 
   // *** Props
   export let post = {};
+  export let width = 20;
 
-  // ** CONSTANTS
+  // *** DOM REFERENCES
+  let tileEl = {};
 
   // ** VARIABLES
   let color = "";
+  let loaded = false;
 
   $: {
     color = post.category
@@ -33,29 +36,79 @@
       : "rfgen-white";
   }
 
-  // ** FUNCTIONS
-  //   const linear = function(n) {
-  //     return n;
-  //   };
+  const isLongTitle = () => post.en_title.length > 35;
 
-  onMount(async () => {});
+  // *** ON MOUNT
+  onMount(async () => {
+    console.log(post.en_title.length);
+    console.log(isLongTitle());
+    imagesLoaded(tileEl, instance => {
+      loaded = true;
+    });
+  });
 </script>
 
 <style lang="scss">
   @import "../variables.scss";
 
   $tile-height: 400px;
-  $tile-bar-height: 60px;
+  $tile-bar-height: 80px;
 
   .tile {
-    // display: inline-block;
-    width: calc(100% / 3);
     width: 33.33%;
     height: $tile-height;
     margin: 0;
     float: left;
     position: relative;
+    opacity: 0;
+    transition: opacity 0.5s $easing;
 
+    @include screen-size("small") {
+      width: 100%;
+    }
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
+
+  .width-30 {
+    width: 30%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-33 {
+    width: 33%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-40 {
+    width: 40%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-25 {
+    width: 25%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-35 {
+    width: 35%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-50 {
+    width: 50%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -66,8 +119,8 @@
     top: 0;
     left: 0;
     height: $tile-bar-height;
-    height: auto;
-    min-height: $tile-bar-height;
+    // height: auto;
+    // min-height: $tile-bar-height;
     // clip-path: inset(0px 0 340px 0);
     width: 100%;
     padding: $rfgen-grid-unit;
@@ -77,11 +130,14 @@
     line-height: $rfgen-font-size-large;
     display: flex;
     justify-content: space-between;
-    // padding-top: $tile-bar-height;
     transition: none;
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
+    }
+
+    &.double {
+      height: 80px;
     }
   }
 
@@ -104,20 +160,17 @@
   .tile-category {
     white-space: nowrap;
     text-transform: capitalize;
-    // text-align: right;
   }
 
-  .tile:hover .tile-bar {
+  .tile:active .tile-bar {
     height: $tile-height;
-    // transition: clip-path 0.15s $easing;
-    // clip-path: inset(0px 0 0px 0);
   }
 </style>
 
 <Router>
-  <div class="tile" use:links in:fade>
+  <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
     <a href="{post.category}/{post.slug}">
-      <div class="tile-bar {color}">
+      <div class="tile-bar {color}" class:double={post.en_title.length > 65}>
         <div class="tile-title">
           {#if $isEnglish}{post.en_title}{/if}
           {#if $isArabic}{post.ar_title}{/if}
@@ -133,6 +186,8 @@
           <img
             src={urlFor(post.mainImage)
               .height(400)
+              .minWidth(800)
+              .fit('clip')
               .quality(100)
               .auto('format')
               .url()}

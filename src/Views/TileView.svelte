@@ -8,10 +8,12 @@
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
-  import arrayShuffle from "array-shuffle";
+  import shuffle from "lodash/shuffle";
+  import chunk from "lodash/chunk";
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
+  import Row from "../Components/Row.svelte";
 
   // *** STORES
   import { navigationColor, activeNavigation } from "../stores.js";
@@ -42,7 +44,7 @@
     try {
       const res = await client.fetch(query, params);
       console.dir(res);
-      return arrayShuffle(res.filter(r => r.mainImage));
+      return shuffle(res.filter(r => r.mainImage));
     } catch (err) {
       console.log(err);
       Sentry.captureException(err);
@@ -50,6 +52,7 @@
   }
 
   onMount(async () => {
+    window.scrollTo(0, 0);
     // console.dir(client);
   });
 </script>
@@ -63,13 +66,17 @@
     margin-top: $navigation-top-height;
     line-height: 0;
     padding-bottom: $navigation-bottom-height;
+
+    @include screen-size("small") {
+      margin-top: 80px;
+    }
   }
 </style>
 
 <div class="tile-view">
   {#await posts then posts}
-    {#each category.length > 0 ? posts.filter(p => p.category === category) : posts as post}
-      <Tile {post} />
+    {#each category.length > 0 ? chunk(posts.filter(p => p.category === category), 3) : chunk(posts, 3) as row}
+      <Row {row} />
     {/each}
   {/await}
 </div>

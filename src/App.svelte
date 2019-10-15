@@ -51,12 +51,13 @@
     margin: 0;
     overflow-x: hidden;
     padding: 0;
-    scroll-behavior: smooth;
+    // scroll-behavior: smooth;
     text-align: left;
 
     &.no-scroll {
       overflow: hidden;
     }
+
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
     }
