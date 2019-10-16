@@ -14,11 +14,12 @@
 
   // *** STORES
   import {
-    language,
+    globalLanguage,
     isArabic,
     isEnglish,
     activeNavigation,
-    navigationColor
+    navigationColor,
+    languagePrefix
   } from "../stores.js";
 
   // *** GLOBALS
@@ -29,7 +30,8 @@
   // ** VARIABLES
 
   // ** FUNCTIONS
-  const changeLanguage = () => language.set($isEnglish ? "arabic" : "english");
+  const changeLanguage = () =>
+    globalLanguage.set($isEnglish ? "arabic" : "english");
 
   onMount(async () => {});
 </script>
@@ -165,7 +167,7 @@
   <header class="navigation top {$navigationColor}" use:links>
 
     <nav>
-      <a href="/" class="text-logo">
+      <a href="/{$languagePrefix}/" class="text-logo">
         {#if $isEnglish}{siteInfo.title.english}{/if}
         {#if $isArabic}{siteInfo.title.arabic}{/if}
       </a>
@@ -187,7 +189,7 @@
           {#each categoryList as category}
             <li class="category-menu-list-item">
               <a
-                href="/{category.slug}"
+                href="/{$languagePrefix}/{category.slug}"
                 class:active={$activeNavigation === category.slug}>
                 {#if $isEnglish}{category.name.english}{/if}
                 {#if $isArabic}{category.name.arabic}{/if}
@@ -206,7 +208,7 @@
           {#each pageList as page}
             <li class="category-menu-list-item">
               <a
-                href="/page/{page.slug}"
+                href="/{$languagePrefix}/page/{page.slug}"
                 class:active={$activeNavigation === page.slug}>
                 {#if $isEnglish}{page.name.english}{/if}
                 {#if $isArabic}{page.name.arabic}{/if}

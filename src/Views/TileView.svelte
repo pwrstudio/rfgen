@@ -16,16 +16,23 @@
   import Row from "../Components/Row.svelte";
 
   // *** STORES
-  import { navigationColor, activeNavigation } from "../stores.js";
+  import {
+    navigationColor,
+    activeNavigation,
+    globalLanguage
+  } from "../stores.js";
 
   // *** GLOBALS
   import { siteInfo, categoryList } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
-  export let category = {};
+  export let category = "";
   export let location = {};
+  export let language = "";
   export let slug = "";
+
+  globalLanguage.set(language === "en" ? "english" : "arabic");
 
   // ** CONSTANTS
   const query =
@@ -43,7 +50,8 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      console.dir(res);
+      // console.dir(res);
+      // console.log(shuffle(res.filter(r => r.mainImage)));
       return shuffle(res.filter(r => r.mainImage));
     } catch (err) {
       console.log(err);
@@ -52,6 +60,13 @@
   }
 
   onMount(async () => {
+    // posts.then(f => {
+    //   console.dir(f);
+    //   console.log("asdfasfasdf");
+    // });
+    console.log(language);
+    console.log(category);
+    console.log(category.length > 0);
     window.scrollTo(0, 0);
   });
 </script>

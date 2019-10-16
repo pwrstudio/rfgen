@@ -55,13 +55,13 @@ export default {
     //         '@babel/preset-env',
     //         {
     //           // targets: '> 0.25%, not dead',
-    //           targets: {
-    //             chrome: '58',
-    //             edge: '16',
-    //             firefox: '52',
-    //             safari: '10',
-    //             ios: '10'
-    //           },
+    // targets: {
+    //   chrome: '58',
+    //   edge: '16',
+    //   firefox: '52',
+    //   safari: '10',
+    //   ios: '10'
+    // },
     //           useBuiltIns: 'usage',
     //           corejs: 3
     //         }

@@ -7,13 +7,14 @@
 
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
+  import { fade, fly } from "svelte/transition";
   import { Router, Link, links, navigate } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
 
   // *** COMPONENTS
 
   // *** STORES
-  import { isArabic, isEnglish } from "../stores.js";
+  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
 
   // *** GLOBALS
   import { categoryList } from "../globals.js";
@@ -40,11 +41,7 @@
   const isLongTitle = () => post.en_title.length > 35;
 
   const handleClick = e => {
-    if (post.category === "writing") {
-      linkOutActive = !linkOutActive;
-    } else {
-      navigate(post.category + "/" + post.slug);
-    }
+    linkOutActive = !linkOutActive;
   };
 
   // const openOverlay = e => {
@@ -57,7 +54,7 @@
   onMount(async () => {
     // console.log(post.en_title.length);
     // console.log(isLongTitle());
-    console.dir(post);
+    // console.dir(post);
     imagesLoaded(tileEl, instance => {
       loaded = true;
     });
@@ -143,7 +140,7 @@
     display: flex;
     justify-content: space-between;
     transition: none;
-
+    z-index: 10;
     // @include screen-size("small") {
     //   font-size: $rfgen-font-size-mobile-large;
     // }
@@ -151,24 +148,30 @@
 
   .tile-overlay {
     position: absolute;
-    top: 0;
     left: 0;
+    top: $tile-bar-height;
+    top: 0;
     width: 100%;
-    height: $tile-height;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
     font-size: $rfgen-font-size-large;
     line-height: $rfgen-font-size-large;
+    // clip-path: inset(0px 0px 100% 0px);
+    height: calc(#{$tile-height} - #{$tile-bar-height});
+    height: $tile-height;
 
-    opacity: 0;
+    z-index: 11;
     pointer-events: none;
-    transition: opacity 0.5 $easing;
+    // transition: clip-path 0.2s $easing;
+    opacity: 0;
 
     &.active {
-      transition: opacity 0.5 $easing;
-
       opacity: 1;
+      // clip-path: inset(0% 0% 0% 0%);
+
+      // transition: clip-path 0.2s $easing;
+
       pointer-events: all;
     }
   }
@@ -199,63 +202,100 @@
   // }
 
   .external-link {
-    border-bottom: 2px solid $rfgen-black;
+    text-decoration: underline;
 
     &:hover {
-      border-bottom: 2px solid transparent;
+      text-decoration: none;
     }
   }
 </style>
 
 <Router>
+
   <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
-    <div on:click={handleClick}>
-      <div class="tile-bar {color}">
-        {#if !linkOutActive}
-          <div class="tile-title">
-            {#if $isEnglish}{post.en_title}{/if}
-            {#if $isArabic}{post.ar_title}{/if}
-          </div>
-        {/if}
-        <!-- <div class="tile-category"> -->
-        <!-- {post.category} -->
-        <!-- {#if $isEnglish}{post.en_category}{/if}
+
+    {#if post.category === 'writing'}
+      <div
+        on:click={e => {
+          handleClick(e);
+        }}>
+        <div class="tile-bar {color}">
+          {#if !linkOutActive}
+            <div class="tile-title">
+              {#if $isEnglish}{post.en_title}{/if}
+              {#if $isArabic}{post.ar_title}{/if}
+            </div>
+          {/if}
+          <!-- <div class="tile-category"> -->
+          <!-- {post.category} -->
+          <!-- {#if $isEnglish}{post.en_category}{/if}
           {#if $isArabic}{post.ar_category}{/if} -->
-        <!-- </div> -->
-      </div>
-      <div class="tile-image">
-        {#if post.mainImage}
-          <img
-            src={urlFor(post.mainImage)
-              .height(800)
-              .width(800)
-              .fit('clip')
-              .quality(100)
-              .auto('format')
-              .url()}
-            alt={$isEnglish ? post.en_title : post.ar_title} />
-        {/if}
-      </div>
-      {#if post.category === 'writing'}
-        <div class="tile-overlay {color}" class:active={linkOutActive}>
-          <p>
-            {#if $isEnglish}{post.en_title}{/if}
-            {#if $isArabic}{post.ar_title}{/if}
-          </p>
-          <p>
-            <a
-              href="participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
-              class="author">
-              {post.author.en_name}
-            </a>
-          </p>
-          <p>
-            <a href={post.link} target="_blank" class="external-link">
-              Read on {post.publisherName}
-            </a>
-          </p>
+          <!-- </div> -->
         </div>
-      {/if}
-    </div>
+        <div class="tile-image">
+          {#if post.mainImage}
+            <img
+              src={urlFor(post.mainImage)
+                .height(800)
+                .width(800)
+                .fit('clip')
+                .quality(100)
+                .auto('format')
+                .url()}
+              alt={$isEnglish ? post.en_title : post.ar_title} />
+          {/if}
+        </div>
+        <div class="tile-overlay {color}" class:active={linkOutActive}>
+          {#if linkOutActive}
+            <p in:fly={{ duration: 150, y: 30 }}>
+              {#if $isEnglish}{post.en_title}{/if}
+              {#if $isArabic}{post.ar_title}{/if}
+            </p>
+            <p in:fly={{ duration: 150, delay: 100, y: 30 }}>
+              <a
+                href="{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
+                class="author">
+                {post.author.en_name}
+              </a>
+            </p>
+            <p in:fly={{ duration: 150, delay: 200, y: 30 }}>
+              <a href={post.link} target="_blank" class="external-link">
+                Read on {post.publisherName}
+              </a>
+            </p>
+          {/if}
+        </div>
+      </div>
+    {:else}
+      <a href="/{$languagePrefix}/{post.category}/{post.slug}">
+        <div class="tile-bar {color}">
+          {#if !linkOutActive}
+            <div class="tile-title">
+              {#if $isEnglish}{post.en_title}{/if}
+              {#if $isArabic}{post.ar_title}{/if}
+            </div>
+          {/if}
+          <!-- <div class="tile-category"> -->
+          <!-- {post.category} -->
+          <!-- {#if $isEnglish}{post.en_category}{/if}
+          {#if $isArabic}{post.ar_category}{/if} -->
+          <!-- </div> -->
+        </div>
+        <div class="tile-image">
+          {#if post.mainImage}
+            <img
+              src={urlFor(post.mainImage)
+                .height(800)
+                .width(800)
+                .fit('clip')
+                .quality(100)
+                .auto('format')
+                .url()}
+              alt={$isEnglish ? post.en_title : post.ar_title} />
+          {/if}
+        </div>
+      </a>
+    {/if}
   </div>
+
 </Router>

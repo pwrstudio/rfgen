@@ -25,7 +25,7 @@
   import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
-  import { language, isArabic, isEnglish } from "./stores.js";
+  import { globalLanguage, isArabic, isEnglish } from "./stores.js";
 
   // ** CONSTANTS
 
@@ -51,7 +51,6 @@
     margin: 0;
     overflow-x: hidden;
     padding: 0;
-    // scroll-behavior: smooth;
     text-align: left;
     font-display: fallback;
 
@@ -118,10 +117,11 @@
   <Navigation />
 
   <Router>
-    <Route path="/" component={TileView} />
-    <Route path="/:category" component={TileView} />
-    <Route path="/:category/:slug" component={PostView} />
-    <Route path="/page/:slug" component={PageView} />
+    <!-- <Route path="/" component={TileView} /> -->
+    <Route path="/:language" component={TileView} />
+    <Route path="/:language/:category" component={TileView} />
+    <Route path="/:language/:category/:slug" component={PostView} />
+    <Route path="/:language/page/:slug" component={PageView} />
     <Route component={Error404} title="404" />
   </Router>
 

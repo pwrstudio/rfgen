@@ -18,7 +18,9 @@
     isArabic,
     isEnglish,
     navigationColor,
-    activeNavigation
+    activeNavigation,
+    languagePrefix,
+    globalLanguage
   } from "../stores.js";
 
   // *** GLOBALS
@@ -28,6 +30,7 @@
   // *** PROPS
   export let slug = {};
   export let location = {};
+  export let language = "";
 
   // ** VARIABLES
   let page = {};
@@ -48,6 +51,7 @@
   //   $isSinglePage.set(true);
 
   navigationColor.set("rfgen-grey");
+  globalLanguage.set(language === "en" ? "english" : "arabic");
 
   async function loadData(query, params) {
     try {

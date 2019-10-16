@@ -20,7 +20,9 @@
     isArabic,
     isEnglish,
     navigationColor,
-    activeNavigation
+    activeNavigation,
+    languagePrefix,
+    globalLanguage
   } from "../stores.js";
 
   // *** GLOBALS
@@ -28,8 +30,9 @@
   import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
-  export let slug = {};
-  export let category = {};
+  export let slug = "";
+  export let category = "";
+  export let language = "";
   export let location = {};
 
   // *** DOM REFERENCES
@@ -42,6 +45,8 @@
     arabic: ""
   };
   let loaded = false;
+
+  globalLanguage.set(language === "en" ? "english" : "arabic");
 
   // ** CONSTANTS
   const query =
@@ -241,6 +246,7 @@
           src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
           width="640"
           height="360"
+          title="rfgen"
           frameborder="0"
           byline="false"
           color="#ffffff"

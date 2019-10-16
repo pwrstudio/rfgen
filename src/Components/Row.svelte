@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import random from "lodash/random";
+  import sample from "lodash/sample";
   import shuffle from "lodash/shuffle";
 
   // *** COMPONENTS
@@ -27,10 +27,8 @@
   // *** VARIABLES
   let tileWidths = [];
 
-  const pickRandomLayout = () => layouts[random(0, 4)];
-
   // onMount(async () => {
-  tileWidths = row.length === 3 ? shuffle(pickRandomLayout()) : [33, 33, 33];
+  tileWidths = row.length === 3 ? shuffle(sample(layouts)) : [33, 33, 33];
   // });
 </script>
 

@@ -3,7 +3,7 @@ import { writable, derived } from 'svelte/store'
 // *** GLOBALS
 import { categoryList } from './globals.js'
 
-export const language = writable('english')
+export const globalLanguage = writable('english')
 
 export const activeNavigation = writable('')
 export const navigationColor = writable('rfgen-white')
@@ -19,5 +19,15 @@ export const navigationColor = writable('rfgen-white')
 export const isSinglePage = writable(false)
 export const isSinglePost = writable(false)
 
-export const isArabic = derived(language, $language => $language === 'arabic')
-export const isEnglish = derived(language, $language => $language === 'english')
+export const isArabic = derived(
+  globalLanguage,
+  $globalLanguage => $globalLanguage === 'arabic'
+)
+export const isEnglish = derived(
+  globalLanguage,
+  $globalLanguage => $globalLanguage === 'english'
+)
+
+export const languagePrefix = derived(globalLanguage, $globalLanguage =>
+  $globalLanguage === 'english' ? 'en' : 'ar'
+)
