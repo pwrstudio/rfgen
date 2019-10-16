@@ -50,8 +50,9 @@
 
   //   $isSinglePage.set(true);
 
+  // Set globals
+  globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-grey");
-  globalLanguage.set(language === "en" ? "english" : "arabic");
 
   async function loadData(query, params) {
     try {

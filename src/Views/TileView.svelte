@@ -46,7 +46,7 @@
   }
 
   // Set globals
-  globalLanguage.set(language === "en" ? "english" : "arabic");
+  globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-white");
 
   async function loadData(query, params) {
