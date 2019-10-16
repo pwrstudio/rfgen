@@ -19,6 +19,8 @@
   import {
     navigationColor,
     activeNavigation,
+    isArabic,
+    isEnglish,
     globalLanguage
   } from "../stores.js";
 
@@ -32,8 +34,6 @@
   export let language = "";
   export let slug = "";
 
-  globalLanguage.set(language === "en" ? "english" : "arabic");
-
   // ** CONSTANTS
   const query =
     '*[_type == "writing" || _type == "participant" || _type == "talk" || _type == "performance" || _type == "workingGroup" || _type == "project" || _type == "socialMedia"]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, link, mainImage, author->{en_name, ar_name, slug}, publisherName, "category": _type}';
@@ -45,13 +45,13 @@
     activeNavigation.set(category ? category : "");
   }
 
+  // Set globals
+  globalLanguage.set(language === "en" ? "english" : "arabic");
   navigationColor.set("rfgen-white");
 
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      // console.dir(res);
-      // console.log(shuffle(res.filter(r => r.mainImage)));
       return shuffle(res.filter(r => r.mainImage));
     } catch (err) {
       console.log(err);
@@ -60,10 +60,6 @@
   }
 
   onMount(async () => {
-    // posts.then(f => {
-    //   console.dir(f);
-    //   console.log("asdfasfasdf");
-    // });
     console.log(language);
     console.log(category);
     console.log(category.length > 0);
@@ -86,6 +82,15 @@
     }
   }
 </style>
+
+<svelte:head>
+  {#if $isEnglish}
+    <title>{$activeNavigation}s / {siteInfo.title.english}</title>
+  {/if}
+  {#if $isArabic}
+    <title>{siteInfo.title.arabic} / {$activeNavigation}s</title>
+  {/if}
+</svelte:head>
 
 <div class="tile-view">
   {#await posts then posts}

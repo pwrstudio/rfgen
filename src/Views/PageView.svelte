@@ -136,9 +136,16 @@
   }
 </style>
 
-<!-- <svelte:head>
-  <title>{title} / {siteInfo.title.english}</title>
-</svelte:head> -->
+<svelte:head>
+  {#await page then page}
+    {#if $isEnglish}
+      <title>{page.title.english} / {siteInfo.title.english}</title>
+    {/if}
+    {#if $isArabic}
+      <title>{siteInfo.title.arabic} / {page.title.arabic}</title>
+    {/if}
+  {/await}
+</svelte:head>
 
 <div class="page-view">
   {#await page then page}

@@ -247,18 +247,18 @@
         </div>
         <div class="tile-overlay {color}" class:active={linkOutActive}>
           {#if linkOutActive}
-            <p in:fly={{ duration: 150, y: 30 }}>
+            <p in:fly={{ duration: 150, y: 20 }}>
               {#if $isEnglish}{post.en_title}{/if}
               {#if $isArabic}{post.ar_title}{/if}
             </p>
-            <p in:fly={{ duration: 150, delay: 100, y: 30 }}>
+            <p in:fly={{ duration: 150, delay: 100, y: 20 }}>
               <a
                 href="{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
                 class="author">
                 {post.author.en_name}
               </a>
             </p>
-            <p in:fly={{ duration: 150, delay: 200, y: 30 }}>
+            <p in:fly={{ duration: 150, delay: 200, y: 20 }}>
               <a href={post.link} target="_blank" class="external-link">
                 Read on {post.publisherName}
               </a>

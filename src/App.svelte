@@ -117,7 +117,7 @@
   <Navigation />
 
   <Router>
-    <!-- <Route path="/" component={TileView} /> -->
+    <Route path="/" component={TileView} />
     <Route path="/:language" component={TileView} />
     <Route path="/:language/:category" component={TileView} />
     <Route path="/:language/:category/:slug" component={PostView} />

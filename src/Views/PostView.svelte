@@ -46,8 +46,6 @@
   };
   let loaded = false;
 
-  globalLanguage.set(language === "en" ? "english" : "arabic");
-
   // ** CONSTANTS
   const query =
     '*[slug.current == $slug]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, "category": _type}[0]';
@@ -60,6 +58,8 @@
     activeNavigation.set(category ? category : "");
   }
 
+  // Set globals
+  globalLanguage.set(language === "en" ? "english" : "arabic");
   navigationColor.set(categoryList.find(c => c.slug == category).color);
 
   async function loadData(query, params) {
@@ -209,14 +209,17 @@
   }
 </style>
 
-<!-- <svelte:head>
-  {#if $isEnglish}
-    <title>{headTitle.english} / {siteInfo.title.english}</title>
-  {/if}
-  {#if $isArabic}
-    <title>{siteInfo.title.arabic} / {headTitle.arabic}</title>
-  {/if}
-</svelte:head> -->
+<svelte:head>
+  {#await post then post}
+    {#if $isEnglish}
+      <title>{post.title.english} / {siteInfo.title.english}</title>
+    {/if}
+    {#if $isArabic}
+      <title>{siteInfo.title.arabic} / {post.title.arabic}</title>
+    {/if}
+  {/await}
+
+</svelte:head>
 
 <div class="post-view">
   {#await post then post}
