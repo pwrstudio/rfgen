@@ -5,7 +5,6 @@
   //
   // # # # # # # # # # # # # #
 
-  // ** FUNCTIONS
   // *** IMPORT
   import { onMount } from "svelte";
   import { Router, Link, links } from "svelte-routing";

@@ -14,6 +14,7 @@
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
+  import Video from "../Components/Video.svelte";
 
   // *** STORES
   import {
@@ -84,7 +85,8 @@
       postConstruction.content.english = get(res, "en_content", []);
       postConstruction.content.arabic = get(res, "ar_content", []);
       postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", "");
+      // postConstruction.videoLink = get(res, "videoLink", "");
+      postConstruction.videoLink = "https://vimeo.com/25692618";
       postConstruction.slug = get(res, "slug", "");
       postConstruction.category = get(res, "category", "");
 
@@ -245,7 +247,8 @@
       class:loaded
       class:arabic={$isArabic}>
       {#if post.videoLink}
-        <iframe
+        <Video url="https://vimeo.com/25692618"></Video>
+        <!-- <iframe
           src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
           width="640"
           height="360"
@@ -254,7 +257,7 @@
           byline="false"
           color="#ffffff"
           allow="autoplay; fullscreen"
-          allowfullscreen />
+          allowfullscreen /> -->
       {:else if post.mainImage}
         <img
           src={urlFor(post.mainImage)

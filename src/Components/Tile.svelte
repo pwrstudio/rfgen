@@ -20,7 +20,7 @@
   import { categoryList } from "../globals.js";
   import { urlFor } from "../sanity.js";
 
-  // *** Props
+  // *** PROPS
   export let post = {};
   export let width = 20;
 
