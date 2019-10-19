@@ -85,8 +85,8 @@
       postConstruction.content.english = get(res, "en_content", []);
       postConstruction.content.arabic = get(res, "ar_content", []);
       postConstruction.mainImage = get(res, "mainImage", false);
-      // postConstruction.videoLink = get(res, "videoLink", "");
-      postConstruction.videoLink = "https://vimeo.com/25692618";
+      postConstruction.videoLink = get(res, "videoLink", "");
+      // postConstruction.videoLink = "https://vimeo.com/25692618";
       postConstruction.slug = get(res, "slug", "");
       postConstruction.category = get(res, "category", "");
 
@@ -247,7 +247,7 @@
       class:loaded
       class:arabic={$isArabic}>
       {#if post.videoLink}
-        <Video url="https://vimeo.com/25692618"></Video>
+        <Video url={post.videoLink}></Video>
         <!-- <iframe
           src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
           width="640"

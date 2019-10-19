@@ -18,9 +18,11 @@ export let url = undefined;
 
 // *** VARIABLES
 let id = undefined;
+let player = undefined;
 let thumbnail = undefined;
 let vimeoData = undefined;
-let playing = false
+let playing = false;
+let playerProgress = undefined;
 
 async function vimeoJson (id) {
   try {
@@ -39,16 +41,39 @@ async function vimeoJson (id) {
 // *** FUNCTIONS
 async function initPlayer() {
   await tick()
-  url = new Player(`v${id}`, {
-    url: url
+  player = new Player(`v${id}`, {
+    url: url,
+    frameborder: 0,
+    color: '#ffffff',
+    background: true,
+    allow: ['autoplay', 'fullscreen']
   })
 }
 
-const playVideo = () => {
+const initVideo = () => {
   console.log(vimeoData)
   playing = true;
 
-  initPlayer()
+  initPlayer().then(res => {
+      player.play()
+      player.on('progress', function(data) {
+        playerProgress = data
+      })
+    })
+}
+
+const playVideo = () => {
+  player.play();
+}
+
+const pauseVideo = () => {
+  player.pause();
+}
+
+const seekPlayer = (event) => {
+  console.log(event.offsetX, event.target.clientWidth, vimeoData.duration)
+  let to = (event.offsetX / event.target.clientWidth) * vimeoData.duration
+  player.setCurrentTime(to)
 }
 
 onMount(() => {
@@ -57,8 +82,8 @@ onMount(() => {
 
   // Get the vimeo oEmbed data and initiate
   vimeoJson(id).then(res => {
-    vimeoData = res
-  })
+      vimeoData = res
+    })
 })
 </script>
 
@@ -71,12 +96,44 @@ onMount(() => {
     object-fit: cover; /* or contain? */
   }
 
+  .video-controls {
+    width: 100%;
+
+    &.progress {
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: #000;
+    }
+  }
+
+  .progress {
+    &.inner {
+      height: 4px;
+      display: block;
+      background: #fff;
+    }
+  }
+
 </style>
 
 {#if vimeoData !== undefined}
   {#if !playing}
-    <img src={vimeoData.thumbnail_large} alt={vimeoData.title} class="thumbnail" on:click={playVideo} />
+    <img src={vimeoData.thumbnail_large} alt={vimeoData.title} class="thumbnail" on:click={initVideo} />
   {:else}
-    <div class="video" id={`v${id}`}></div>
+    <div class="video" id={`v${id}`}>
+      <div class="video-controls">
+        {#if player !== undefined}
+          <button on:click={playVideo}>Play</button>
+          <button on:click={pauseVideo}>Pause</button>
+          {#if playerProgress !== undefined}
+            <div class="video-controls progress" on:click={seekPlayer}>
+              <div class="progress inner" style={`width:${playerProgress.percent * 100}%;`}></div>
+            </div>
+            {playerProgress.percent}
+          {/if}
+        {/if}
+      </div>
+    </div>
   {/if}
 {/if}
