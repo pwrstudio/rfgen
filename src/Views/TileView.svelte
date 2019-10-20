@@ -10,6 +10,15 @@
   import { Router, Link, Route } from "svelte-routing";
   import shuffle from "lodash/shuffle";
   import chunk from "lodash/chunk";
+  import concat from "lodash/concat";
+  import uniq from "lodash/uniq";
+  import flattenDeep from "lodash/flattenDeep";
+  import zip from "lodash/zip";
+  import groupBy from "lodash/groupBy";
+  import values from "lodash/values";
+  import compact from "lodash/compact";
+  import fp from "lodash/fp";
+  import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
@@ -25,7 +34,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList } from "../globals.js";
+  import { siteInfo, categoryList, baseProjections } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
@@ -34,14 +43,10 @@
   export let language = "";
   export let slug = "";
 
-  // ** CONSTANTS
-  const query =
-    '*[_type == "writing" || _type == "participant" || _type == "talk" || _type == "performance" || _type == "workingGroup" || _type == "project" || _type == "socialMedia"]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "slug": slug.current, link, mainImage, author->{en_name, ar_name, slug}, publisherName, "category": _type}';
-
   // ** VARIABLES
-  let posts = loadData(query, {});
 
   $: {
+    console.log(category);
     activeNavigation.set(category ? category : "");
   }
 
@@ -49,20 +54,57 @@
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-white");
 
+  // ** FUNCTIONS
+
+  const tracer = x => {
+    console.dir(x);
+    return x;
+  };
+
+  const allCategories = fp.map(c => c.name)(categoryList);
+
+  const allProjections = uniq(
+    flattenDeep([...baseProjections, ...categoryList.map(c => c.projections)])
+  );
+
+  // Convert all categories into a comma-seperate list.
+  const categoryReducer = (acc, curr) => acc + ' "' + curr + '", ';
+
+  const query =
+    "*[_type in [" +
+    allCategories.reduce(categoryReducer, "").slice(0, -2) + //Removel comma and space from last itme
+    "]]{" +
+    allProjections +
+    "}";
+
+  console.log(query);
+
+  const hasImage = p => p.mainImage;
+
+  const intertwineCategories = posts =>
+    fp.compose(
+      fp.compact, // Remove undefined and null values, introduced when one category has few posts than another
+      fp.flatten, // Remove wrapping array
+      fp.zipAll, // Intertwine the arrays
+      fp.map(fp.shuffle), // Shuffle internal order of post-array
+      fp.values, // Get values from grouped object => an aray for each
+      fp.groupBy(p => p.category), // Group by category
+      fp.filter(hasImage) // Filter out posts without preview images (for now)
+    )(posts);
+
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      return shuffle(res.filter(r => r.mainImage));
+      return intertwineCategories(res);
     } catch (err) {
       console.log(err);
       Sentry.captureException(err);
     }
   }
 
+  let posts = loadData(query, {});
+
   onMount(async () => {
-    console.log(language);
-    console.log(category);
-    console.log(category.length > 0);
     window.scrollTo(0, 0);
   });
 </script>
@@ -94,7 +136,7 @@
 
 <div class="tile-view">
   {#await posts then posts}
-    {#each category.length > 0 ? chunk(posts.filter(p => p.category === category), 3) : chunk(posts, 3) as row}
+    {#each category.length > 0 ? chunk(posts.filter(p => kebabCase(p.category) === category), 3) : chunk(posts, 3) as row}
       <Row {row} />
     {/each}
   {/await}

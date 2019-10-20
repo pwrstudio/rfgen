@@ -32,7 +32,6 @@
   // ** FUNCTIONS
   const changeLanguage = () =>
     globalLanguage.set($isEnglish ? "arabic" : "english");
-
   onMount(async () => {});
 </script>
 
@@ -189,10 +188,10 @@
           {#each categoryList as category}
             <li class="category-menu-list-item">
               <a
-                href="/{$languagePrefix}/{category.slug}"
-                class:active={$activeNavigation === category.slug}>
-                {#if $isEnglish}{category.name.english}{/if}
-                {#if $isArabic}{category.name.arabic}{/if}
+                href="/{$languagePrefix}/{category.categorySlug}"
+                class:active={$activeNavigation === category.categorySlug}>
+                {#if $isEnglish}{category.nameDisplay.english}{/if}
+                {#if $isArabic}{category.nameDisplay.arabic}{/if}
               </a>
             </li>
           {/each}

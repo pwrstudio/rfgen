@@ -60,7 +60,7 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set(categoryList.find(c => c.slug == category).color);
+  navigationColor.set(categoryList.find(c => c.categorySlug == category).color);
 
   async function loadData(query, params) {
     try {

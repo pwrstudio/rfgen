@@ -10,6 +10,7 @@
   import { fade, fly } from "svelte/transition";
   import { Router, Link, links, navigate } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
+  import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS
 
@@ -32,10 +33,15 @@
   let loaded = false;
   let linkOutActive = false;
 
+  // console.dir(categoryList[0].name);
+  // console.log(post);
   $: {
-    color = post.category
-      ? categoryList.find(cat => cat.slug === post.category).color
-      : "rfgen-white";
+    if (post.category) {
+      let matchingCategory = categoryList.find(
+        cat => cat.categorySlug === kebabCase(post.category)
+      );
+      color = matchingCategory ? matchingCategory.color : "rfgen-white";
+    }
   }
 
   const isLongTitle = () => post.en_title.length > 35;
@@ -52,9 +58,6 @@
 
   // *** ON MOUNT
   onMount(async () => {
-    // console.log(post.en_title.length);
-    // console.log(isLongTitle());
-    // console.dir(post);
     imagesLoaded(tileEl, instance => {
       loaded = true;
     });
