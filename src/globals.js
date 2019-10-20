@@ -94,7 +94,7 @@ export const categoryList = [
       arabic: 'صلة'
     },
     categorySlug: 'working-group',
-    color: 'rfgen-beige',
+    color: 'rfgen-military',
     query: '_type == "workingGroup"',
     menuOrder: 4,
     projections: []
