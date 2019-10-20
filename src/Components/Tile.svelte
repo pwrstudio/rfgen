@@ -24,6 +24,7 @@
   // *** PROPS
   export let post = {};
   export let width = 20;
+  export let order = 1;
 
   // *** DOM REFERENCES
   let tileEl = {};
@@ -82,6 +83,8 @@
 
     @include screen-size("small") {
       width: 100%;
+      opacity: 0.5;
+      scroll-snap-align: start;
     }
 
     &.loaded {
@@ -90,42 +93,43 @@
   }
 
   .width-30 {
-    width: 30%;
+    width: calc(30% - 4px);
+
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-33 {
-    width: 33.3333%;
+    width: calc(33.3333% - 4px);
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-40 {
-    width: 40%;
+    width: calc(40% - 4px);
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-25 {
-    width: 25%;
+    width: calc(25% - 4px);
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-35 {
-    width: 35%;
+    width: calc(35% - 4px);
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-50 {
-    width: 50%;
+    width: calc(50% - 4px);
     @include screen-size("small") {
       width: 100%;
     }
@@ -138,8 +142,11 @@
     height: $tile-bar-height;
     width: 100%;
     padding: $rfgen-grid-unit;
+    // padding-left: 0;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
+    // font-size: $rfgen-font-size-large;
+    // line-height: $rfgen-font-size-large;
     display: flex;
     justify-content: space-between;
     transition: none;
@@ -211,11 +218,20 @@
       text-decoration: none;
     }
   }
+
+  .order-0,
+  .order-1 {
+    margin-right: 6px;
+  }
 </style>
 
 <Router>
 
-  <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
+  <div
+    class="tile width-{width} order-{order}"
+    use:links
+    bind:this={tileEl}
+    class:loaded>
 
     {#if post.category === 'writing'}
       <div

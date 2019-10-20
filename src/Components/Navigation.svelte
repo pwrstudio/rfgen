@@ -46,6 +46,12 @@
     z-index: 1000;
     transition: background 0.5s $easing;
     user-select: none;
+
+    @include screen-size("small") {
+      padding-left: 0;
+      padding-right: 0;
+      height: 50px;
+    }
   }
 
   .top {
@@ -73,7 +79,8 @@
     top: 5px;
     font-weight: bold;
     @include screen-size("small") {
-      margin-bottom: 0.7em;
+      margin-bottom: 0.5em;
+      padding-left: $rfgen-grid-unit;
     }
   }
 
@@ -119,11 +126,9 @@
       &.arabic {
         float: right;
       }
-    }
-
-    @include screen-size("small") {
-      width: 3000px;
-      // overflow-x: scroll;
+      @include screen-size("small") {
+        float: unset;
+      }
     }
   }
 
@@ -131,6 +136,15 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    @include screen-size("small") {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 5px;
+      display: flex;
+      overflow-x: scroll;
+      // scroll-snap-type: x mandatory;
+      @include hide-scroll;
+    }
   }
 
   .category-menu-list-item {
@@ -138,17 +152,40 @@
     padding: 0;
     margin-right: 2 * $rfgen-grid-unit;
 
+    @include screen-size("small") {
+      margin-left: $rfgen-grid-unit;
+      margin-right: $rfgen-grid-unit;
+
+      &:last-child {
+        padding-right: $rfgen-grid-unit;
+      }
+    }
+
     a {
       border-bottom: 2px solid transparent;
+
+      @include screen-size("small") {
+        border-bottom: 2px solid transparent;
+      }
+
       &:hover,
       &.active {
-        border-bottom: 2px solid $rfgen-black;
+        border-bottom: 2px solid black;
+
+        @include screen-size("small") {
+          border-bottom: 2px solid black;
+        }
       }
     }
 
     &.arabic {
       margin-right: 0;
       margin-left: 2 * $rfgen-grid-unit;
+    }
+
+    @include screen-size("small") {
+      scroll-snap-align: start;
+      scroll-padding: $rfgen-grid-unit;
     }
   }
 
@@ -165,9 +202,7 @@
     }
 
     @include screen-size("small") {
-      float: left;
       display: none;
-      // overflow-x: scroll;
     }
   }
 </style>
@@ -236,7 +271,6 @@
       rel="noreferrer">
       {#if $isEnglish}Sharjah Architecture Triennial{/if}
       {#if $isArabic}Sharjah Architecture Triennial (ar){/if}
-
     </a>
   </footer>
 

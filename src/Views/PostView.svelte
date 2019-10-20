@@ -134,7 +134,7 @@
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
     padding-left: $rfgen-grid-unit;
-    padding-right: $rfgen-grid-unit;
+    padding-right: 4 * $rfgen-grid-unit;
     padding-top: 2 * $rfgen-grid-unit;
     @include screen-size("small") {
       position: static;

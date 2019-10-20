@@ -20,6 +20,7 @@
   import compact from "lodash/compact";
   import fp from "lodash/fp";
   import kebabCase from "lodash/kebabCase";
+  import uniqueId from "lodash/uniqueId";
 
   // *** COMPONENTS
   import IntroTile from "../Components/IntroTile.svelte";
@@ -90,8 +91,17 @@
 
   console.log(query);
 
-  const filterPostsByCategory = posts =>
-    chunk(posts.filter(p => kebabCase(p.category) === category), 3);
+  const filterPostsByCategory = posts => {
+    let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
+    filteredPosts.unshift({
+      slug: uniqueId("category_intro_"),
+      category: category,
+      type: "introduction",
+      text:
+        "Sharjah Architecture Triennial is the first major platform for architecture and urbanism in the Middle East, North and East Africa, and South and Southeast Asia. Participating in international conversations while anchored in the specificity of Sharjah and the United Arab Emirates, we offer new spaces for critical reflection and foster research that situates the built environment within its complex social, economic, and cultural contexts."
+    });
+    return filteredPosts;
+  };
 
   const hasImage = p => p.mainImage;
 
@@ -133,9 +143,10 @@
     line-height: 0;
     padding-bottom: $navigation-bottom-height;
 
-    @include screen-size("small") {
-      margin-top: 80px;
-    }
+    // @include screen-size("small") {
+    //   margin-top: 80px;
+    //   scroll-snap-type: y mandatory;
+    // }
   }
 </style>
 
@@ -150,7 +161,7 @@
 <div class="tile-view">
   {#await posts then posts}
     <!-- <IntroTile category /> -->
-    {#each category.length > 0 ? filterPostsByCategory(posts) : chunk(posts, 3) as row}
+    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 3) : chunk(posts, 3) as row, i (uniqueId('row_'))}
       <Row {row} />
     {/each}
   {/await}
