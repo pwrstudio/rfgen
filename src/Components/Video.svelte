@@ -21,8 +21,12 @@ let id = undefined;
 let player = undefined;
 let thumbnail = undefined;
 let vimeoData = undefined;
-let playing = false;
+let aspectRatio = undefined;
+let initiated = false;
 let playerProgress = undefined;
+let playerWidth = undefined;
+let playerHeight = undefined;
+let playing = false;
 
 async function vimeoJson (id) {
   try {
@@ -40,38 +44,56 @@ async function vimeoJson (id) {
 
 // *** FUNCTIONS
 async function initPlayer() {
+  // Wait for the DOM to update
   await tick()
+  aspectRatio = vimeoData.width / vimeoData.height
   player = new Player(`v${id}`, {
     url: url,
     frameborder: 0,
-    color: '#ffffff',
     background: true,
+    responsive: true,
     allow: ['autoplay', 'fullscreen']
   })
+
+  player.ready().then(function() {
+    getPlayerDimensions()
+  });
+}
+
+const getPlayerDimensions = () => {
+  playerWidth = player._originalElement.firstChild.clientWidth
+  playerHeight = player._originalElement.firstChild.clientHeight
 }
 
 const initVideo = () => {
   console.log(vimeoData)
-  playing = true;
+  initiated = true;
 
   initPlayer().then(res => {
-      player.play()
+      playVideo()
       player.on('progress', function(data) {
-        playerProgress = data
+        playerProgress = data;
       })
+      player.on('seeking', function(data) {
+        console.log('seeking', data);
+      })
+      player.on('seeked', function(data) {
+        console.log('seeked', data);
+      });
     })
 }
 
 const playVideo = () => {
   player.play();
+  playing = true
 }
 
 const pauseVideo = () => {
   player.pause();
+  playing = false
 }
 
 const seekPlayer = (event) => {
-  console.log(event.offsetX, event.target.clientWidth, vimeoData.duration)
   let to = (event.offsetX / event.target.clientWidth) * vimeoData.duration
   player.setCurrentTime(to)
 }
@@ -96,6 +118,17 @@ onMount(() => {
     object-fit: cover; /* or contain? */
   }
 
+  .thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+  }
+
   .video-controls {
     width: 100%;
 
@@ -109,31 +142,55 @@ onMount(() => {
 
   .progress {
     &.inner {
+      transition: width 0.1s ease;
       height: 4px;
       display: block;
       background: #fff;
     }
   }
 
+  .video-overlay {
+    position: relative;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    .button {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
 </style>
 
-{#if vimeoData !== undefined}
-  {#if !playing}
-    <img src={vimeoData.thumbnail_large} alt={vimeoData.title} class="thumbnail" on:click={initVideo} />
+{#if !!vimeoData}
+  {#if !initiated}
+    <img src={vimeoData.thumbnail_large} alt={vimeoData.title} class="thumbnail" />
+    <img class="thumbnail-overlay" src="/svg/play.svg" on:click={initVideo} />
   {:else}
-    <div class="video" id={`v${id}`}>
-      <div class="video-controls">
-        {#if player !== undefined}
-          <button on:click={playVideo}>Play</button>
-          <button on:click={pauseVideo}>Pause</button>
-          {#if playerProgress !== undefined}
-            <div class="video-controls progress" on:click={seekPlayer}>
-              <div class="progress inner" style={`width:${playerProgress.percent * 100}%;`}></div>
-            </div>
-            {playerProgress.percent}
-          {/if}
-        {/if}
-      </div>
+    <div class="video" id={`v${id}`}></div>
+  {/if}
+
+  {#if !!player}
+    <div class="video-overlay" style={`width:${playerWidth}px;height:${playerHeight}px;margin-top:${-playerHeight}px`}>
+      {#if playing}
+        <img class="button" src="/svg/pause.svg" on:click={pauseVideo} />
+      {:else}
+        <img class="button" src="/svg/play.svg" on:click={playVideo} />
+      {/if}
+    </div>
+    <div class="video-controls">
+      {#if !!playerProgress}
+        <div class="video-controls progress" on:click={seekPlayer}>
+          <div class="progress inner" style={`width:${playerProgress.percent * 100}%;`}></div>
+        </div>
+      {/if}
     </div>
   {/if}
 {/if}
