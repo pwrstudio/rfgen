@@ -8,35 +8,35 @@ export const pageList = [
   {
     name: {
       english: 'Theme',
-      arabic: 'صلة'
+      arabic: 'الموضوع'
     },
     slug: 'theme'
   },
   {
     name: {
       english: 'Venues',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'venues'
   },
   {
     name: {
       english: 'Team',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'team'
   },
   {
     name: {
       english: 'Press',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'press'
   },
   {
     name: {
       english: 'Contact',
-      arabic: 'صلة'
+      arabic: 'اتصل بنا'
     },
     slug: 'contact'
   }
@@ -55,7 +55,7 @@ export const categoryList = [
     name: 'project',
     nameDisplay: {
       english: 'Projects',
-      arabic: 'صلة'
+      arabic: 'المشاريع'
     },
     categorySlug: 'project',
     color: 'rfgen-blue',
@@ -67,7 +67,7 @@ export const categoryList = [
     name: 'talk',
     nameDisplay: {
       english: 'Talks',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'talk',
     color: 'rfgen-leaf',
@@ -79,7 +79,7 @@ export const categoryList = [
     name: 'performance',
     nameDisplay: {
       english: 'Performances',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'performance',
     color: 'rfgen-green',
@@ -91,7 +91,7 @@ export const categoryList = [
     name: 'workingGroup',
     nameDisplay: {
       english: 'Working Group',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'working-group',
     color: 'rfgen-military',
@@ -103,7 +103,7 @@ export const categoryList = [
     name: 'writing',
     nameDisplay: {
       english: 'Writings',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'writing',
     query: '_type == "writing"',
@@ -132,7 +132,7 @@ export const categoryList = [
     name: 'participant',
     nameDisplay: {
       english: 'Participants',
-      arabic: 'صلة'
+      arabic: 'المشاركون'
     },
     categorySlug: 'participant',
     color: 'rfgen-beige',
