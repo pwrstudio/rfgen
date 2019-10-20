@@ -11,6 +11,7 @@
 
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
+
   // *** PROPS
   export let row = [];
   export let location = {};
@@ -31,18 +32,6 @@
   tileWidths = row.length === 3 ? shuffle(sample(layouts)) : [33, 33, 33];
   // });
 </script>
-
-<style lang="scss">
-  @import "../variables.scss";
-
-  .row {
-    // width: 100vw;
-    // display: inline-block;
-    // margin-top: $navigation-top-height;
-    // line-height: 0;
-    // padding-bottom: $navigation-bottom-height;
-  }
-</style>
 
 <div class="row">
   {#each row as post, i (post.slug)}

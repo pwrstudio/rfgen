@@ -22,7 +22,7 @@
   import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS
-  import Tile from "../Components/Tile.svelte";
+  import IntroTile from "../Components/IntroTile.svelte";
   import Row from "../Components/Row.svelte";
 
   // *** STORES
@@ -90,6 +90,9 @@
 
   console.log(query);
 
+  const filterPostsByCategory = posts =>
+    chunk(posts.filter(p => kebabCase(p.category) === category), 3);
+
   const hasImage = p => p.mainImage;
 
   const intertwineCategories = posts =>
@@ -146,7 +149,8 @@
 
 <div class="tile-view">
   {#await posts then posts}
-    {#each category.length > 0 ? chunk(posts.filter(p => kebabCase(p.category) === category), 3) : chunk(posts, 3) as row}
+    <!-- <IntroTile category /> -->
+    {#each category.length > 0 ? filterPostsByCategory(posts) : chunk(posts, 3) as row}
       <Row {row} />
     {/each}
   {/await}

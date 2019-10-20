@@ -39,6 +39,7 @@
 
   // *** DOM REFERENCES
   let imageEl = {};
+  let isVideo = false;
 
   // ** VARIABLES
   let post = {};
@@ -50,10 +51,11 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, "category": _type}[0]';
+    '*[slug.current == $slug && _type == $category]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type}[0]';
 
   $: {
-    post = loadData(query, { slug: slug });
+    console.log(category);
+    post = loadData(query, { slug: slug, category: category });
   }
 
   $: {
@@ -69,6 +71,8 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
+
+      console.dir(res);
 
       let postConstruction = {
         title: {
@@ -88,7 +92,8 @@
       postConstruction.content.english = get(res, "en_content", []);
       postConstruction.content.arabic = get(res, "ar_content", []);
       postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", "");
+      postConstruction.videoLink = get(res, "videoLink", false);
+      postConstruction.posterImage = get(res, "posterImage", false);
       // postConstruction.videoLink = "https://vimeo.com/25692618";
       postConstruction.slug = get(res, "slug", "");
       postConstruction.category = get(res, "category", "");
@@ -146,6 +151,13 @@
     &.arabic {
       left: unset;
       right: 0;
+    }
+
+    &.video {
+      position: static;
+      // width: 300px;
+      // font-size: $rfgen-font-size-small;
+      // line-height: $rfgen-font-size-small;
     }
 
     padding-bottom: 80px;
@@ -212,6 +224,16 @@
     margin-bottom: 1em;
     font-weight: bold;
   }
+
+  .video-container {
+    width: 100vw;
+    height: 60vh;
+    background: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 </style>
 
 <svelte:head>
@@ -228,8 +250,13 @@
 
 <div class="post-view">
   {#await post then post}
+    {#if post.videoLink}
+      <div class="video-container">
+        <Video url={post.videoLink} posterImage={post.posterImage} />
+      </div>
+    {/if}
     {#if $isEnglish}
-      <div class="post-view-text" in:fade>
+      <div class="post-view-text" in:fade class:video={post.videoLink}>
         <div class="post-view-category">{post.category}</div>
         <div class="post-view-title">{post.title.english}</div>
         {#if Array.isArray(post.content.english)}
@@ -244,24 +271,12 @@
         {:else}{post.content.arabic}{/if}
       </div>
     {/if}
-    <div
-      class="post-view-image"
-      bind:this={imageEl}
-      class:loaded
-      class:arabic={$isArabic}>
-      {#if post.videoLink}
-        <Video url={post.videoLink} />
-        <!-- <iframe
-          src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
-          width="640"
-          height="360"
-          title="rfgen"
-          frameborder="0"
-          byline="false"
-          color="#ffffff"
-          allow="autoplay; fullscreen"
-          allowfullscreen /> -->
-      {:else if post.mainImage}
+    {#if post.mainImage && !post.videoLink}
+      <div
+        class="post-view-image"
+        bind:this={imageEl}
+        class:loaded
+        class:arabic={$isArabic}>
         <img
           src={urlFor(post.mainImage)
             .height(1400)
@@ -269,7 +284,7 @@
             .auto('format')
             .url()}
           alt={$isEnglish ? post.title.english : post.title.arabic} />
-      {/if}
-    </div>
+      </div>
+    {/if}
   {/await}
 </div>
