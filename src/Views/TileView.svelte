@@ -16,6 +16,7 @@
   import zip from "lodash/zip";
   import groupBy from "lodash/groupBy";
   import values from "lodash/values";
+  import get from "lodash/get";
   import compact from "lodash/compact";
   import fp from "lodash/fp";
   import kebabCase from "lodash/kebabCase";
@@ -39,6 +40,7 @@
 
   // *** PROPS
   export let category = "";
+  export let categoryDisplayName = false;
   export let location = {};
   export let language = "";
   export let slug = "";
@@ -46,8 +48,17 @@
   // ** VARIABLES
 
   $: {
-    console.log(category);
     activeNavigation.set(category ? category : "");
+  }
+
+  $: {
+    let categoryObject = categoryList.find(
+      c => c.categorySlug === $activeNavigation
+    );
+    console.log(category);
+    if (categoryObject) {
+      categoryDisplayName = get(categoryObject, "nameDisplay.english", false);
+    }
   }
 
   // Set globals
@@ -126,11 +137,10 @@
 </style>
 
 <svelte:head>
-  {#if $isEnglish}
-    <title>{$activeNavigation}s / {siteInfo.title.english}</title>
-  {/if}
-  {#if $isArabic}
-    <title>{siteInfo.title.arabic} / {$activeNavigation}s</title>
+  {#if categoryDisplayName}
+    <title>{categoryDisplayName} / {siteInfo.title.english}</title>
+  {:else}
+    <title>{siteInfo.title.english}</title>
   {/if}
 </svelte:head>
 

@@ -10,6 +10,7 @@
   import { Router, Link, Route } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import get from "lodash/get";
+  import kebabCase from "lodash/kebabCase";
   import { fade } from "svelte/transition";
 
   // *** COMPONENTS
@@ -61,7 +62,9 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set(categoryList.find(c => c.categorySlug == category).color);
+  navigationColor.set(
+    categoryList.find(c => c.categorySlug == kebabCase(category)).color
+  );
 
   async function loadData(query, params) {
     try {
@@ -247,7 +250,7 @@
       class:loaded
       class:arabic={$isArabic}>
       {#if post.videoLink}
-        <Video url={post.videoLink}></Video>
+        <Video url={post.videoLink} />
         <!-- <iframe
           src="https://player.vimeo.com/video/{post.videoLink.slice(post.videoLink.length - 9)}"
           width="640"
