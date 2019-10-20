@@ -162,18 +162,19 @@
     }
 
     a {
-      border-bottom: 2px solid transparent;
+      // border-bottom: 2px solid transparent;
 
       @include screen-size("small") {
-        border-bottom: 2px solid transparent;
+        // border-bottom: 2px solid transparent;
       }
 
       &:hover,
       &.active {
-        border-bottom: 2px solid black;
+        text-decoration: underline;
+        // border-bottom: 2px solid black;
 
         @include screen-size("small") {
-          border-bottom: 2px solid black;
+          // border-bottom: 2px solid black;
         }
       }
     }
