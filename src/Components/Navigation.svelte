@@ -116,6 +116,9 @@
 
     &.bottom-menu {
       float: left;
+      &.arabic {
+        float: right;
+      }
     }
 
     @include screen-size("small") {
@@ -142,6 +145,11 @@
         border-bottom: 2px solid $rfgen-black;
       }
     }
+
+    &.arabic {
+      margin-right: 0;
+      margin-left: 2 * $rfgen-grid-unit;
+    }
   }
 
   .sat-link {
@@ -150,6 +158,10 @@
 
     &:hover {
       border-bottom: 2px solid $rfgen-black;
+    }
+
+    &.arabic {
+      float: left;
     }
 
     @include screen-size("small") {
@@ -185,7 +197,7 @@
       <menu class="category-menu">
         <ul class="category-menu-list">
           {#each categoryList as category}
-            <li class="category-menu-list-item">
+            <li class="category-menu-list-item" class:arabic={$isArabic}>
               <a
                 href="/{$languagePrefix}/{category.categorySlug}"
                 class:active={$activeNavigation === category.categorySlug}>
@@ -201,10 +213,10 @@
 
   <footer class="navigation bottom {$navigationColor}" use:links>
     <nav>
-      <menu class="category-menu bottom-menu">
+      <menu class="category-menu bottom-menu" class:arabic={$isArabic}>
         <ul class="category-menu-list">
           {#each pageList as page}
-            <li class="category-menu-list-item">
+            <li class="category-menu-list-item" class:arabic={$isArabic}>
               <a
                 href="/{$languagePrefix}/page/{page.slug}"
                 class:active={$activeNavigation === page.slug}>
@@ -219,8 +231,12 @@
     <a
       href="https://www.sharjaharchitecture.org/"
       class="sat-link"
-      target="_blank">
-      Sharjah Architecture Triennial
+      class:arabic={$isArabic}
+      target="_blank"
+      rel="noreferrer">
+      {#if $isEnglish}Sharjah Architecture Triennial{/if}
+      {#if $isArabic}Sharjah Architecture Triennial (ar){/if}
+
     </a>
   </footer>
 
