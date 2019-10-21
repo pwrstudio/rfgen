@@ -58,7 +58,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
   const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
 
@@ -82,11 +82,14 @@
       const res = await client.fetch(query, params);
 
       // console.dir(res);
-
-      client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-        // console.dir(linksRes);
-        links = linksRes;
-      });
+      if (category === "participant") {
+        client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
+          // console.dir(linksRes);
+          links = linksRes;
+        });
+      } else {
+        links = get(res, "participants", []);
+      }
 
       let postConstruction = {
         title: {
@@ -283,29 +286,34 @@
         <Video url={post.videoLink} posterImage={post.posterImage} />
       </div>
     {/if}
-    {#if $isEnglish}
-      <div class="post-view-text" in:fade class:video={post.videoLink}>
-        <div class="post-view-category">{post.category}</div>
-        <div class="post-view-title">{post.title.english}</div>
-        <div class="post-view-text-inner">
+    <div
+      class="post-view-text"
+      class:arabic={$isArabic}
+      in:fade
+      class:video={post.videoLink}>
+      <div class="post-view-category">{post.category}</div>
+      <div class="post-view-title">
+        {#if $isEnglish}{post.title.english}{/if}
+        {#if $isArabic}{post.title.arabic}{/if}
+      </div>
+      <div class="post-view-text-inner">
+        {#if $isEnglish}
           {#if Array.isArray(post.content.english)}
             {@html renderBlockText(post.content.english)}
           {:else}{post.content.english}{/if}
-        </div>
-        <div class="links-container">
-          {#each links as post, i}
-            <InternalLink {post} />
-          {/each}
-        </div>
+        {/if}
+        {#if $isArabic}
+          {#if Array.isArray(post.content.arabic)}
+            {@html renderBlockText(post.content.arabic)}
+          {:else}{post.content.arabic}{/if}
+        {/if}
       </div>
-    {/if}
-    {#if $isArabic}
-      <div class="post-view-text arabic" in:fade>
-        {#if Array.isArray(post.content.arabic)}
-          {@html renderBlockText(post.content.arabic)}
-        {:else}{post.content.arabic}{/if}
+      <div class="links-container">
+        {#each links as post, i}
+          <InternalLink {post} />
+        {/each}
       </div>
-    {/if}
+    </div>
     {#if post.mainImage && !post.videoLink}
       <div
         class="post-view-image"

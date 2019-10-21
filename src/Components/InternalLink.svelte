@@ -31,6 +31,8 @@
   let linkOutActive = false;
   let categoryDisplayName = "";
 
+  console.log(post);
+
   $: {
     if (post.category) {
       let matchingCategory = categoryList.find(
@@ -77,6 +79,11 @@
     &.loaded {
       opacity: 1;
     }
+    margin-bottom: $rfgen-grid-unit;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .tile-bar {
@@ -108,12 +115,10 @@
 
     <a href="/{$languagePrefix}/{post.category}/{post.slug}">
       <div class="tile-bar {color}">
-        <div class="tile-category">
+        <div class="tile-category" in:fly={{ duration: 150, delay: 0, y: 10 }}>
           {categoryDisplayName}
-          <!-- {#if $isEnglish}{post.en_category}{/if}
-          {#if $isArabic}{post.ar_category}{/if} -->
         </div>
-        <div class="tile-title">
+        <div class="tile-title" in:fly={{ duration: 150, delay: 100, y: 10 }}>
           {#if $isEnglish}{post.en_title}{/if}
           {#if $isArabic}{post.ar_title}{/if}
         </div>
