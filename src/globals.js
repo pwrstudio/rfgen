@@ -4,100 +4,140 @@ export const siteInfo = {
     arabic: 'حقوق الأجيال القادمة'
   }
 }
-
-export const categoryList = [
-  {
-    name: {
-      english: 'Projects',
-      arabic: 'صلة'
-    },
-    slug: 'project',
-    color: 'rfgen-blue'
-  },
-  {
-    name: {
-      english: 'Talks',
-      arabic: 'صلة'
-    },
-    slug: 'talk',
-    color: 'rfgen-leaf'
-  },
-  {
-    name: {
-      english: 'Performances',
-      arabic: 'صلة'
-    },
-    slug: 'performance',
-    color: 'rfgen-green'
-  },
-  {
-    name: {
-      english: 'Working Group',
-      arabic: 'صلة'
-    },
-    slug: 'workingGroup',
-    color: 'rfgen-beige'
-  },
-  {
-    name: {
-      english: 'Writings',
-      arabic: 'صلة'
-    },
-    slug: 'writing',
-    color: 'rfgen-khaki'
-  },
-  {
-    name: {
-      english: '#rfgen',
-      arabic: '#rfgen'
-    },
-    slug: 'socialMedia',
-    color: 'rfgen-red'
-  },
-  {
-    name: {
-      english: 'Participants',
-      arabic: 'صلة'
-    },
-    slug: 'participant',
-    color: 'rfgen-beige'
-  }
-]
-
 export const pageList = [
   {
     name: {
       english: 'Theme',
-      arabic: 'صلة'
+      arabic: 'الموضوع'
     },
     slug: 'theme'
   },
   {
     name: {
       english: 'Venues',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'venues'
   },
   {
     name: {
       english: 'Team',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'team'
   },
   {
     name: {
       english: 'Press',
-      arabic: 'صلة'
+      arabic: 'صلة' //PLACEHOLDER
     },
     slug: 'press'
   },
   {
     name: {
       english: 'Contact',
-      arabic: 'صلة'
+      arabic: 'اتصل بنا'
     },
     slug: 'contact'
+  }
+]
+
+export const baseProjections = [
+  'en_title',
+  'ar_title',
+  '"slug": slug.current',
+  'mainImage',
+  '"category": _type'
+]
+
+export const categoryList = [
+  {
+    name: 'project',
+    nameDisplay: {
+      english: 'Projects',
+      arabic: 'المشاريع'
+    },
+    categorySlug: 'project',
+    color: 'rfgen-blue',
+    menuOrder: 1,
+    query: '_type == "projects"',
+    projections: []
+  },
+  {
+    name: 'talk',
+    nameDisplay: {
+      english: 'Talks',
+      arabic: 'صلة' //PLACEHOLDER
+    },
+    categorySlug: 'talk',
+    color: 'rfgen-leaf',
+    menuOrder: 2,
+    query: '_type == "talk"',
+    projections: ['timeAndDate']
+  },
+  {
+    name: 'performance',
+    nameDisplay: {
+      english: 'Performances',
+      arabic: 'صلة' //PLACEHOLDER
+    },
+    categorySlug: 'performance',
+    color: 'rfgen-green',
+    menuOrder: 3,
+    query: '_type == "performance"',
+    projections: ['timeAndDate']
+  },
+  {
+    name: 'workingGroup',
+    nameDisplay: {
+      english: 'Working Group',
+      arabic: 'صلة' //PLACEHOLDER
+    },
+    categorySlug: 'working-group',
+    color: 'rfgen-military',
+    query: '_type == "workingGroup"',
+    menuOrder: 4,
+    projections: []
+  },
+  {
+    name: 'writing',
+    nameDisplay: {
+      english: 'Writings',
+      arabic: 'صلة' //PLACEHOLDER
+    },
+    categorySlug: 'writing',
+    query: '_type == "writing"',
+    color: 'rfgen-khaki',
+    menuOrder: 5,
+    projections: [
+      '"en_title": en_name',
+      '"ar_title": ar_name',
+      'author->{en_name, ar_name, slug}',
+      'publisherName'
+    ]
+  },
+  {
+    name: 'socialMedia',
+    nameDisplay: {
+      english: '#rfgen',
+      arabic: '#rfgen'
+    },
+    categorySlug: 'social-media',
+    color: 'rfgen-red',
+    menuOrder: 6,
+    query: '_type == "socialMedia", ',
+    projections: ['link', 'networkName']
+  },
+  {
+    name: 'participant',
+    nameDisplay: {
+      english: 'Participants',
+      arabic: 'المشاركون'
+    },
+    categorySlug: 'participant',
+    color: 'rfgen-beige',
+    query: '_type == "participant"',
+    menuOrder: 7,
+    projections: []
   }
 ]
