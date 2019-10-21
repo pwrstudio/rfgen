@@ -12,8 +12,6 @@
   import imagesLoaded from "imagesloaded";
   import kebabCase from "lodash/kebabCase";
 
-  // *** COMPONENTS
-
   // *** STORES
   import { isArabic, isEnglish, languagePrefix } from "../stores.js";
 
@@ -24,6 +22,7 @@
   // *** PROPS
   export let post = {};
   export let width = 20;
+  export let order = 1;
 
   // *** DOM REFERENCES
   let tileEl = {};
@@ -33,8 +32,6 @@
   let loaded = false;
   let linkOutActive = false;
 
-  // console.dir(categoryList[0].name);
-  // console.log(post);
   $: {
     if (post.category) {
       let matchingCategory = categoryList.find(
@@ -91,6 +88,7 @@
 
   .width-30 {
     width: 30%;
+
     @include screen-size("small") {
       width: 100%;
     }
@@ -131,6 +129,63 @@
     }
   }
 
+  .width-100 {
+    width: 100%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  // .width-30 {
+  //   width: calc(30% - 4px);
+
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-33 {
+  //   width: calc(33.3333% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-40 {
+  //   width: calc(40% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-50 {
+  //   width: calc(50% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-100 {
+  //   width: 100%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
   .tile-bar {
     position: absolute;
     top: 0;
@@ -138,8 +193,11 @@
     height: $tile-bar-height;
     width: 100%;
     padding: $rfgen-grid-unit;
+    // padding-left: 0;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
+    // font-size: $rfgen-font-size-large;
+    // line-height: $rfgen-font-size-large;
     display: flex;
     justify-content: space-between;
     transition: none;
@@ -192,7 +250,12 @@
   }
 
   .tile-title {
-    padding-right: 4 * $rfgen-grid-unit;
+    // padding-right: 4 * $rfgen-grid-unit;
+
+    // &:arabic {
+    //       padding-right: 4 * $rfgen-grid-unit;
+
+    // }
   }
 
   .tile-category {
@@ -211,11 +274,69 @@
       text-decoration: none;
     }
   }
+
+  .width-30 {
+    width: calc(30% - 2px);
+
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-33 {
+    width: calc(33.3333% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-40 {
+    width: calc(40% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-25 {
+    width: calc(25% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-35 {
+    width: calc(35% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-50 {
+    width: calc(50% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .order-0,
+  .order-1 {
+    margin-right: 2px;
+  }
+
+  // .order-2 {
+  //   .tile-image {
+  //     opacity: 0;
+  //   }
+  // }
 </style>
 
 <Router>
 
-  <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
+  <div
+    class="tile width-{width} order-{order}"
+    use:links
+    bind:this={tileEl}
+    class:loaded>
 
     {#if post.category === 'writing'}
       <div
@@ -229,11 +350,6 @@
               {#if $isArabic}{post.ar_title}{/if}
             </div>
           {/if}
-          <!-- <div class="tile-category"> -->
-          <!-- {post.category} -->
-          <!-- {#if $isEnglish}{post.en_category}{/if}
-          {#if $isArabic}{post.ar_category}{/if} -->
-          <!-- </div> -->
         </div>
         <div class="tile-image">
           {#if post.mainImage}
@@ -251,16 +367,17 @@
         <div class="tile-overlay {color}" class:active={linkOutActive}>
           {#if linkOutActive}
             <p in:fly={{ duration: 150, y: 10 }}>
-              {#if $isEnglish}{post.en_title}{/if}
-              {#if $isArabic}{post.ar_title}{/if}
-            </p>
-            <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
               <a
-                href="{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
+                href="/{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
                 class="author">
                 {post.author.en_name}
               </a>
             </p>
+            <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
+              {#if $isEnglish}{post.en_title}{/if}
+              {#if $isArabic}{post.ar_title}{/if}
+            </p>
+
             <p in:fly={{ duration: 150, delay: 200, y: 10 }}>
               <a href={post.link} target="_blank" class="external-link">
                 Read on {post.publisherName}
@@ -278,11 +395,6 @@
               {#if $isArabic}{post.ar_title}{/if}
             </div>
           {/if}
-          <!-- <div class="tile-category"> -->
-          <!-- {post.category} -->
-          <!-- {#if $isEnglish}{post.en_category}{/if}
-          {#if $isArabic}{post.ar_category}{/if} -->
-          <!-- </div> -->
         </div>
         <div class="tile-image">
           {#if post.mainImage}

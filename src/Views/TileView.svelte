@@ -20,6 +20,7 @@
   import compact from "lodash/compact";
   import fp from "lodash/fp";
   import kebabCase from "lodash/kebabCase";
+  import uniqueId from "lodash/uniqueId";
 
   // *** COMPONENTS
   import IntroTile from "../Components/IntroTile.svelte";
@@ -35,7 +36,12 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, baseProjections } from "../globals.js";
+  import {
+    siteInfo,
+    categoryList,
+    baseProjections,
+    introTexts
+  } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
@@ -55,7 +61,7 @@
     let categoryObject = categoryList.find(
       c => c.categorySlug === $activeNavigation
     );
-    console.log(category);
+    // console.log(category);
     if (categoryObject) {
       categoryDisplayName = get(categoryObject, "nameDisplay.english", false);
     }
@@ -88,10 +94,18 @@
     allProjections +
     "}";
 
-  console.log(query);
+  // console.log(query);
 
-  const filterPostsByCategory = posts =>
-    chunk(posts.filter(p => kebabCase(p.category) === category), 3);
+  const filterPostsByCategory = posts => {
+    let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
+    filteredPosts.unshift({
+      slug: uniqueId("category_intro_"),
+      category: category,
+      type: "introduction",
+      text: introTexts[category]
+    });
+    return filteredPosts;
+  };
 
   const hasImage = p => p.mainImage;
 
@@ -133,9 +147,10 @@
     line-height: 0;
     padding-bottom: $navigation-bottom-height;
 
-    @include screen-size("small") {
-      margin-top: 80px;
-    }
+    // @include screen-size("small") {
+    //   margin-top: 80px;
+    //   scroll-snap-type: y mandatory;
+    // }
   }
 </style>
 
@@ -150,8 +165,8 @@
 <div class="tile-view">
   {#await posts then posts}
     <!-- <IntroTile category /> -->
-    {#each category.length > 0 ? filterPostsByCategory(posts) : chunk(posts, 3) as row}
-      <Row {row} />
+    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 3) : chunk(posts, 3) as row, i (uniqueId('row_'))}
+      <Row {row} order={i + 1} />
     {/each}
   {/await}
 </div>

@@ -10,6 +10,7 @@
   import { fade, fly } from "svelte/transition";
   import { Router, Link, links, navigate } from "svelte-routing";
   import kebabCase from "lodash/kebabCase";
+  import truncate from "lodash/truncate";
 
   // *** COMPONENTS
 
@@ -21,8 +22,9 @@
   import { urlFor } from "../sanity.js";
 
   // *** PROPS
-  export let category;
+  export let post = {};
   export let width = 20;
+  export let order = 0;
 
   // *** DOM REFERENCES
   let tileEl = {};
@@ -32,12 +34,10 @@
   let loaded = false;
   let linkOutActive = false;
 
-  // console.dir(categoryList[0].name);
-  // console.log(post);
   $: {
-    if (category) {
+    if (post.category) {
       let matchingCategory = categoryList.find(
-        cat => cat.categorySlug === kebabCase(category)
+        cat => cat.categorySlug === kebabCase(post.category)
       );
       color = matchingCategory ? matchingCategory.color : "rfgen-white";
     }
@@ -123,7 +123,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: $tile-bar-height;
+    height: 100%;
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
@@ -132,62 +132,12 @@
     justify-content: space-between;
     transition: none;
     z-index: 10;
+    font-size: $rfgen-font-size-large;
+    line-height: $rfgen-font-size-large;
     // @include screen-size("small") {
     //   font-size: $rfgen-font-size-mobile-large;
     // }
   }
-
-  .tile-overlay {
-    position: absolute;
-    left: 0;
-    top: $tile-bar-height;
-    top: 0;
-    width: 100%;
-    padding: $rfgen-grid-unit;
-    font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
-    font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
-    // clip-path: inset(0px 0px 100% 0px);
-    height: calc(#{$tile-height} - #{$tile-bar-height});
-    height: $tile-height;
-
-    z-index: 11;
-    pointer-events: none;
-    // transition: clip-path 0.2s $easing;
-    opacity: 0;
-
-    &.active {
-      opacity: 1;
-      // clip-path: inset(0% 0% 0% 0%);
-
-      // transition: clip-path 0.2s $easing;
-
-      pointer-events: all;
-    }
-  }
-
-  .tile-image {
-    margin-top: $tile-bar-height;
-    height: calc(#{$tile-height} - #{$tile-bar-height});
-    width: 100%;
-
-    img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  .tile-title {
-    padding-right: 4 * $rfgen-grid-unit;
-  }
-
-  .tile-category {
-    white-space: nowrap;
-    text-transform: capitalize;
-  }
-
   // .tile:active .tile-bar {
   //   height: $tile-height;
   // }
@@ -199,21 +149,69 @@
       text-decoration: none;
     }
   }
+
+  .width-30 {
+    width: calc(30% - 2px);
+
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-33 {
+    width: calc(33.3333% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-40 {
+    width: calc(40% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-25 {
+    width: calc(25% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-35 {
+    width: calc(35% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-50 {
+    width: calc(50% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .order-0,
+  .order-1 {
+    margin-right: 2px;
+  }
 </style>
 
 <Router>
 
-  <div class="tile width-{width}" use:links bind:this={tileEl} class:loaded>
+  <div
+    class="tile width-{width} order-{order}"
+    use:links
+    bind:this={tileEl}
+    class:loaded>
 
-    <a href="/{$languagePrefix}/category}/introduction">
+    <a href="/{$languagePrefix}/{post.category}/introduction">
       <div class="tile-bar {color}">
-        <div class="tile-title">
-          {#if $isEnglish}{category}{/if}
-          {#if $isArabic}{category}{/if}
-        </div>
-
+        {truncate(post.text, { length: 300, separator: ' ' })}
       </div>
-      kdkdkd
+
     </a>
   </div>
 
