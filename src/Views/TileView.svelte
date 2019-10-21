@@ -166,7 +166,7 @@
   {#await posts then posts}
     <!-- <IntroTile category /> -->
     {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 3) : chunk(posts, 3) as row, i (uniqueId('row_'))}
-      <Row {row} />
+      <Row {row} order={i + 1} />
     {/each}
   {/await}
 </div>

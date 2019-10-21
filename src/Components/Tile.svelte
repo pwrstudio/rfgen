@@ -86,58 +86,8 @@
     }
   }
 
-  // .width-30 {
-  //   width: 30%;
-
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-33 {
-  //   width: 33.3333%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-40 {
-  //   width: 40%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-25 {
-  //   width: 25%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-35 {
-  //   width: 35%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-50 {
-  //   width: 50%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-100 {
-  //   width: 100%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
   .width-30 {
-    width: calc(30% - 4px);
+    width: 30%;
 
     @include screen-size("small") {
       width: 100%;
@@ -145,35 +95,35 @@
   }
 
   .width-33 {
-    width: calc(33.3333% - 4px);
+    width: 33.3333%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-40 {
-    width: calc(40% - 4px);
+    width: 40%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-25 {
-    width: calc(25% - 4px);
+    width: 25%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-35 {
-    width: calc(35% - 4px);
+    width: 35%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-50 {
-    width: calc(50% - 4px);
+    width: 50%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -185,6 +135,56 @@
       width: 100%;
     }
   }
+
+  // .width-30 {
+  //   width: calc(30% - 4px);
+
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-33 {
+  //   width: calc(33.3333% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-40 {
+  //   width: calc(40% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-50 {
+  //   width: calc(50% - 4px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-100 {
+  //   width: 100%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
 
   .tile-bar {
     position: absolute;
@@ -275,10 +275,59 @@
     }
   }
 
+  .width-30 {
+    width: calc(30% - 2px);
+
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-33 {
+    width: calc(33.3333% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-40 {
+    width: calc(40% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-25 {
+    width: calc(25% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-35 {
+    width: calc(35% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-50 {
+    width: calc(50% - 2px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
   .order-0,
   .order-1 {
-    margin-right: 6px;
+    margin-right: 2px;
   }
+
+  // .order-2 {
+  //   .tile-image {
+  //     opacity: 0;
+  //   }
+  // }
 </style>
 
 <Router>

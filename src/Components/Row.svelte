@@ -12,9 +12,11 @@
   // *** COMPONENTS
   import Tile from "../Components/Tile.svelte";
   import IntroTile from "../Components/IntroTile.svelte";
+  import BreakOff from "../Components/BreakOff.svelte";
 
   // *** PROPS
   export let row = [];
+  export let order = 0;
   export let location = {};
 
   // *** CONSTANTS
@@ -37,7 +39,7 @@
   .row {
     display: inline-block;
     flex-wrap: wrap;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     width: 100vw;
 
     @include screen-size("small") {
@@ -47,6 +49,10 @@
 </style>
 
 <div class="row">
+  <!-- {#if order % 3 === 0}
+    <!-- <BreakOff /> -->
+  <!-- {:else} -->
+
   {#each row as post, i (post.slug)}
     {#if post.type === 'introduction'}
       <IntroTile {post} width={tileWidths[i]} order={i} />
@@ -54,4 +60,6 @@
       <Tile {post} width={tileWidths[i]} order={i} />
     {/if}
   {/each}
+  <!-- {/if} -->
+
 </div>
