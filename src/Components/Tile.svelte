@@ -11,6 +11,7 @@
   import { Router, Link, links, navigate } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import kebabCase from "lodash/kebabCase";
+  import get from "lodash/get";
 
   // *** STORES
   import { isArabic, isEnglish, languagePrefix } from "../stores.js";
@@ -338,7 +339,7 @@
     bind:this={tileEl}
     class:loaded>
 
-    {#if post.category === 'writing'}
+    {#if post.category === 'writing' || post.category === 'socialMedia'}
       <div
         on:click={e => {
           handleClick(e);
@@ -370,7 +371,7 @@
               <a
                 href="/{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
                 class="author">
-                {post.author.en_name}
+                {get(post, 'author.en_name', '')}
               </a>
             </p>
             <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
