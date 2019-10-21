@@ -200,7 +200,12 @@
   }
 
   .tile-title {
-    padding-right: 4 * $rfgen-grid-unit;
+    // padding-right: 4 * $rfgen-grid-unit;
+
+    // &:arabic {
+    //       padding-right: 4 * $rfgen-grid-unit;
+
+    // }
   }
 
   .tile-category {

@@ -48,7 +48,7 @@
   }
 
   const initVideo = () => {
-    console.log(vimeoData);
+    // console.log(vimeoData);
     playing = true;
 
     initPlayer().then(res => {
@@ -74,14 +74,14 @@
   const toggleVideo = () => (playing ? pauseVideo() : playVideo());
 
   const seekPlayer = event => {
-    console.log(event.offsetX, event.target.clientWidth, vimeoData.duration);
+    // console.log(event.offsetX, event.target.clientWidth, vimeoData.duration);
     let to = (event.offsetX / event.target.clientWidth) * vimeoData.duration;
     player.setCurrentTime(to);
   };
 
   onMount(() => {
-    console.log(url);
-    console.log(id);
+    // console.log(url);
+    // console.log(id);
     // Gets the vimeo ID using a regex on number groups
     // Get the vimeo oEmbed data and initiate
     // vimeoJson(id).then(res => {

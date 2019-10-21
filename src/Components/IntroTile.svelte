@@ -34,8 +34,6 @@
   let loaded = false;
   let linkOutActive = false;
 
-  // console.dir(categoryList[0].name);
-  // console.log(post);
   $: {
     if (post.category) {
       let matchingCategory = categoryList.find(
@@ -45,7 +43,6 @@
     }
   }
 
-  console.log(post);
   // *** ON MOUNT
   onMount(async () => {
     loaded = true;

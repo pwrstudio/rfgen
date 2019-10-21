@@ -81,10 +81,10 @@
     try {
       const res = await client.fetch(query, params);
 
-      console.dir(res);
+      // console.dir(res);
 
       client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-        console.dir(linksRes);
+        // console.dir(linksRes);
         links = linksRes;
       });
 
@@ -169,6 +169,7 @@
 
     &.video {
       position: static;
+      height: auto;
       // width: 300px;
       // font-size: $rfgen-font-size-small;
       // line-height: $rfgen-font-size-small;

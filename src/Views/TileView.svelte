@@ -61,7 +61,7 @@
     let categoryObject = categoryList.find(
       c => c.categorySlug === $activeNavigation
     );
-    console.log(category);
+    // console.log(category);
     if (categoryObject) {
       categoryDisplayName = get(categoryObject, "nameDisplay.english", false);
     }
@@ -94,7 +94,7 @@
     allProjections +
     "}";
 
-  console.log(query);
+  // console.log(query);
 
   const filterPostsByCategory = posts => {
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
