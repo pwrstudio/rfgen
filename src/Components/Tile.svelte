@@ -86,6 +86,56 @@
     }
   }
 
+  // .width-30 {
+  //   width: 30%;
+
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-33 {
+  //   width: 33.3333%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-40 {
+  //   width: 40%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: 25%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: 35%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-50 {
+  //   width: 50%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-100 {
+  //   width: 100%;
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
   .width-30 {
     width: calc(30% - 4px);
 
