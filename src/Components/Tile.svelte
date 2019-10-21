@@ -12,8 +12,6 @@
   import imagesLoaded from "imagesloaded";
   import kebabCase from "lodash/kebabCase";
 
-  // *** COMPONENTS
-
   // *** STORES
   import { isArabic, isEnglish, languagePrefix } from "../stores.js";
 
@@ -34,8 +32,6 @@
   let loaded = false;
   let linkOutActive = false;
 
-  // console.dir(categoryList[0].name);
-  // console.log(post);
   $: {
     if (post.category) {
       let matchingCategory = categoryList.find(
@@ -83,8 +79,6 @@
 
     @include screen-size("small") {
       width: 100%;
-      opacity: 0.5;
-      scroll-snap-align: start;
     }
 
     &.loaded {
@@ -130,6 +124,13 @@
 
   .width-50 {
     width: calc(50% - 4px);
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-100 {
+    width: 100%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -245,11 +246,6 @@
               {#if $isArabic}{post.ar_title}{/if}
             </div>
           {/if}
-          <!-- <div class="tile-category"> -->
-          <!-- {post.category} -->
-          <!-- {#if $isEnglish}{post.en_category}{/if}
-          {#if $isArabic}{post.ar_category}{/if} -->
-          <!-- </div> -->
         </div>
         <div class="tile-image">
           {#if post.mainImage}
@@ -272,7 +268,7 @@
             </p>
             <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
               <a
-                href="{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
+                href="/{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
                 class="author">
                 {post.author.en_name}
               </a>
@@ -294,11 +290,6 @@
               {#if $isArabic}{post.ar_title}{/if}
             </div>
           {/if}
-          <!-- <div class="tile-category"> -->
-          <!-- {post.category} -->
-          <!-- {#if $isEnglish}{post.en_category}{/if}
-          {#if $isArabic}{post.ar_category}{/if} -->
-          <!-- </div> -->
         </div>
         <div class="tile-image">
           {#if post.mainImage}

@@ -10,11 +10,13 @@
   import { Router, Link, Route } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import get from "lodash/get";
+  import uniq from "lodash/uniq";
+  import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
   import { fade } from "svelte/transition";
 
   // *** COMPONENTS
-  import Tile from "../Components/Tile.svelte";
+  import InternalLink from "../Components/InternalLink.svelte";
   import Video from "../Components/Video.svelte";
 
   // *** STORES
@@ -28,7 +30,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList } from "../globals.js";
+  import { siteInfo, categoryList, baseProjections } from "../globals.js";
   import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -43,36 +45,48 @@
 
   // ** VARIABLES
   let post = {};
+  let links = [];
   let headTitle = {
     english: "",
     arabic: ""
   };
   let loaded = false;
 
+  const allProjections = uniq(
+    flattenDeep([...baseProjections, ...categoryList.map(c => c.projections)])
+  );
+
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{"en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type}[0]';
+
+  const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
 
   $: {
-    console.log(category);
     post = loadData(query, { slug: slug, category: category });
   }
 
   $: {
     activeNavigation.set(category ? category : "");
+    navigationColor.set(
+      categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
+        .color
+    );
   }
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set(
-    categoryList.find(c => c.categorySlug == kebabCase(category)).color
-  );
 
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
 
       console.dir(res);
+
+      client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
+        console.dir(linksRes);
+        links = linksRes;
+      });
 
       let postConstruction = {
         title: {
@@ -87,6 +101,7 @@
         slug: ""
       };
 
+      postConstruction.id = get(res, "_id", "");
       postConstruction.title.english = get(res, "en_title", "");
       postConstruction.title.arabic = get(res, "ar_title", "");
       postConstruction.content.english = get(res, "en_content", []);
@@ -94,7 +109,6 @@
       postConstruction.mainImage = get(res, "mainImage", false);
       postConstruction.videoLink = get(res, "videoLink", false);
       postConstruction.posterImage = get(res, "posterImage", false);
-      // postConstruction.videoLink = "https://vimeo.com/25692618";
       postConstruction.slug = get(res, "slug", "");
       postConstruction.category = get(res, "category", "");
 
@@ -104,6 +118,8 @@
       Sentry.captureException(err);
     }
   }
+
+  // async function loadLinks(query, params) {}
 
   // *** ON MOUNT
   onMount(async () => {
@@ -130,12 +146,10 @@
     width: 50vw;
     top: $navigation-top-height;
     left: 0;
+    padding-top: 2 * $rfgen-grid-unit;
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
-    padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
-    padding-top: 2 * $rfgen-grid-unit;
     @include screen-size("small") {
       position: static;
       float: right;
@@ -160,7 +174,7 @@
       // line-height: $rfgen-font-size-small;
     }
 
-    padding-bottom: 80px;
+    // padding-bottom: 80px;
   }
 
   .post-view-image {
@@ -216,6 +230,8 @@
   .post-view-category {
     text-transform: capitalize;
     margin-bottom: 1em;
+    padding-left: $rfgen-grid-unit;
+    padding-right: 4 * $rfgen-grid-unit;
     // font-size: $rfgen-font-size-small;
     // line-height: $rfgen-font-size-small;
   }
@@ -223,6 +239,13 @@
   .post-view-title {
     margin-bottom: 1em;
     font-weight: bold;
+    padding-left: $rfgen-grid-unit;
+    padding-right: 4 * $rfgen-grid-unit;
+  }
+
+  .post-view-text-inner {
+    padding-left: $rfgen-grid-unit;
+    padding-right: 4 * $rfgen-grid-unit;
   }
 
   .video-container {
@@ -233,6 +256,10 @@
     justify-content: center;
     align-items: center;
     position: relative;
+  }
+
+  .links-container {
+    margin-top: 1em;
   }
 </style>
 
@@ -259,9 +286,16 @@
       <div class="post-view-text" in:fade class:video={post.videoLink}>
         <div class="post-view-category">{post.category}</div>
         <div class="post-view-title">{post.title.english}</div>
-        {#if Array.isArray(post.content.english)}
-          {@html renderBlockText(post.content.english)}
-        {:else}{post.content.english}{/if}
+        <div class="post-view-text-inner">
+          {#if Array.isArray(post.content.english)}
+            {@html renderBlockText(post.content.english)}
+          {:else}{post.content.english}{/if}
+        </div>
+        <div class="links-container">
+          {#each links as post, i}
+            <InternalLink {post} />
+          {/each}
+        </div>
       </div>
     {/if}
     {#if $isArabic}

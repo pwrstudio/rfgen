@@ -141,3 +141,13 @@ export const categoryList = [
     projections: []
   }
 ]
+
+export const introTexts = {
+  participant: 'TODO: Participants introduction text',
+  writing: 'TODO: Writings introduction text',
+  talk: 'TODO: Talks introduction text',
+  performance: 'TODO: Performances introduction text',
+  project: 'TODO: Projects introduction text',
+  'working-group': 'TODO: Working groups introduction text',
+  'social-media': 'TODO: social media introduction text'
+}

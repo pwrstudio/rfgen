@@ -79,7 +79,7 @@
     top: 5px;
     font-weight: bold;
     @include screen-size("small") {
-      margin-bottom: 0.5em;
+      margin-bottom: 0;
       padding-left: $rfgen-grid-unit;
     }
   }

@@ -36,7 +36,12 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, baseProjections } from "../globals.js";
+  import {
+    siteInfo,
+    categoryList,
+    baseProjections,
+    introTexts
+  } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
@@ -97,8 +102,7 @@
       slug: uniqueId("category_intro_"),
       category: category,
       type: "introduction",
-      text:
-        "Sharjah Architecture Triennial is the first major platform for architecture and urbanism in the Middle East, North and East Africa, and South and Southeast Asia. Participating in international conversations while anchored in the specificity of Sharjah and the United Arab Emirates, we offer new spaces for critical reflection and foster research that situates the built environment within its complex social, economic, and cultural contexts."
+      text: introTexts[category]
     });
     return filteredPosts;
   };
