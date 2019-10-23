@@ -11,16 +11,17 @@
   import { Router, Link, links, navigate } from "svelte-routing";
   import kebabCase from "lodash/kebabCase";
   import truncate from "lodash/truncate";
+  import { renderBlockText } from "../sanity.js";
 
   // *** COMPONENTS
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
-
-  // *** GLOBALS
-  import { categoryList } from "../globals.js";
-  import { urlFor } from "../sanity.js";
-
+  import {
+    isArabic,
+    isEnglish,
+    categoryList,
+    languagePrefix
+  } from "../stores.js";
   // *** PROPS
   export let post = {};
   export let width = 20;
@@ -36,29 +37,27 @@
 
   $: {
     if (post.category) {
-      let matchingCategory = categoryList.find(
-        cat => cat.categorySlug === kebabCase(post.category)
+      let matchingCategory = $categoryList.find(
+        cat => cat.categorySlug === kebabCase(post.slug)
       );
       color = matchingCategory ? matchingCategory.color : "rfgen-white";
+      // console.log(color);
     }
   }
 
   // *** ON MOUNT
   onMount(async () => {
     loaded = true;
-    // imagesLoaded(tileEl, instance => {
-    //   loaded = true;
-    // });
   });
 </script>
 
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 400px;
+  $tile-height: 300px;
   $tile-bar-height: 40px;
 
-  .tile {
+  .intro-tile {
     width: 33.33%;
     height: $tile-height;
     margin: 0;
@@ -134,6 +133,7 @@
     z-index: 10;
     font-size: $rfgen-font-size-large;
     line-height: $rfgen-font-size-large;
+    overflow: hidden;
     // @include screen-size("small") {
     //   font-size: $rfgen-font-size-mobile-large;
     // }
@@ -142,74 +142,64 @@
   //   height: $tile-height;
   // }
 
-  .external-link {
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  .width-30 {
-    width: calc(30% - 2px);
-
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-33 {
-    width: calc(33.3333% - 2px);
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-40 {
-    width: calc(40% - 2px);
+  .width-20 {
+    width: 20%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-25 {
-    width: calc(25% - 2px);
+    width: 25%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-30 {
+    width: 30%;
+
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-35 {
-    width: calc(35% - 2px);
+    width: 35%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
-  .width-50 {
-    width: calc(50% - 2px);
+  .width-40 {
+    width: 40%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .order-0,
-  .order-1 {
-    margin-right: 2px;
+  .order-1,
+  .order-2 {
+    border-right: 2px solid white;
   }
 </style>
 
 <Router>
 
   <div
-    class="tile width-{width} order-{order}"
+    class="intro-tile width-{width} order-{order}"
     use:links
     bind:this={tileEl}
     class:loaded>
 
-    <a href="/{$languagePrefix}/{post.category}/introduction">
+    <a href="/{$languagePrefix}/introduction/{post.slug}">
       <div class="tile-bar {color}">
-        {truncate(post.text, { length: 300, separator: ' ' })}
+        {@html truncate(renderBlockText(post.en_content), {
+          length: 200,
+          separator: ' '
+        })}
+        <!-- {truncate(post.en_content, { length: 300, separator: ' ' })} -->
       </div>
 
     </a>

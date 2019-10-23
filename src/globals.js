@@ -4,6 +4,18 @@ export const siteInfo = {
     arabic: 'حقوق الأجيال القادمة'
   }
 }
+
+export const colorList = [
+  'rfgen-blue',
+  'rfgen-leaf',
+  'rfgen-green',
+  'rfgen-military',
+  'rfgen-military',
+  'rfgen-khaki',
+  'rfgen-beige',
+  'rfgen-red'
+]
+
 export const pageList = [
   {
     name: {
@@ -47,10 +59,12 @@ export const baseProjections = [
   'ar_title',
   '"slug": slug.current',
   'mainImage',
-  '"category": _type'
+  '"category": _type',
+  'en_content',
+  'ar_content'
 ]
 
-export const categoryList = [
+export const categoryListDefaults = [
   {
     name: 'project',
     nameDisplay: {
@@ -58,19 +72,17 @@ export const categoryList = [
       arabic: 'المشاريع'
     },
     categorySlug: 'project',
-    color: 'rfgen-blue',
     menuOrder: 1,
     query: '_type == "projects"',
     projections: []
   },
   {
-    name: 'talk',
+    name: 'discussion',
     nameDisplay: {
-      english: 'Talks',
+      english: 'Discussions',
       arabic: 'صلة' //PLACEHOLDER
     },
-    categorySlug: 'talk',
-    color: 'rfgen-leaf',
+    categorySlug: 'discussion',
     menuOrder: 2,
     query: '_type == "talk"',
     projections: ['timeAndDate']
@@ -82,7 +94,6 @@ export const categoryList = [
       arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'performance',
-    color: 'rfgen-green',
     menuOrder: 3,
     query: '_type == "performance"',
     projections: ['timeAndDate']
@@ -94,7 +105,6 @@ export const categoryList = [
       arabic: 'صلة' //PLACEHOLDER
     },
     categorySlug: 'working-group',
-    color: 'rfgen-military',
     query: '_type == "workingGroup"',
     menuOrder: 4,
     projections: []
@@ -107,7 +117,6 @@ export const categoryList = [
     },
     categorySlug: 'writing',
     query: '_type == "writing"',
-    color: 'rfgen-khaki',
     menuOrder: 5,
     projections: [
       '"en_title": en_name',
@@ -117,37 +126,25 @@ export const categoryList = [
     ]
   },
   {
-    name: 'socialMedia',
-    nameDisplay: {
-      english: '#rfgen',
-      arabic: '#rfgen'
-    },
-    categorySlug: 'social-media',
-    color: 'rfgen-red',
-    menuOrder: 6,
-    query: '_type == "socialMedia", ',
-    projections: ['link', 'networkName']
-  },
-  {
     name: 'participant',
     nameDisplay: {
       english: 'Participants',
       arabic: 'المشاركون'
     },
     categorySlug: 'participant',
-    color: 'rfgen-beige',
     query: '_type == "participant"',
-    menuOrder: 7,
+    menuOrder: 6,
     projections: []
+  },
+  {
+    name: 'socialMedia',
+    nameDisplay: {
+      english: '#rfgen',
+      arabic: '#rfgen'
+    },
+    categorySlug: 'social-media',
+    menuOrder: 7,
+    query: '_type == "socialMedia", ',
+    projections: ['link', 'networkName']
   }
 ]
-
-export const introTexts = {
-  participant: 'TODO: Participants introduction text',
-  writing: 'TODO: Writings introduction text',
-  talk: 'TODO: Talks introduction text',
-  performance: 'TODO: Performances introduction text',
-  project: 'TODO: Projects introduction text',
-  'working-group': 'TODO: Working groups introduction text',
-  'social-media': 'TODO: social media introduction text'
-}

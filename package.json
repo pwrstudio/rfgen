@@ -24,6 +24,7 @@
     "@vimeo/player": "^2.10.0",
     "array-shuffle": "^1.0.1",
     "core-js": "^3.3.2",
+    "date-fns": "^2.6.0",
     "embed-video": "^2.0.4",
     "imagesloaded": "^4.1.4",
     "lodash": "^4.17.15",

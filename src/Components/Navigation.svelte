@@ -18,11 +18,12 @@
     isEnglish,
     activeNavigation,
     navigationColor,
+    categoryList,
     languagePrefix
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, pageList } from "../globals.js";
+  import { siteInfo, pageList } from "../globals.js";
 
   // ** CONSTANTS
 
@@ -232,7 +233,7 @@
       </div>
       <menu class="category-menu">
         <ul class="category-menu-list">
-          {#each categoryList as category}
+          {#each $categoryList as category}
             <li class="category-menu-list-item" class:arabic={$isArabic}>
               <a
                 href="/{$languagePrefix}/{category.categorySlug}"
@@ -242,6 +243,14 @@
               </a>
             </li>
           {/each}
+          <li class="category-menu-list-item" class:arabic={$isArabic}>
+            <a
+              href="/{$languagePrefix}/programme"
+              class:active={$activeNavigation === 'programme'}>
+              {#if $isEnglish}Opening Programme{/if}
+              {#if $isArabic}Opening Programme{/if}
+            </a>
+          </li>
         </ul>
       </menu>
     </nav>

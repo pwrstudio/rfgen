@@ -1,7 +1,7 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  PostView
+  // Introduction View
   //
   // # # # # # # # # # # # # #
 
@@ -25,9 +25,9 @@
     isEnglish,
     navigationColor,
     activeNavigation,
+    categoryList,
     languagePrefix,
-    globalLanguage,
-    categoryList
+    globalLanguage
   } from "../stores.js";
 
   // *** GLOBALS
@@ -59,16 +59,14 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
-
-  const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
+    '*[slug.current == $slug && _type == "categoryIntroduction"]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
   $: {
     post = loadData(query, { slug: slug, category: category });
   }
 
   $: {
-    activeNavigation.set(category ? category : "");
+    activeNavigation.set(slug ? slug : "");
     navigationColor.set(
       $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
         .color
@@ -81,16 +79,6 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-
-      // console.dir(res);
-      if (category === "participant") {
-        client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-          // console.dir(linksRes);
-          links = linksRes;
-        });
-      } else {
-        links = get(res, "participants", []);
-      }
 
       let postConstruction = {
         title: {
@@ -293,7 +281,7 @@
       class:arabic={$isArabic}
       in:fade
       class:video={post.videoLink}>
-      <div class="post-view-category">{post.category}</div>
+      <!-- <div class="post-view-category">{post.category}</div> -->
       <div class="post-view-title">
         {#if $isEnglish}{post.title.english}{/if}
         {#if $isArabic}{post.title.arabic}{/if}

@@ -20,18 +20,28 @@
   export let location = {};
 
   // *** CONSTANTS
+  // const layouts = [
+  //   [40, 25, 35],
+  //   [33, 33, 33],
+  //   [40, 30, 30],
+  //   [25, 25, 50],
+  //   [30, 35, 35]
+  // ];
+
   const layouts = [
-    [40, 25, 35],
-    [33, 33, 33],
-    [40, 30, 30],
-    [25, 25, 50],
-    [30, 35, 35]
+    [30, 30, 20, 20],
+    [25, 25, 25, 25],
+    [20, 40, 20, 20],
+    [25, 30, 20, 25],
+    [20, 25, 20, 35]
   ];
 
   // *** VARIABLES
   let tileWidths = [];
 
-  tileWidths = row.length === 3 ? shuffle(sample(layouts)) : [33, 33, 33];
+  tileWidths = row.length === 4 ? shuffle(sample(layouts)) : [25, 30, 20, 25];
+
+  // console.dir(row);
 </script>
 
 <style lang="scss">
@@ -54,7 +64,7 @@
   <!-- {:else} -->
 
   {#each row as post, i (post.slug)}
-    {#if post.type === 'introduction'}
+    {#if post.category === 'categoryIntroduction'}
       <IntroTile {post} width={tileWidths[i]} order={i} />
     {:else}
       <Tile {post} width={tileWidths[i]} order={i} />

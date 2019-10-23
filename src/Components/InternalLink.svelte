@@ -13,10 +13,14 @@
   import get from "lodash/get";
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
+  import {
+    isArabic,
+    isEnglish,
+    categoryList,
+    languagePrefix
+  } from "../stores.js";
 
   // *** GLOBALS
-  import { categoryList } from "../globals.js";
   import { urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -31,11 +35,9 @@
   let linkOutActive = false;
   let categoryDisplayName = "";
 
-  console.log(post);
-
   $: {
     if (post.category) {
-      let matchingCategory = categoryList.find(
+      let matchingCategory = $categoryList.find(
         cat => cat.categorySlug === kebabCase(post.category)
       );
       color = matchingCategory ? matchingCategory.color : "rfgen-white";
@@ -79,7 +81,7 @@
     &.loaded {
       opacity: 1;
     }
-    margin-bottom: $rfgen-grid-unit;
+    margin-bottom: 2px;
 
     &:last-child {
       margin-bottom: 0;
@@ -91,7 +93,6 @@
     min-height: 200px;
     width: 100%;
     padding: $rfgen-grid-unit;
-    // padding-left: 0;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
     font-size: $rfgen-font-size-large;

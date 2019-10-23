@@ -11,12 +11,17 @@
   import { Router, Link, links, navigate } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import kebabCase from "lodash/kebabCase";
+  import get from "lodash/get";
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
+  import {
+    isArabic,
+    isEnglish,
+    categoryList,
+    languagePrefix
+  } from "../stores.js";
 
   // *** GLOBALS
-  import { categoryList } from "../globals.js";
   import { urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -31,10 +36,11 @@
   let color = "";
   let loaded = false;
   let linkOutActive = false;
+  const imgWidth = width >= 30 ? 800 : 400;
 
   $: {
     if (post.category) {
-      let matchingCategory = categoryList.find(
+      let matchingCategory = $categoryList.find(
         cat => cat.categorySlug === kebabCase(post.category)
       );
       color = matchingCategory ? matchingCategory.color : "rfgen-white";
@@ -64,7 +70,7 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 400px;
+  $tile-height: 300px;
   $tile-bar-height: 40px;
 
   .tile {
@@ -116,7 +122,7 @@
   }
 
   .width-35 {
-    width: 35%;
+    width: 15%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -275,59 +281,126 @@
     }
   }
 
-  .width-30 {
-    width: calc(30% - 2px);
+  // .width-30 {
+  //   width: calc(30% - 2px);
 
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
 
-  .width-33 {
-    width: calc(33.3333% - 2px);
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
+  // .width-33 {
+  //   width: calc(33.3333% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
 
-  .width-40 {
-    width: calc(40% - 2px);
+  // .width-40 {
+  //   width: calc(40% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-50 {
+  //   width: calc(50% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-20 {
+  //   width: calc(20% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-30 {
+  //   width: calc(30% - 2px);
+
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-40 {
+  //   width: calc(40% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  .width-20 {
+    width: 20%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-25 {
-    width: calc(25% - 2px);
+    width: 25%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-30 {
+    width: 30%;
+
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-35 {
-    width: calc(35% - 2px);
+    width: 35%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
-  .width-50 {
-    width: calc(50% - 2px);
+  .width-40 {
+    width: 40%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .order-0,
-  .order-1 {
-    margin-right: 2px;
+  .order-1,
+  .order-2 {
+    border-right: 2px solid white;
   }
-
-  // .order-2 {
-  //   .tile-image {
-  //     opacity: 0;
-  //   }
-  // }
 </style>
 
 <Router>
@@ -338,7 +411,7 @@
     bind:this={tileEl}
     class:loaded>
 
-    {#if post.category === 'writing'}
+    {#if post.category === 'writing' || post.category === 'socialMedia'}
       <div
         on:click={e => {
           handleClick(e);
@@ -355,9 +428,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(800)
-                .width(800)
-                .fit('clip')
+                .height(300)
+                .width(600)
                 .quality(100)
                 .auto('format')
                 .url()}
@@ -370,7 +442,7 @@
               <a
                 href="/{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
                 class="author">
-                {post.author.en_name}
+                {get(post, 'author.en_name', '')}
               </a>
             </p>
             <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
@@ -400,9 +472,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(800)
-                .width(800)
-                .fit('clip')
+                .height(400)
+                .width(imgWidth)
                 .quality(100)
                 .auto('format')
                 .url()}
