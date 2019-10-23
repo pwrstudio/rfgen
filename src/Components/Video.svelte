@@ -95,30 +95,11 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  // .video {
-  //   position: relative;
-  //   overflow: hidden;
-  //   padding-top: 56.25%;
-
-  //   img {
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     width: 100%;
-  //     height: 100%;
-  //     object-fit: cover; /* or contain? */
-  //   }
-
-  //   iframe {
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     width: 100%;
-  //     height: 100%;
-  //     border: 0;
-  //     background: darkgrey;
-  //   }
-  // }
+  .poster {
+    width: 80vw;
+    height: 0.5625 * 80vw;
+    object-fit: contain;
+  }
 
   iframe {
     max-width: 90%;
@@ -148,6 +129,7 @@
 
 {#if !playing}
   <img
+    class="poster"
     src={urlFor(posterImage)
       .quality(90)
       .height(1080)

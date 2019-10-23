@@ -24,6 +24,7 @@
   import uniqueId from "lodash/uniqueId";
 
   // *** COMPONENTS
+  import Head from "../Components/Head.svelte";
   import IntroTile from "../Components/IntroTile.svelte";
   import Row from "../Components/Row.svelte";
 
@@ -44,6 +45,7 @@
   // *** PROPS
   export let category = "";
   export let categoryDisplayName = false;
+  export let dynamicTitle = "";
   export let location = {};
   export let language = "";
   export let slug = "";
@@ -62,6 +64,14 @@
     // console.log(category);
     if (categoryObject) {
       categoryDisplayName = get(categoryObject, "nameDisplay.english", false);
+    }
+  }
+
+  $: { 
+    if (categoryDisplayName) {
+      dynamicTitle = `${categoryDisplayName} / ${siteInfo.title.english}`
+    } else {
+      dynamicTitle = siteInfo.title.english
     }
   }
 
@@ -148,13 +158,7 @@
   }
 </style>
 
-<svelte:head>
-  {#if categoryDisplayName}
-    <title>{categoryDisplayName} / {siteInfo.title.english}</title>
-  {:else}
-    <title>{siteInfo.title.english}</title>
-  {/if}
-</svelte:head>
+<Head title={dynamicTitle}></Head>
 
 <div class="tile-view">
   {#await posts then posts}
