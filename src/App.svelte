@@ -12,8 +12,8 @@
   // import "es6-shim";
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
   import { Router, Link, Route } from "svelte-routing";
+  import shuffle from "lodash/shuffle";
 
   // *** COMPONENTS
   import Navigation from "./Components/Navigation.svelte";
@@ -23,18 +23,31 @@
   import PageView from "./Views/PageView.svelte";
   import PostView from "./Views/PostView.svelte";
   import IntroductionView from "./Views/IntroductionView.svelte";
+  import ProgrammeView from "./Views/programmeView.svelte";
   import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
-  import { globalLanguage, isArabic, isEnglish } from "./stores.js";
+  import {
+    globalLanguage,
+    categoryList,
+    isArabic,
+    isEnglish
+  } from "./stores.js";
+
+  import { categoryListDefaults, colorList } from "./globals.js";
 
   // ** CONSTANTS
 
   // ** VARIABLES
 
   // ** FUNCTIONS
-
-  onMount(async () => {});
+  let shuffledColors = shuffle(colorList);
+  categoryList.set(
+    categoryListDefaults.map((c, i) => {
+      c.color = shuffledColors[i];
+      return c;
+    })
+  );
 </script>
 
 <style lang="scss" global>
@@ -120,6 +133,7 @@
   <Router>
     <Route path="/" component={TileView} />
     <Route path="/:language" component={TileView} />
+    <Route path="/:language/programme" component={ProgrammeView} />
     <Route path="/:language/:category" component={TileView} />
     <Route path="/:language/:category/:slug" component={PostView} />
     <Route path="/:language/introduction/:slug" component={IntroductionView} />

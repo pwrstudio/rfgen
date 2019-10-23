@@ -32,17 +32,13 @@
     navigationColor,
     activeNavigation,
     isArabic,
+    categoryList,
     isEnglish,
     globalLanguage
   } from "../stores.js";
 
   // *** GLOBALS
-  import {
-    siteInfo,
-    categoryList,
-    baseProjections,
-    introTexts
-  } from "../globals.js";
+  import { siteInfo, baseProjections } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
@@ -60,7 +56,7 @@
   }
 
   $: {
-    let categoryObject = categoryList.find(
+    let categoryObject = $categoryList.find(
       c => c.categorySlug === $activeNavigation
     );
     // console.log(category);
@@ -80,12 +76,12 @@
     return x;
   };
 
-  const allCategories = concat(fp.map(c => c.name)(categoryList), [
+  const allCategories = concat(fp.map(c => c.name)($categoryList), [
     "categoryIntroduction"
   ]);
 
   const allProjections = uniq(
-    flattenDeep([...baseProjections, ...categoryList.map(c => c.projections)])
+    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
   );
 
   // Convert all categories into a comma-seperate list.
@@ -97,8 +93,6 @@
     "]]{" +
     allProjections +
     "}";
-
-  console.log(query);
 
   const filterPostsByCategory = posts => {
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);

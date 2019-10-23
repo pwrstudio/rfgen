@@ -11,16 +11,17 @@
   import { Router, Link, links, navigate } from "svelte-routing";
   import kebabCase from "lodash/kebabCase";
   import truncate from "lodash/truncate";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { renderBlockText } from "../sanity.js";
 
   // *** COMPONENTS
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
-
-  // *** GLOBALS
-  import { categoryList } from "../globals.js";
-
+  import {
+    isArabic,
+    isEnglish,
+    categoryList,
+    languagePrefix
+  } from "../stores.js";
   // *** PROPS
   export let post = {};
   export let width = 20;
@@ -36,7 +37,7 @@
 
   $: {
     if (post.category) {
-      let matchingCategory = categoryList.find(
+      let matchingCategory = $categoryList.find(
         cat => cat.categorySlug === kebabCase(post.slug)
       );
       color = matchingCategory ? matchingCategory.color : "rfgen-white";

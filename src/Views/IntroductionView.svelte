@@ -25,12 +25,13 @@
     isEnglish,
     navigationColor,
     activeNavigation,
+    categoryList,
     languagePrefix,
     globalLanguage
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, categoryList, baseProjections } from "../globals.js";
+  import { siteInfo, baseProjections } from "../globals.js";
   import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -53,7 +54,7 @@
   let loaded = false;
 
   const allProjections = uniq(
-    flattenDeep([...baseProjections, ...categoryList.map(c => c.projections)])
+    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
   );
 
   // ** CONSTANTS
@@ -67,7 +68,7 @@
   $: {
     activeNavigation.set(slug ? slug : "");
     navigationColor.set(
-      categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
+      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
         .color
     );
   }

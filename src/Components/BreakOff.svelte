@@ -13,10 +13,14 @@
   import kebabCase from "lodash/kebabCase";
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
+  import {
+    isArabic,
+    isEnglish,
+    categoryList,
+    languagePrefix
+  } from "../stores.js";
 
   // *** GLOBALS
-  import { categoryList } from "../globals.js";
   import { urlFor } from "../sanity.js";
 
   // *** PROPS
