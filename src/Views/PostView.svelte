@@ -281,11 +281,16 @@
   .video-container {
     width: 100vw;
     height: 56.25vw;
+    max-height: 35vw;
     background: lightgray;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+
+    @include screen-size("medium") {
+      max-height: none;
+    }
   }
 
   .links-container {
