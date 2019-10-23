@@ -1,10 +1,4 @@
-<style>
-  div {
-    padding-top: 400px;
-  }
-</style>
-
-<!-- <script>
+<script>
   // # # # # # # # # # # # # #
   //
   //  PostView
@@ -20,6 +14,7 @@
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
   import { fade } from "svelte/transition";
+  import format from "date-fns/format";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -50,13 +45,12 @@
   let imageEl = {};
 
   // ** VARIABLES
-  let post = {};
   let links = [];
   let headTitle = {
     english: "",
     arabic: ""
   };
-  let loaded = false;
+  let loaded = true;
 
   const allProjections = uniq(
     flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
@@ -64,21 +58,19 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
+    '*[_type == "event"] | order(performanceDate asc) {performanceDate, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}';
 
-  const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
+  // const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
 
-  $: {
-    post = loadData(query, { slug: slug, category: category });
-  }
+  let events = loadData(query, {});
 
-  $: {
-    activeNavigation.set(category ? category : "");
-    navigationColor.set(
-      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-        .color
-    );
-  }
+  // $: {
+  //   activeNavigation.set(category ? category : "");
+  //   navigationColor.set(
+  //     $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
+  //       .color
+  //   );
+  // }
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
@@ -87,41 +79,43 @@
     try {
       const res = await client.fetch(query, params);
 
+      console.dir(res);
+
       // console.dir(res);
-      if (category === "participant") {
-        client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-          // console.dir(linksRes);
-          links = linksRes;
-        });
-      } else {
-        links = get(res, "participants", []);
-      }
+      // if (category === "participant") {
+      //   client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
+      //     // console.dir(linksRes);
+      //     links = linksRes;
+      //   });
+      // } else {
+      //   links = get(res, "participants", []);
+      // }
 
-      let postConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
+      // let postConstruction = {
+      //   title: {
+      //     english: "",
+      //     arabic: ""
+      //   },
+      //   content: {
+      //     english: [],
+      //     arabic: []
+      //   },
+      //   mainImage: false,
+      //   slug: ""
+      // };
 
-      postConstruction.id = get(res, "_id", "");
-      postConstruction.title.english = get(res, "en_title", "");
-      postConstruction.title.arabic = get(res, "ar_title", "");
-      postConstruction.content.english = get(res, "en_content", []);
-      postConstruction.content.arabic = get(res, "ar_content", []);
-      postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", false);
-      postConstruction.posterImage = get(res, "posterImage", false);
-      postConstruction.slug = get(res, "slug", "");
-      postConstruction.category = get(res, "category", "");
+      // postConstruction.id = get(res, "_id", "");
+      // postConstruction.title.english = get(res, "en_title", "");
+      // postConstruction.title.arabic = get(res, "ar_title", "");
+      // postConstruction.content.english = get(res, "en_content", []);
+      // postConstruction.content.arabic = get(res, "ar_content", []);
+      // postConstruction.mainImage = get(res, "mainImage", false);
+      // // postConstruction.videoLink = get(res, "videoLink", false);
+      // // postConstruction.programmeerImage = get(res, "posterImage", false);
+      // postConstruction.slug = get(res, "slug", "");
+      // // postConstruction.category = get(res, "category", "");
 
-      return postConstruction;
+      return res;
     } catch (err) {
       console.log(err);
       Sentry.captureException(err);
@@ -133,22 +127,24 @@
   // *** ON MOUNT
   onMount(async () => {
     window.scrollTo(0, 0);
-    imagesLoaded(imageEl, instance => {
-      loaded = true;
-    });
+    // imagesLoaded(imageEl, instance => {
+    //   loaded = true;
+    // });
   });
-</script><style lang="scss">
+</script>
+
+<style lang="scss">
   @import "../variables.scss";
   @import "../variables.scss";
 
-  .post-view {
+  .programme {
     display: inline-block;
     margin-top: $navigation-top-height;
     line-height: $rfgen-font-size-large;
     padding-bottom: $navigation-bottom-height;
   }
 
-  .post-view-text {
+  .programme-text {
     position: fixed;
     width: 50vw;
     top: $navigation-top-height;
@@ -185,7 +181,7 @@
     // padding-bottom: 80px;
   }
 
-  .post-view-image {
+  .programme-calendar {
     position: fixed;
     width: 50vw;
     top: $navigation-top-height;
@@ -235,7 +231,7 @@
     text-decoration: underline;
   }
 
-  .post-view-category {
+  .programme-category {
     text-transform: capitalize;
     margin-bottom: 1em;
     padding-left: $rfgen-grid-unit;
@@ -244,63 +240,39 @@
     // line-height: $rfgen-font-size-small;
   }
 
-  .post-view-title {
+  .programme-title {
     margin-bottom: 1em;
     font-weight: bold;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
   }
 
-  .post-view-text-inner {
+  .programme-text-inner {
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
   }
 
-  .video-container {
-    width: 100vw;
-    height: 60vh;
-    background: lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
   .links-container {
     margin-top: 1em;
   }
-</style><svelte:head>
-  {#await post then post}
-    {#if $isEnglish}
-      <title>{post.title.english} / {siteInfo.title.english}</title>
-    {/if}
-    {#if $isArabic}
-      <title>{siteInfo.title.arabic} / {post.title.arabic}</title>
-    {/if}
-  {/await}
+</style>
 
+<svelte:head>
+  <title>Opening Programme</title>
 </svelte:head>
 
-<div class="post-view">
-  {#await post then post}
-    {#if post.videoLink}
-      <div class="video-container">
-        <Video url={post.videoLink} posterImage={post.posterImage} />
+<div class="programme">
+  {#await events then events}
+    <div class="programme-text" class:arabic={$isArabic} in:fade>
+      <div class="programme-title">
+        Opening programme
+        <!-- {#if $isEnglish}{post.title.english}{/if}
+        {#if $isArabic}{post.title.arabic}{/if} -->
       </div>
-    {/if}
-    <div
-      class="post-view-text"
-      class:arabic={$isArabic}
-      in:fade
-      class:video={post.videoLink}>
-      <div class="post-view-category">{post.category}</div>
-      <div class="post-view-title">
-        {#if $isEnglish}{post.title.english}{/if}
-        {#if $isArabic}{post.title.arabic}{/if}
-      </div>
-      <div class="post-view-text-inner">
-        {#if $isEnglish}
+      <div class="programme-text-inner">
+        More text...
+        <!-- {#if $isEnglish}
           {#if Array.isArray(post.content.english)}
             {@html renderBlockText(post.content.english)}
           {:else}{post.content.english}{/if}
@@ -309,31 +281,42 @@
           {#if Array.isArray(post.content.arabic)}
             {@html renderBlockText(post.content.arabic)}
           {:else}{post.content.arabic}{/if}
-        {/if}
+        {/if} -->
       </div>
-      <div class="links-container">
+      <!-- <div class="links-container">
         {#each links as post, i}
           <InternalLink {post} />
         {/each}
-      </div>
+      </div> -->
     </div>
-    {#if post.mainImage && !post.videoLink}
-      <div
-        class="post-view-image"
-        bind:this={imageEl}
-        class:loaded
-        class:arabic={$isArabic}>
-        <img
+    <div class="programme-calendar" class:loaded class:arabic={$isArabic}>
+
+      {#each events as event}
+        <div class="programme-event">
+          <div class="programme-date">
+            {format(new Date(event.performanceDate), 'MMMM do kk:mm')}
+          </div>
+          <div class="programme-event-title">
+            {#if $isEnglish}{event.en_title}{/if}
+            {#if $isArabic}{event.ar_title}{/if}
+          </div>
+          <div class="programme-event-text" />
+          {#if $isEnglish && event.en_content}
+            {@html renderBlockText(event.en_content)}
+          {/if}
+          {#if $isArabic && event.ar_content}
+            {@html renderBlockText(event.ar_content)}
+          {/if}
+        </div>
+        <!-- <img
           src={urlFor(post.mainImage)
             .height(1400)
             .quality(90)
             .auto('format')
             .url()}
-          alt={$isEnglish ? post.title.english : post.title.arabic} />
-      </div>
-    {/if}
+          alt={$isEnglish ? post.title.english : post.title.arabic} /> -->
+      {/each}
+    </div>
+
   {/await}
-</div> -->
-<div>
-  <h1>TODO: PROGRAMME VIEW</h1>
 </div>
