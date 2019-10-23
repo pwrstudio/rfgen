@@ -280,7 +280,7 @@
 
   .video-container {
     width: 100vw;
-    height: 60vh;
+    height: 56.25vw;
     background: lightgray;
     display: flex;
     justify-content: center;
