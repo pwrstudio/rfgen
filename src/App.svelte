@@ -23,7 +23,7 @@
   import PageView from "./Views/PageView.svelte";
   import PostView from "./Views/PostView.svelte";
   import IntroductionView from "./Views/IntroductionView.svelte";
-  import ProgrammeView from "./Views/programmeView.svelte";
+  import ProgrammeView from "./Views/ProgrammeView.svelte";
   import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
