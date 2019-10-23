@@ -79,7 +79,7 @@
     &.loaded {
       opacity: 1;
     }
-    margin-bottom: $rfgen-grid-unit;
+    margin-bottom: 2px;
 
     &:last-child {
       margin-bottom: 0;
@@ -91,7 +91,6 @@
     min-height: 200px;
     width: 100%;
     padding: $rfgen-grid-unit;
-    // padding-left: 0;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
     font-size: $rfgen-font-size-large;

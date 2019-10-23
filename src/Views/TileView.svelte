@@ -11,6 +11,7 @@
   import shuffle from "lodash/shuffle";
   import chunk from "lodash/chunk";
   import concat from "lodash/concat";
+  import remove from "lodash/remove";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import zip from "lodash/zip";
@@ -52,6 +53,7 @@
   export let slug = "";
 
   // ** VARIABLES
+  let introductions = [];
 
   $: {
     activeNavigation.set(category ? category : "");
@@ -78,7 +80,9 @@
     return x;
   };
 
-  const allCategories = fp.map(c => c.name)(categoryList);
+  const allCategories = concat(fp.map(c => c.name)(categoryList), [
+    "categoryIntroduction"
+  ]);
 
   const allProjections = uniq(
     flattenDeep([...baseProjections, ...categoryList.map(c => c.projections)])
@@ -94,20 +98,17 @@
     allProjections +
     "}";
 
-  // console.log(query);
+  console.log(query);
 
   const filterPostsByCategory = posts => {
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
-    filteredPosts.unshift({
-      slug: uniqueId("category_intro_"),
-      category: category,
-      type: "introduction",
-      text: introTexts[category]
-    });
+    filteredPosts.unshift(introductions.find(p => p.slug === category));
     return filteredPosts;
   };
 
+  // Predicates
   const hasImage = p => p.mainImage;
+  const isCategoryIntroduciton = p => p.category === "categoryIntroduction";
 
   const intertwineCategories = posts =>
     fp.compose(
@@ -123,9 +124,13 @@
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
+      // console.dir(res);
+      introductions = remove(res, isCategoryIntroduciton);
+      // console.dir(introductions);
+      // console.dir(res);
       return intertwineCategories(res);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       Sentry.captureException(err);
     }
   }
@@ -146,11 +151,6 @@
     margin-top: $navigation-top-height;
     line-height: 0;
     padding-bottom: $navigation-bottom-height;
-
-    // @include screen-size("small") {
-    //   margin-top: 80px;
-    //   scroll-snap-type: y mandatory;
-    // }
   }
 </style>
 
@@ -165,7 +165,7 @@
 <div class="tile-view">
   {#await posts then posts}
     <!-- <IntroTile category /> -->
-    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 3) : chunk(posts, 3) as row, i (uniqueId('row_'))}
+    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 4) : chunk(posts, 4) as row, i (uniqueId('row_'))}
       <Row {row} order={i + 1} />
     {/each}
   {/await}

@@ -32,6 +32,7 @@
   let color = "";
   let loaded = false;
   let linkOutActive = false;
+  const imgWidth = width >= 30 ? 800 : 400;
 
   $: {
     if (post.category) {
@@ -65,7 +66,7 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 400px;
+  $tile-height: 300px;
   $tile-bar-height: 40px;
 
   .tile {
@@ -117,7 +118,7 @@
   }
 
   .width-35 {
-    width: 35%;
+    width: 15%;
     @include screen-size("small") {
       width: 100%;
     }
@@ -276,59 +277,126 @@
     }
   }
 
-  .width-30 {
-    width: calc(30% - 2px);
+  // .width-30 {
+  //   width: calc(30% - 2px);
 
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
 
-  .width-33 {
-    width: calc(33.3333% - 2px);
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
+  // .width-33 {
+  //   width: calc(33.3333% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
 
-  .width-40 {
-    width: calc(40% - 2px);
+  // .width-40 {
+  //   width: calc(40% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-50 {
+  //   width: calc(50% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-20 {
+  //   width: calc(20% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-25 {
+  //   width: calc(25% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-30 {
+  //   width: calc(30% - 2px);
+
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-35 {
+  //   width: calc(35% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  // .width-40 {
+  //   width: calc(40% - 2px);
+  //   @include screen-size("small") {
+  //     width: 100%;
+  //   }
+  // }
+
+  .width-20 {
+    width: 20%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-25 {
-    width: calc(25% - 2px);
+    width: 25%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
+  .width-30 {
+    width: 30%;
+
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .width-35 {
-    width: calc(35% - 2px);
+    width: 35%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
-  .width-50 {
-    width: calc(50% - 2px);
+  .width-40 {
+    width: 40%;
     @include screen-size("small") {
       width: 100%;
     }
   }
 
   .order-0,
-  .order-1 {
-    margin-right: 2px;
+  .order-1,
+  .order-2 {
+    border-right: 2px solid white;
   }
-
-  // .order-2 {
-  //   .tile-image {
-  //     opacity: 0;
-  //   }
-  // }
 </style>
 
 <Router>
@@ -356,9 +424,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(800)
-                .width(800)
-                .fit('clip')
+                .height(300)
+                .width(600)
                 .quality(100)
                 .auto('format')
                 .url()}
@@ -401,9 +468,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(800)
-                .width(800)
-                .fit('clip')
+                .height(400)
+                .width(imgWidth)
                 .quality(100)
                 .auto('format')
                 .url()}

@@ -4,7 +4,7 @@ import imageUrlBuilder from '@sanity/image-url'
 
 export const client = sanityClient({
   projectId: 's581o0va',
-  dataset: 'production',
+  dataset: 'rfgen-live',
   token: '', // or leave blank to be anonymous user
   useCdn: true // `false` if you want to ensure fresh data
 })

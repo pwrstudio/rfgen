@@ -242,6 +242,14 @@
               </a>
             </li>
           {/each}
+          <li class="category-menu-list-item" class:arabic={$isArabic}>
+            <a
+              href="/{$languagePrefix}/opening-programme"
+              class:active={$activeNavigation === 'opening-programme'}>
+              {#if $isEnglish}Opening Programme{/if}
+              {#if $isArabic}Opening Programme{/if}
+            </a>
+          </li>
         </ul>
       </menu>
     </nav>

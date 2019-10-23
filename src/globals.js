@@ -47,7 +47,9 @@ export const baseProjections = [
   'ar_title',
   '"slug": slug.current',
   'mainImage',
-  '"category": _type'
+  '"category": _type',
+  'en_content',
+  'ar_content'
 ]
 
 export const categoryList = [
@@ -64,12 +66,12 @@ export const categoryList = [
     projections: []
   },
   {
-    name: 'talk',
+    name: 'discussion',
     nameDisplay: {
-      english: 'Talks',
+      english: 'Discussions',
       arabic: 'صلة' //PLACEHOLDER
     },
-    categorySlug: 'talk',
+    categorySlug: 'discussion',
     color: 'rfgen-leaf',
     menuOrder: 2,
     query: '_type == "talk"',
@@ -117,18 +119,6 @@ export const categoryList = [
     ]
   },
   {
-    name: 'socialMedia',
-    nameDisplay: {
-      english: '#rfgen',
-      arabic: '#rfgen'
-    },
-    categorySlug: 'social-media',
-    color: 'rfgen-red',
-    menuOrder: 6,
-    query: '_type == "socialMedia", ',
-    projections: ['link', 'networkName']
-  },
-  {
     name: 'participant',
     nameDisplay: {
       english: 'Participants',
@@ -137,15 +127,27 @@ export const categoryList = [
     categorySlug: 'participant',
     color: 'rfgen-beige',
     query: '_type == "participant"',
-    menuOrder: 7,
+    menuOrder: 6,
     projections: []
+  },
+  {
+    name: 'socialMedia',
+    nameDisplay: {
+      english: '#rfgen',
+      arabic: '#rfgen'
+    },
+    categorySlug: 'social-media',
+    color: 'rfgen-red',
+    menuOrder: 7,
+    query: '_type == "socialMedia", ',
+    projections: ['link', 'networkName']
   }
 ]
 
 export const introTexts = {
   participant: 'TODO: Participants introduction text',
   writing: 'TODO: Writings introduction text',
-  talk: 'TODO: Talks introduction text',
+  discussion: 'TODO: Talks introduction text',
   performance: 'TODO: Performances introduction text',
   project: 'TODO: Projects introduction text',
   'working-group': 'TODO: Working groups introduction text',

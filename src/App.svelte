@@ -22,6 +22,7 @@
   import TileView from "./Views/TileView.svelte";
   import PageView from "./Views/PageView.svelte";
   import PostView from "./Views/PostView.svelte";
+  import IntroductionView from "./Views/IntroductionView.svelte";
   import Error404 from "./Views/Error404.svelte";
 
   // *** STORES
@@ -121,6 +122,7 @@
     <Route path="/:language" component={TileView} />
     <Route path="/:language/:category" component={TileView} />
     <Route path="/:language/:category/:slug" component={PostView} />
+    <Route path="/:language/introduction/:slug" component={IntroductionView} />
     <Route path="/:language/page/:slug" component={PageView} />
     <Route component={Error404} title="404" />
   </Router>
