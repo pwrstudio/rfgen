@@ -147,13 +147,13 @@
 
   .post-view-text {
     position: fixed;
-    width: 50vw;
+    width: 100vw;
     top: $navigation-top-height;
     left: 0;
-    padding-top: 2 * $rfgen-grid-unit;
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
+
     @include screen-size("small") {
       position: static;
       float: right;
@@ -171,12 +171,38 @@
       right: 0;
     }
 
+    .post-view-column {
+      padding-top: 2 * $rfgen-grid-unit;
+      width: 50%;
+      position: relative;
+      clear: both;
+      height: auto;
+
+      @include screen-size("small") {
+        width: 100%;
+      }
+
+      &.left {
+        float: left;
+      }
+
+      &.right {
+        float: left;
+        padding-top: 0;
+      }
+    }
+
     &.video {
       position: static;
       height: auto;
-      // width: 300px;
-      // font-size: $rfgen-font-size-small;
-      // line-height: $rfgen-font-size-small;
+
+      .post-view-column {
+        clear: none;
+
+        &.right {
+          float: right;
+        }
+      }
     }
 
     // padding-bottom: 80px;
@@ -237,8 +263,6 @@
     margin-bottom: 1em;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
-    // font-size: $rfgen-font-size-small;
-    // line-height: $rfgen-font-size-small;
   }
 
   .post-view-title {
@@ -265,7 +289,7 @@
   }
 
   .links-container {
-    margin-top: 1em;
+    // margin-top: 1em;
   }
 </style>
 
@@ -293,27 +317,31 @@
       class:arabic={$isArabic}
       in:fade
       class:video={post.videoLink}>
-      <div class="post-view-category">{post.category}</div>
-      <div class="post-view-title">
-        {#if $isEnglish}{post.title.english}{/if}
-        {#if $isArabic}{post.title.arabic}{/if}
+      <div class="post-view-column left">
+        <div class="post-view-category">{post.category}</div>
+        <div class="post-view-title">
+          {#if $isEnglish}{post.title.english}{/if}
+          {#if $isArabic}{post.title.arabic}{/if}
+        </div>
+        <div class="post-view-text-inner">
+          {#if $isEnglish}
+            {#if Array.isArray(post.content.english)}
+              {@html renderBlockText(post.content.english)}
+            {:else}{post.content.english}{/if}
+          {/if}
+          {#if $isArabic}
+            {#if Array.isArray(post.content.arabic)}
+              {@html renderBlockText(post.content.arabic)}
+            {:else}{post.content.arabic}{/if}
+          {/if}
+        </div>
       </div>
-      <div class="post-view-text-inner">
-        {#if $isEnglish}
-          {#if Array.isArray(post.content.english)}
-            {@html renderBlockText(post.content.english)}
-          {:else}{post.content.english}{/if}
-        {/if}
-        {#if $isArabic}
-          {#if Array.isArray(post.content.arabic)}
-            {@html renderBlockText(post.content.arabic)}
-          {:else}{post.content.arabic}{/if}
-        {/if}
-      </div>
-      <div class="links-container">
-        {#each links as post, i}
-          <InternalLink {post} />
-        {/each}
+      <div class="post-view-column right">
+        <div class="links-container" class:video={post.videoLink}>
+          {#each links as post, i}
+            <InternalLink {post} />
+          {/each}
+        </div>
       </div>
     </div>
     {#if post.mainImage && !post.videoLink}
