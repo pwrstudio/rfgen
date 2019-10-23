@@ -7,7 +7,7 @@
 
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router, links } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
   import get from "lodash/get";
   import uniq from "lodash/uniq";
@@ -45,7 +45,6 @@
   let imageEl = {};
 
   // ** VARIABLES
-  let links = [];
   let headTitle = {
     english: "",
     arabic: ""
@@ -74,6 +73,7 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
+  // navigationColor.set("rfgen-grey");
 
   async function loadData(query, params) {
     try {
@@ -169,16 +169,6 @@
       left: unset;
       right: 0;
     }
-
-    &.video {
-      position: static;
-      height: auto;
-      // width: 300px;
-      // font-size: $rfgen-font-size-small;
-      // line-height: $rfgen-font-size-small;
-    }
-
-    // padding-bottom: 80px;
   }
 
   .programme-calendar {
@@ -227,8 +217,17 @@
     }
   }
 
+  .programme-event {
+    margin-bottom: 2px;
+    padding: $rfgen-grid-unit;
+    padding-bottom: 1em;
+  }
+
   a {
     text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   .programme-category {
@@ -247,6 +246,10 @@
     padding-right: 4 * $rfgen-grid-unit;
   }
 
+  .programme-event-title {
+    font-weight: bold;
+  }
+
   .programme-text-inner {
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
@@ -259,64 +262,56 @@
 </style>
 
 <svelte:head>
-  <title>Opening Programme</title>
+  {#if $isEnglish}
+    <title>Opening Programme / {siteInfo.title.english}</title>
+  {/if}
+  {#if $isArabic}
+    <title>{siteInfo.title.arabic} / Opening Programme</title>
+  {/if}
 </svelte:head>
 
-<div class="programme">
-  {#await events then events}
-    <div class="programme-text" class:arabic={$isArabic} in:fade>
-      <div class="programme-title">
-        Opening programme
-        <!-- {#if $isEnglish}{post.title.english}{/if}
-        {#if $isArabic}{post.title.arabic}{/if} -->
+<Router>
+  <div class="programme">
+    {#await events then events}
+      <div class="programme-text" class:arabic={$isArabic} in:fade>
+        <div class="programme-title">Opening programme</div>
+        <div class="programme-text-inner">More text...</div>
       </div>
-      <div class="programme-text-inner">
-        More text...
-        <!-- {#if $isEnglish}
-          {#if Array.isArray(post.content.english)}
-            {@html renderBlockText(post.content.english)}
-          {:else}{post.content.english}{/if}
-        {/if}
-        {#if $isArabic}
-          {#if Array.isArray(post.content.arabic)}
-            {@html renderBlockText(post.content.arabic)}
-          {:else}{post.content.arabic}{/if}
-        {/if} -->
-      </div>
-      <!-- <div class="links-container">
-        {#each links as post, i}
-          <InternalLink {post} />
+      <div
+        class="programme-calendar"
+        class:loaded
+        class:arabic={$isArabic}
+        use:links>
+
+        {#each events as event}
+          <div
+            class="programme-event {$categoryList.find(c => c.categorySlug === 'performance').color}">
+            <div class="programme-event-date">
+              {format(new Date(event.performanceDate), 'MMMM do kk:mm')}
+            </div>
+            <div class="programme-event-title">
+              {#if $isEnglish}{event.en_title}{/if}
+              {#if $isArabic}{event.ar_title}{/if}
+            </div>
+            <div class="programme-event-text">
+              {#if $isEnglish && event.en_content}
+                {@html renderBlockText(event.en_content)}
+              {/if}
+              {#if $isArabic && event.ar_content}
+                {@html renderBlockText(event.ar_content)}
+              {/if}
+            </div>
+            <div class="programme-event-text" />
+            {#each event.participants as participant}
+              <a
+                href="/{$languagePrefix}/{participant.category}/{participant.slug}">
+                {participant.en_title}
+              </a>
+            {/each}
+          </div>
         {/each}
-      </div> -->
-    </div>
-    <div class="programme-calendar" class:loaded class:arabic={$isArabic}>
+      </div>
 
-      {#each events as event}
-        <div class="programme-event">
-          <div class="programme-date">
-            {format(new Date(event.performanceDate), 'MMMM do kk:mm')}
-          </div>
-          <div class="programme-event-title">
-            {#if $isEnglish}{event.en_title}{/if}
-            {#if $isArabic}{event.ar_title}{/if}
-          </div>
-          <div class="programme-event-text" />
-          {#if $isEnglish && event.en_content}
-            {@html renderBlockText(event.en_content)}
-          {/if}
-          {#if $isArabic && event.ar_content}
-            {@html renderBlockText(event.ar_content)}
-          {/if}
-        </div>
-        <!-- <img
-          src={urlFor(post.mainImage)
-            .height(1400)
-            .quality(90)
-            .auto('format')
-            .url()}
-          alt={$isEnglish ? post.title.english : post.title.arabic} /> -->
-      {/each}
-    </div>
-
-  {/await}
-</div>
+    {/await}
+  </div>
+</Router>
