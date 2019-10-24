@@ -42,14 +42,6 @@
   export let language = "";
   export let location = {};
 
-  // *** DOM REFERENCES
-  let imageEl = {};
-
-  // ** VARIABLES
-  let loaded = true;
-  let color = "rfgen-white";
-  let introduction = {};
-
   // ** CONSTANTS
   const query =
     '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {performanceDate, eventType, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
@@ -134,12 +126,8 @@
       height: unset;
     }
 
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s $easing;
-
-    &.loaded {
-      opacity: 1;
-    }
 
     &.arabic {
       right: unset;
@@ -215,11 +203,7 @@
         </div>
       </div>
 
-      <div
-        class="programme-calendar"
-        class:loaded
-        class:arabic={$isArabic}
-        use:links>
+      <div class="programme-calendar" class:arabic={$isArabic} use:links>
         {#each programme.events as event}
           <div class="programme-event {getEventColor(event.event.type)}">
             <div class="programme-event-date">
