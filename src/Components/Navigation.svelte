@@ -154,7 +154,7 @@
   .category-menu-list-item {
     display: inline-block;
     padding: 0;
-    margin-right: 2 * $rfgen-grid-unit;
+    margin-right: $rfgen-grid-unit;
 
     @include screen-size("small") {
       margin-left: $rfgen-grid-unit;
