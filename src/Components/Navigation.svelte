@@ -154,7 +154,7 @@
   .category-menu-list-item {
     display: inline-block;
     padding: 0;
-    margin-right: $rfgen-grid-unit;
+    margin-right: 2 * $rfgen-grid-unit;
 
     @include screen-size("small") {
       margin-left: $rfgen-grid-unit;
@@ -246,7 +246,6 @@
               </a>
             </li>
           {/each}
-          <!-- FIX: ISSUE #42 -->
           <li class="category-menu-list-item" class:arabic={$isArabic}>
             <a
               href="/{$languagePrefix}/programme"

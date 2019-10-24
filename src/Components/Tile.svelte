@@ -70,7 +70,7 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 300px;
+  $tile-height: 280px;
   $tile-bar-height: 40px;
 
   .tile {
