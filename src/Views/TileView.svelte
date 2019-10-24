@@ -30,8 +30,8 @@
 
   // *** STORES
   import {
-    navigationColor,
     activeNavigation,
+    isTileView,
     isArabic,
     categoryList,
     isEnglish,
@@ -78,6 +78,7 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
+  isTileView.set(true);
 
   // – – –
   // Start: Build query

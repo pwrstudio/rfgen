@@ -16,7 +16,7 @@
   import {
     isArabic,
     isEnglish,
-    navigationColor,
+    isTileView,
     activeNavigation,
     languagePrefix,
     globalLanguage
@@ -48,6 +48,7 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
+  isTileView.set(false);
 
   onMount(async () => {
     window.scrollTo(0, 0);
