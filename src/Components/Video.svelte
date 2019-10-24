@@ -80,7 +80,7 @@
 {:else}
   <iframe
     class:visible={playing}
-    src="https://player.vimeo.com/video/{id}"
+    src="https://player.vimeo.com/video/{id}?autoplay=1"
     width="1280"
     height="720"
     title="rfgen"
