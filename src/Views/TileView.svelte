@@ -78,7 +78,6 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set("rfgen-white");
 
   // – – –
   // Start: Build query

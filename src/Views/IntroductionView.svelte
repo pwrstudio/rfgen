@@ -29,7 +29,7 @@
 
   // *** GLOBALS
   import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -53,56 +53,15 @@
     '*[slug.current == $slug && _type == "categoryIntroduction"]{en_title, ar_title, en_content, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
 
   $: {
-    post = loadData(query, { slug: slug });
+    post = loadSingleData(query, { slug: slug });
   }
 
-  // >>> RE-USE
   $: {
     activeNavigation.set(slug ? slug : "");
-    navigationColor.set(
-      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-        .color
-    );
   }
-  // <<< RE-USE
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-
-  // >>> RE-USE
-
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      let postConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      postConstruction.title.english = get(res, "en_title", "");
-      postConstruction.title.arabic = get(res, "ar_title", "");
-      postConstruction.content.english = get(res, "en_content", []);
-      postConstruction.content.arabic = get(res, "ar_content", []);
-      postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.slug = get(res, "slug", "");
-      postConstruction.category = get(res, "category", "");
-
-      return postConstruction;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
-  // <<< RE-USE
 
   // *** ON MOUNT
   onMount(async () => {

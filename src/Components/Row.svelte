@@ -42,7 +42,7 @@
 <div class="row">
   {#each row as post, i (post.slug)}
     {#if post.category === 'categoryIntroduction'}
-      <IntroTile {post} width={tileWidths[i]} order={i} />
+      <IntroTile {post} width={tileWidths[i]} />
     {:else}
       <Tile {post} width={tileWidths[i]} order={i} />
     {/if}

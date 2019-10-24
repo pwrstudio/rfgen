@@ -33,7 +33,7 @@
 
   // *** GLOBALS
   import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -53,78 +53,20 @@
   };
   let loaded = false;
 
-  // >>> RE-USE
-  const allProjections = uniq(
-    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
-  );
-  // <<< RE-USE
-
   // ** CONSTANTS
   const query =
     '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
-  const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
-
   $: {
-    post = loadData(query, { slug: slug, category: category });
+    post = loadSingleData(query, { slug: slug, category: category });
   }
 
-  // >>> RE-USE
   $: {
     activeNavigation.set(category ? category : "");
-    navigationColor.set(
-      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-        .color
-    );
   }
-  // <<< RE-USE
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-
-  // >>> RE-USE  // >>> RE-USE
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      if (category === "participant") {
-        client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-          links = linksRes;
-        });
-      } else {
-        links = get(res, "participants", []);
-      }
-
-      let postConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      postConstruction.id = get(res, "_id", "");
-      postConstruction.title.english = get(res, "en_title", "");
-      postConstruction.title.arabic = get(res, "ar_title", "");
-      postConstruction.content.english = get(res, "en_content", []);
-      postConstruction.content.arabic = get(res, "ar_content", []);
-      postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", false);
-      postConstruction.posterImage = get(res, "posterImage", false);
-      postConstruction.slug = get(res, "slug", "");
-      postConstruction.category = get(res, "category", "");
-
-      return postConstruction;
-    } catch (err) {
-      Sentry.captureException(err);
-    }
-  }
-  // <<< RE-USE
 
   // *** ON MOUNT
   onMount(async () => {
@@ -339,8 +281,8 @@
       </div>
       <div class="post-view-column right">
         <div class="links-container" class:video={post.videoLink}>
-          {#each links as post, i}
-            <InternalLink {post} />
+          {#each post.links as link}
+            <InternalLink post={link} />
           {/each}
         </div>
       </div>

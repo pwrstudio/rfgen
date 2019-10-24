@@ -88,8 +88,8 @@
         <div
           class="cross-link-title"
           in:fly={{ duration: 150, delay: 100, y: 10 }}>
-          {#if $isEnglish}{post.en_title}{/if}
-          {#if $isArabic}{post.ar_title}{/if}
+          {#if $isEnglish}{post.title.english}{/if}
+          {#if $isArabic}{post.title.arabic}{/if}
         </div>
       </div>
     </a>

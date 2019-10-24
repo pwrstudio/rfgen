@@ -24,7 +24,7 @@
 
   // *** GLOBALS
   import { siteInfo } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = {};
@@ -39,7 +39,7 @@
   const query = '*[_type == "page" && slug.current == $slug][0]';
 
   $: {
-    page = loadData(query, { slug: slug });
+    page = loadSingleData(query, { slug: slug });
   }
 
   $: {
@@ -48,40 +48,6 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set("rfgen-grey");
-
-  // >>> RE-USE
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      let pageConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      pageConstruction.title.english = get(res, "en_title", "");
-      pageConstruction.title.arabic = get(res, "ar_title", "");
-      pageConstruction.content.english = get(res, "en_content", []);
-      pageConstruction.content.arabic = get(res, "ar_content", []);
-      pageConstruction.slug = get(res, "slug.current", "");
-      pageConstruction.mainImage = get(res, "mainImage", false);
-
-      return pageConstruction;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
-  // <<< RE-USE
 
   onMount(async () => {
     window.scrollTo(0, 0);
