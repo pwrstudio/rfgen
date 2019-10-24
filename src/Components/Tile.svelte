@@ -37,7 +37,7 @@
   let color = "";
   let loaded = false;
   let linkOutActive = false;
-  const imgWidth = width >= 30 ? 800 : 400;
+  const imgWidth = width >= 25 ? 500 : 300;
 
   // >>> RE-USE
   $: {
@@ -98,6 +98,7 @@
     display: flex;
     justify-content: space-between;
     z-index: 10;
+    overflow: hidden;
   }
 
   .tile-overlay {
@@ -106,10 +107,10 @@
     top: 0;
     width: 100%;
     padding: $rfgen-grid-unit;
-    // font-size: $rfgen-font-size-small;
-    // line-height: $rfgen-font-size-small;
-    font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
+    font-size: $rfgen-font-size-small;
+    line-height: $rfgen-font-size-small;
+    // font-size: $rfgen-font-size-large;
+    // line-height: $rfgen-font-size-large;
     height: calc(#{$tile-height} - #{$tile-bar-height});
     height: $tile-height;
     z-index: 11;
@@ -218,8 +219,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(300)
-                .width(600)
+                .height(220)
+                .width(400)
                 .quality(100)
                 .auto('format')
                 .url()}
@@ -262,7 +263,7 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(400)
+                .height(220)
                 .width(imgWidth)
                 .quality(100)
                 .auto('format')
