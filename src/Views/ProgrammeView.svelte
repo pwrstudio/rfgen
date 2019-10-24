@@ -6,14 +6,14 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
   import { Router, links } from "svelte-routing";
-  import imagesLoaded from "imagesloaded";
+  import { fade, fly } from "svelte/transition";
+  // _lodash
   import get from "lodash/get";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
-  import { fade } from "svelte/transition";
+  // date-fns
   import format from "date-fns/format";
   import remove from "lodash/remove";
 
@@ -33,8 +33,8 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { siteInfo } from "../globals.js";
+  import { client, renderBlockText } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -62,6 +62,7 @@
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-white");
 
+  // >>> RE-USE
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
@@ -74,15 +75,10 @@
       );
       return res;
     } catch (err) {
-      console.log(err);
       Sentry.captureException(err);
     }
   }
-
-  // *** ON MOUNT
-  onMount(async () => {
-    window.scrollTo(0, 0);
-  });
+  // <<< RE-USE
 </script>
 
 <style lang="scss">
@@ -218,7 +214,7 @@
     <title>Opening Programme / {siteInfo.title.english}</title>
   {/if}
   {#if $isArabic}
-    <title>{siteInfo.title.arabic} / Opening Programme</title>
+    <title>Opening Programme / {siteInfo.title.arabic}</title>
   {/if}
 </svelte:head>
 

@@ -6,10 +6,11 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { fade, fly } from "svelte/transition";
-  import { Router, Link, links, navigate } from "svelte-routing";
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
+  import { Router, links } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
+  // _lodash
   import kebabCase from "lodash/kebabCase";
   import get from "lodash/get";
 
@@ -27,7 +28,7 @@
   // *** PROPS
   export let post = {};
   export let width = 20;
-  export let order = 1;
+  export let order = 0;
 
   // *** DOM REFERENCES
   let tileEl = {};
@@ -38,6 +39,7 @@
   let linkOutActive = false;
   const imgWidth = width >= 30 ? 800 : 400;
 
+  // >>> RE-USE
   $: {
     if (post.category) {
       let matchingCategory = $categoryList.find(
@@ -46,18 +48,13 @@
       color = matchingCategory ? matchingCategory.color : "rfgen-white";
     }
   }
+  // <<< RE-USE
 
   const isLongTitle = () => post.en_title.length > 35;
 
   const handleClick = e => {
     linkOutActive = !linkOutActive;
   };
-
-  // const openOverlay = e => {
-  //   if (post.category === "writing") {
-  //     linkOutActive = true;
-  //   }
-  // };
 
   // *** ON MOUNT
   onMount(async () => {
@@ -69,9 +66,6 @@
 
 <style lang="scss">
   @import "../variables.scss";
-
-  $tile-height: 220px;
-  $tile-bar-height: 40px;
 
   .tile {
     width: 33.33%;
@@ -92,106 +86,6 @@
     }
   }
 
-  .width-30 {
-    width: 30%;
-
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-33 {
-    width: 33.3333%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-40 {
-    width: 40%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-25 {
-    width: 25%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-35 {
-    width: 15%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-50 {
-    width: 50%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-100 {
-    width: 100%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  // .width-30 {
-  //   width: calc(30% - 4px);
-
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-33 {
-  //   width: calc(33.3333% - 4px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-40 {
-  //   width: calc(40% - 4px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-25 {
-  //   width: calc(25% - 4px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-35 {
-  //   width: calc(35% - 4px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-50 {
-  //   width: calc(50% - 4px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-100 {
-  //   width: 100%;
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
   .tile-bar {
     position: absolute;
     top: 0;
@@ -199,46 +93,31 @@
     height: $tile-bar-height;
     width: 100%;
     padding: $rfgen-grid-unit;
-    // padding-left: 0;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    // font-size: $rfgen-font-size-large;
-    // line-height: $rfgen-font-size-large;
     display: flex;
     justify-content: space-between;
-    transition: none;
     z-index: 10;
-    // @include screen-size("small") {
-    //   font-size: $rfgen-font-size-mobile-large;
-    // }
   }
 
   .tile-overlay {
     position: absolute;
     left: 0;
-    top: $tile-bar-height;
     top: 0;
     width: 100%;
     padding: $rfgen-grid-unit;
-    font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
+    // font-size: $rfgen-font-size-small;
+    // line-height: $rfgen-font-size-small;
     font-size: $rfgen-font-size-large;
     line-height: $rfgen-font-size-large;
-    // clip-path: inset(0px 0px 100% 0px);
     height: calc(#{$tile-height} - #{$tile-bar-height});
     height: $tile-height;
-
     z-index: 11;
     pointer-events: none;
-    // transition: clip-path 0.2s $easing;
     opacity: 0;
 
     &.active {
       opacity: 1;
-      // clip-path: inset(0% 0% 0% 0%);
-
-      // transition: clip-path 0.2s $easing;
-
       pointer-events: all;
     }
   }
@@ -255,24 +134,6 @@
     }
   }
 
-  .tile-title {
-    // padding-right: 4 * $rfgen-grid-unit;
-
-    // &:arabic {
-    //       padding-right: 4 * $rfgen-grid-unit;
-
-    // }
-  }
-
-  .tile-category {
-    white-space: nowrap;
-    text-transform: capitalize;
-  }
-
-  // .tile:active .tile-bar {
-  //   height: $tile-height;
-  // }
-
   .external-link {
     text-decoration: underline;
 
@@ -280,85 +141,6 @@
       text-decoration: none;
     }
   }
-
-  // .width-30 {
-  //   width: calc(30% - 2px);
-
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-33 {
-  //   width: calc(33.3333% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-40 {
-  //   width: calc(40% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-25 {
-  //   width: calc(25% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-35 {
-  //   width: calc(35% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-50 {
-  //   width: calc(50% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-20 {
-  //   width: calc(20% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-25 {
-  //   width: calc(25% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-30 {
-  //   width: calc(30% - 2px);
-
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-35 {
-  //   width: calc(35% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
-
-  // .width-40 {
-  //   width: calc(40% - 2px);
-  //   @include screen-size("small") {
-  //     width: 100%;
-  //   }
-  // }
 
   .width-15 {
     width: 15%;

@@ -6,22 +6,22 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
+  import { onMount } from "svelte";
+  // _lodash
   import shuffle from "lodash/shuffle";
   import chunk from "lodash/chunk";
   import concat from "lodash/concat";
   import remove from "lodash/remove";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
-  import zip from "lodash/zip";
   import groupBy from "lodash/groupBy";
   import values from "lodash/values";
   import get from "lodash/get";
   import compact from "lodash/compact";
-  import fp from "lodash/fp";
   import kebabCase from "lodash/kebabCase";
   import uniqueId from "lodash/uniqueId";
+  // _lodash/fp
+  import fp from "lodash/fp";
 
   // *** COMPONENTS
   import Head from "../Components/Head.svelte";
@@ -57,15 +57,16 @@
     activeNavigation.set(category ? category : "");
   }
 
+  // >>> RE-USE
   $: {
     let categoryObject = $categoryList.find(
       c => c.categorySlug === $activeNavigation
     );
-    // console.log(category);
     if (categoryObject) {
       categoryDisplayName = get(categoryObject, "nameDisplay.english", false);
     }
   }
+  // <<< RE-USE
 
   $: {
     if (categoryDisplayName) {
@@ -79,12 +80,9 @@
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-white");
 
-  // ** FUNCTIONS
-
-  const tracer = x => {
-    console.dir(x);
-    return x;
-  };
+  // – – –
+  // Start: Build query
+  // – – –
 
   const allCategories = concat(fp.map(c => c.name)($categoryList), [
     "categoryIntroduction"
@@ -94,7 +92,7 @@
     flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
   );
 
-  // Convert all categories into a comma-seperate list.
+  // Convert all categories into a comma-separate list.
   const categoryReducer = (acc, curr) => acc + ' "' + curr + '", ';
 
   const query =
@@ -104,6 +102,15 @@
     allProjections +
     "}";
 
+  // – – –
+  // End: Build query
+  // – – –
+
+  const tracer = x => {
+    console.dir(x);
+    return x;
+  };
+
   const filterPostsByCategory = posts => {
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
     filteredPosts.unshift(introductions.find(p => p.slug === category));
@@ -112,7 +119,7 @@
 
   // Predicates
   const hasImage = p => p.mainImage;
-  const isCategoryIntroduciton = p => p.category === "categoryIntroduction";
+  const isCategoryIntroduction = p => p.category === "categoryIntroduction";
 
   const intertwineCategories = posts =>
     fp.compose(
@@ -125,19 +132,17 @@
       fp.filter(hasImage) // Filter out posts without preview images (for now)
     )(posts);
 
+  // >>> RE-USE
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-      // console.dir(res);
-      introductions = remove(res, isCategoryIntroduciton);
-      // console.dir(introductions);
-      // console.dir(res);
+      introductions = remove(res, isCategoryIntroduction);
       return intertwineCategories(res);
     } catch (err) {
-      // console.log(err);
       Sentry.captureException(err);
     }
   }
+  // <<< RE-USE
 
   let posts = loadData(query, {});
 
@@ -152,8 +157,8 @@
   .tile-view {
     width: 100vw;
     display: inline-block;
-    margin-top: $navigation-top-height;
     line-height: 0;
+    margin-top: $navigation-top-height;
     padding-bottom: $navigation-bottom-height;
   }
 </style>
@@ -162,9 +167,8 @@
 
 <div class="tile-view">
   {#await posts then posts}
-    <!-- <IntroTile category /> -->
     {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 5) : chunk(posts, 5) as row, i (uniqueId('row_'))}
-      <Row {row} order={i + 1} />
+      <Row {row} />
     {/each}
   {/await}
 </div>

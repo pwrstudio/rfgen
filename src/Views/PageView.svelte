@@ -7,11 +7,10 @@
 
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
-  import get from "lodash/get";
+  import { Router } from "svelte-routing";
   import { fade } from "svelte/transition";
-
-  // *** COMPONENTS
+  // _lodash
+  import get from "lodash/get";
 
   // *** STORES
   import {
@@ -24,7 +23,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, pageList } from "../globals.js";
+  import { siteInfo } from "../globals.js";
   import { client, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -51,6 +50,7 @@
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   navigationColor.set("rfgen-grey");
 
+  // >>> RE-USE
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
@@ -81,6 +81,7 @@
       Sentry.captureException(err);
     }
   }
+  // <<< RE-USE
 
   onMount(async () => {
     window.scrollTo(0, 0);
@@ -157,7 +158,6 @@
         {@html renderBlockText(page.content.arabic)}
       </div>
     {/if}
-
     <div class="page-view-image" class:arabic={$isArabic}>
       {#if page.mainImage}
         <img

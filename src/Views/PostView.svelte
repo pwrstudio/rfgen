@@ -6,14 +6,15 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
+  import { onMount } from "svelte";
+  import { Router } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
+  import { fade } from "svelte/transition";
+  // _lodash
   import get from "lodash/get";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
-  import { fade } from "svelte/transition";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -42,7 +43,6 @@
 
   // *** DOM REFERENCES
   let imageEl = {};
-  let isVideo = false;
 
   // ** VARIABLES
   let post = {};
@@ -53,9 +53,11 @@
   };
   let loaded = false;
 
+  // >>> RE-USE
   const allProjections = uniq(
     flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
   );
+  // <<< RE-USE
 
   // ** CONSTANTS
   const query =
@@ -67,6 +69,7 @@
     post = loadData(query, { slug: slug, category: category });
   }
 
+  // >>> RE-USE
   $: {
     activeNavigation.set(category ? category : "");
     navigationColor.set(
@@ -74,18 +77,18 @@
         .color
     );
   }
+  // <<< RE-USE
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
 
+  // >>> RE-USE  // >>> RE-USE
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
 
-      // console.dir(res);
       if (category === "participant") {
         client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-          // console.dir(linksRes);
           links = linksRes;
         });
       } else {
@@ -118,12 +121,10 @@
 
       return postConstruction;
     } catch (err) {
-      console.log(err);
       Sentry.captureException(err);
     }
   }
-
-  // async function loadLinks(query, params) {}
+  // <<< RE-USE
 
   // *** ON MOUNT
   onMount(async () => {
@@ -204,8 +205,6 @@
         }
       }
     }
-
-    // padding-bottom: 80px;
   }
 
   .post-view-image {
@@ -292,10 +291,6 @@
     @include screen-size("medium") {
       max-height: none;
     }
-  }
-
-  .links-container {
-    // margin-top: 1em;
   }
 </style>
 
