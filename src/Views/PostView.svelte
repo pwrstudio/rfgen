@@ -6,14 +6,15 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
+  import { onMount } from "svelte";
+  import { Router } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
+  import { fade } from "svelte/transition";
+  // _lodash
   import get from "lodash/get";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
-  import { fade } from "svelte/transition";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -32,7 +33,7 @@
 
   // *** GLOBALS
   import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -42,7 +43,6 @@
 
   // *** DOM REFERENCES
   let imageEl = {};
-  let isVideo = false;
 
   // ** VARIABLES
   let post = {};
@@ -53,77 +53,20 @@
   };
   let loaded = false;
 
-  const allProjections = uniq(
-    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
-  );
-
   // ** CONSTANTS
   const query =
     '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
-  const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
-
   $: {
-    post = loadData(query, { slug: slug, category: category });
+    post = loadSingleData(query, { slug: slug, category: category });
   }
 
   $: {
     activeNavigation.set(category ? category : "");
-    navigationColor.set(
-      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-        .color
-    );
   }
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      // console.dir(res);
-      if (category === "participant") {
-        client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-          // console.dir(linksRes);
-          links = linksRes;
-        });
-      } else {
-        links = get(res, "participants", []);
-      }
-
-      let postConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      postConstruction.id = get(res, "_id", "");
-      postConstruction.title.english = get(res, "en_title", "");
-      postConstruction.title.arabic = get(res, "ar_title", "");
-      postConstruction.content.english = get(res, "en_content", []);
-      postConstruction.content.arabic = get(res, "ar_content", []);
-      postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", false);
-      postConstruction.posterImage = get(res, "posterImage", false);
-      postConstruction.slug = get(res, "slug", "");
-      postConstruction.category = get(res, "category", "");
-
-      return postConstruction;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
-
-  // async function loadLinks(query, params) {}
 
   // *** ON MOUNT
   onMount(async () => {
@@ -204,8 +147,6 @@
         }
       }
     }
-
-    // padding-bottom: 80px;
   }
 
   .post-view-image {
@@ -293,10 +234,6 @@
       max-height: none;
     }
   }
-
-  .links-container {
-    // margin-top: 1em;
-  }
 </style>
 
 <svelte:head>
@@ -344,8 +281,8 @@
       </div>
       <div class="post-view-column right">
         <div class="links-container" class:video={post.videoLink}>
-          {#each links as post, i}
-            <InternalLink {post} />
+          {#each post.links as link}
+            <InternalLink post={link} />
           {/each}
         </div>
       </div>

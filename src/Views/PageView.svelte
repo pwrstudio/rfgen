@@ -7,11 +7,10 @@
 
   // *** IMPORT
   import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
-  import get from "lodash/get";
+  import { Router } from "svelte-routing";
   import { fade } from "svelte/transition";
-
-  // *** COMPONENTS
+  // _lodash
+  import get from "lodash/get";
 
   // *** STORES
   import {
@@ -24,8 +23,8 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, pageList } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { siteInfo } from "../globals.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = {};
@@ -40,7 +39,7 @@
   const query = '*[_type == "page" && slug.current == $slug][0]';
 
   $: {
-    page = loadData(query, { slug: slug });
+    page = loadSingleData(query, { slug: slug });
   }
 
   $: {
@@ -49,38 +48,6 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set("rfgen-grey");
-
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      let pageConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      pageConstruction.title.english = get(res, "en_title", "");
-      pageConstruction.title.arabic = get(res, "ar_title", "");
-      pageConstruction.content.english = get(res, "en_content", []);
-      pageConstruction.content.arabic = get(res, "ar_content", []);
-      pageConstruction.slug = get(res, "slug.current", "");
-      pageConstruction.mainImage = get(res, "mainImage", false);
-
-      return pageConstruction;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
 
   onMount(async () => {
     window.scrollTo(0, 0);
@@ -157,7 +124,6 @@
         {@html renderBlockText(page.content.arabic)}
       </div>
     {/if}
-
     <div class="page-view-image" class:arabic={$isArabic}>
       {#if page.mainImage}
         <img

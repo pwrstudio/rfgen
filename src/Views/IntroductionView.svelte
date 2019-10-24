@@ -6,18 +6,15 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { Router, Link, Route } from "svelte-routing";
+  import { onMount } from "svelte";
   import imagesLoaded from "imagesloaded";
-  import get from "lodash/get";
-  import uniq from "lodash/uniq";
-  import flattenDeep from "lodash/flattenDeep";
-  import kebabCase from "lodash/kebabCase";
   import { fade } from "svelte/transition";
+  // _lodash
+  import get from "lodash/get";
+  import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
-  import Video from "../Components/Video.svelte";
 
   // *** STORES
   import {
@@ -32,7 +29,7 @@
 
   // *** GLOBALS
   import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -42,76 +39,29 @@
 
   // *** DOM REFERENCES
   let imageEl = {};
-  let isVideo = false;
 
   // ** VARIABLES
   let post = {};
-  let links = [];
   let headTitle = {
     english: "",
     arabic: ""
   };
   let loaded = false;
 
-  const allProjections = uniq(
-    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
-  );
-
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == "categoryIntroduction"]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
+    '*[slug.current == $slug && _type == "categoryIntroduction"]{en_title, ar_title, en_content, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
 
   $: {
-    post = loadData(query, { slug: slug, category: category });
+    post = loadSingleData(query, { slug: slug });
   }
 
   $: {
     activeNavigation.set(slug ? slug : "");
-    navigationColor.set(
-      $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-        .color
-    );
   }
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-
-      let postConstruction = {
-        title: {
-          english: "",
-          arabic: ""
-        },
-        content: {
-          english: [],
-          arabic: []
-        },
-        mainImage: false,
-        slug: ""
-      };
-
-      postConstruction.id = get(res, "_id", "");
-      postConstruction.title.english = get(res, "en_title", "");
-      postConstruction.title.arabic = get(res, "ar_title", "");
-      postConstruction.content.english = get(res, "en_content", []);
-      postConstruction.content.arabic = get(res, "ar_content", []);
-      postConstruction.mainImage = get(res, "mainImage", false);
-      postConstruction.videoLink = get(res, "videoLink", false);
-      postConstruction.posterImage = get(res, "posterImage", false);
-      postConstruction.slug = get(res, "slug", "");
-      postConstruction.category = get(res, "category", "");
-
-      return postConstruction;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
-
-  // async function loadLinks(query, params) {}
 
   // *** ON MOUNT
   onMount(async () => {
@@ -124,16 +74,15 @@
 
 <style lang="scss">
   @import "../variables.scss";
-  @import "../variables.scss";
 
-  .post-view {
+  .introduction-view {
     display: inline-block;
     margin-top: $navigation-top-height;
     line-height: $rfgen-font-size-large;
     padding-bottom: $navigation-bottom-height;
   }
 
-  .post-view-text {
+  .introduction-view-text {
     position: fixed;
     width: 50vw;
     top: $navigation-top-height;
@@ -160,7 +109,7 @@
     }
   }
 
-  .post-view-image {
+  .introduction-view-image {
     position: fixed;
     width: 50vw;
     top: $navigation-top-height;
@@ -210,23 +159,14 @@
     text-decoration: underline;
   }
 
-  .post-view-category {
-    text-transform: capitalize;
-    margin-bottom: 1em;
-    padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
-    // font-size: $rfgen-font-size-small;
-    // line-height: $rfgen-font-size-small;
-  }
-
-  .post-view-title {
+  .introduction-view-title {
     margin-bottom: 1em;
     font-weight: bold;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
   }
 
-  .post-view-text-inner {
+  .introduction-view-text-inner {
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
@@ -243,50 +183,31 @@
       <title>{post.title.english} / {siteInfo.title.english}</title>
     {/if}
     {#if $isArabic}
-      <title>{siteInfo.title.arabic} / {post.title.arabic}</title>
+      <title>{post.title.arabic} / {siteInfo.title.arabic}</title>
     {/if}
   {/await}
 
 </svelte:head>
 
-<div class="post-view">
+<div class="introduction-view">
   {#await post then post}
-    {#if post.videoLink}
-      <div class="video-container">
-        <Video url={post.videoLink} posterImage={post.posterImage} />
-      </div>
-    {/if}
-    <div
-      class="post-view-text"
-      class:arabic={$isArabic}
-      in:fade
-      class:video={post.videoLink}>
-      <!-- <div class="post-view-category">{post.category}</div> -->
-      <div class="post-view-title">
+    <div class="introduction-view-text" class:arabic={$isArabic} in:fade>
+      <div class="introduction-view-title">
         {#if $isEnglish}{post.title.english}{/if}
         {#if $isArabic}{post.title.arabic}{/if}
       </div>
-      <div class="post-view-text-inner">
+      <div class="introduction-view-text-inner">
         {#if $isEnglish}
-          {#if Array.isArray(post.content.english)}
-            {@html renderBlockText(post.content.english)}
-          {:else}{post.content.english}{/if}
+          {@html renderBlockText(post.content.english)}
         {/if}
         {#if $isArabic}
-          {#if Array.isArray(post.content.arabic)}
-            {@html renderBlockText(post.content.arabic)}
-          {:else}{post.content.arabic}{/if}
+          {@html renderBlockText(post.content.arabic)}
         {/if}
       </div>
-      <div class="links-container">
-        {#each links as post, i}
-          <InternalLink {post} />
-        {/each}
-      </div>
     </div>
-    {#if post.mainImage && !post.videoLink}
+    {#if post.mainImage}
       <div
-        class="post-view-image"
+        class="introduction-view-image"
         bind:this={imageEl}
         class:loaded
         class:arabic={$isArabic}>

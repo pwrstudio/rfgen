@@ -1,8 +1,13 @@
 <script>
+  // # # # # # # # # # # # # #
+  //
+  //  Head
+  //
+  // # # # # # # # # # # # # #
+
   export let title;
 
-	$: {
-    document.title = title
+  $: {
+    document.title = title;
   }
 </script>
-

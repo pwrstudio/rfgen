@@ -1,14 +1,14 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  Tile
+  //  Internal cross-link
   //
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { fade, fly } from "svelte/transition";
-  import { Router, Link, links, navigate } from "svelte-routing";
+  import { fly } from "svelte/transition";
+  import { Router, links } from "svelte-routing";
+  // _lodash
   import kebabCase from "lodash/kebabCase";
   import get from "lodash/get";
 
@@ -20,21 +20,14 @@
     languagePrefix
   } from "../stores.js";
 
-  // *** GLOBALS
-  import { urlFor } from "../sanity.js";
-
   // *** PROPS
   export let post = {};
 
-  // *** DOM REFERENCES
-  let tileEl = {};
-
   // ** VARIABLES
   let color = "";
-  let loaded = true;
-  let linkOutActive = false;
   let categoryDisplayName = "";
 
+  // >>> RE-USE
   $: {
     if (post.category) {
       let matchingCategory = $categoryList.find(
@@ -44,89 +37,61 @@
       categoryDisplayName = get(matchingCategory, "nameDisplay.english", false);
     }
   }
-
-  const isLongTitle = () => post.en_title.length > 35;
-
-  const handleClick = e => {
-    linkOutActive = !linkOutActive;
-  };
-
-  // const openOverlay = e => {
-  //   if (post.category === "writing") {
-  //     linkOutActive = true;
-  //   }
-  // };
-
-  // *** ON MOUNT
+  // <<< RE-USE
 </script>
 
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 400px;
-  $tile-bar-height: 40px;
-
-  .tile {
+  .cross-link {
     margin: 0;
     float: left;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s $easing;
     cursor: pointer;
-
     width: 100%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-
-    &.loaded {
-      opacity: 1;
-    }
     margin-bottom: 2px;
-
     &:last-child {
       margin-bottom: 0;
     }
   }
 
-  .tile-bar {
+  .cross-link-bar {
     height: auto;
     min-height: 200px;
     width: 100%;
     padding: $rfgen-grid-unit;
-    font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
     font-size: $rfgen-font-size-large;
     line-height: $rfgen-font-size-large;
     transition: none;
     z-index: 10;
   }
 
-  .tile-title {
+  .cross-link-title {
     margin-bottom: 1em;
   }
 
-  .tile-category {
+  .cross-link-category {
     margin-bottom: 1em;
   }
 </style>
 
 <Router>
-
-  <div class="tile width-100" use:links bind:this={tileEl} class:loaded>
-
+  <div class="cross-link width-100" use:links>
     <a href="/{$languagePrefix}/{post.category}/{post.slug}">
-      <div class="tile-bar {color}">
-        <div class="tile-category" in:fly={{ duration: 150, delay: 0, y: 10 }}>
+      <div class="cross-link-bar {color}">
+        <div
+          class="cross-link-category"
+          in:fly={{ duration: 150, delay: 0, y: 10 }}>
           {categoryDisplayName}
         </div>
-        <div class="tile-title" in:fly={{ duration: 150, delay: 100, y: 10 }}>
-          {#if $isEnglish}{post.en_title}{/if}
-          {#if $isArabic}{post.ar_title}{/if}
+        <div
+          class="cross-link-title"
+          in:fly={{ duration: 150, delay: 100, y: 10 }}>
+          {#if $isEnglish}{post.title.english}{/if}
+          {#if $isArabic}{post.title.arabic}{/if}
         </div>
-
       </div>
     </a>
-
   </div>
-
 </Router>

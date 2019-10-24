@@ -2,7 +2,13 @@ export const siteInfo = {
   title: {
     english: 'Rights of Future Generations',
     arabic: 'حقوق الأجيال القادمة'
-  }
+  },
+  description: {
+    english:
+      'Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence.',
+    arabic: 'arabic description to come'
+  },
+  image: '/img/default-image.jpg'
 }
 
 export const colorList = [

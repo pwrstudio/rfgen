@@ -6,10 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount } from "svelte";
-  import { Router, Link, links } from "svelte-routing";
-
-  // *** COMPONENTS
+  import { Router, links } from "svelte-routing";
 
   // *** STORES
   import {
@@ -25,17 +22,9 @@
   // *** GLOBALS
   import { siteInfo, pageList } from "../globals.js";
 
-  // ** CONSTANTS
-
-  // ** VARIABLES
-
   // ** FUNCTIONS
   const changeLanguage = () =>
     globalLanguage.set($isEnglish ? "arabic" : "english");
-
-  const locationChange = e => {
-    console.log("url is now " + e);
-  };
 </script>
 
 <style lang="scss">
@@ -227,7 +216,6 @@
             AR
           </button>
         {/if}
-
         {#if !$isEnglish}
           <button class="language-switch-button" on:click={changeLanguage}>
             EN
@@ -240,7 +228,7 @@
             <li class="category-menu-list-item" class:arabic={$isArabic}>
               <a
                 href="/{$languagePrefix}/{category.categorySlug}"
-                class:active={$activeNavigation === category.categorySlug && !Array.isArray($activeNavigation)}>
+                class:active={$activeNavigation === category.categorySlug}>
                 {#if $isEnglish}{category.nameDisplay.english}{/if}
                 {#if $isArabic}{category.nameDisplay.arabic}{/if}
               </a>

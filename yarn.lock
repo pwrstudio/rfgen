@@ -660,13 +660,6 @@
   dependencies:
     "@types/node" "*"
 
-"@vimeo/player@^2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@vimeo/player/-/player-2.10.0.tgz#1b3cb590a633b8b565b61b850c44a4fb9632b97a"
-  dependencies:
-    native-promise-only "0.8.1"
-    weakmap-polyfill "2.0.0"
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -739,10 +732,6 @@ arr-union@^3.1.0:
 array-find-index@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/array-find-index/-/array-find-index-1.0.2.tgz#df010aa1287e164bbda6f9723b0a96a1ec4187a1"
-
-array-shuffle@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/array-shuffle/-/array-shuffle-1.0.1.tgz#7ea4882a356b4bca5f545e0b6e52eaf6d971557a"
 
 array-unique@^0.3.2:
   version "0.3.2"
@@ -1180,20 +1169,6 @@ electron-to-chromium@^1.3.247:
   version "1.3.282"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.282.tgz#16118ae9c79a32ea93a17591d5b16e28d10fc08d"
 
-embed-video@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/embed-video/-/embed-video-2.0.4.tgz#d21d999c99b4e803d410bbe3133c0151ce2cda64"
-  dependencies:
-    fetch-ponyfill "^4.0.0"
-    lodash.escape "^4.0.1"
-    promise-polyfill "^6.0.2"
-
-encoding@^0.1.11:
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
-  dependencies:
-    iconv-lite "~0.4.13"
-
 error-ex@^1.2.0, error-ex@^1.3.1:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/error-ex/-/error-ex-1.3.2.tgz#b4ac40648107fdcdcfae242f428bea8a14d4f1bf"
@@ -1306,12 +1281,6 @@ fast-deep-equal@^2.0.1:
 fast-json-stable-stringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
-
-fetch-ponyfill@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/fetch-ponyfill/-/fetch-ponyfill-4.1.0.tgz#ae3ce5f732c645eab87e4ae8793414709b239893"
-  dependencies:
-    node-fetch "~1.7.1"
 
 fill-range@^4.0.0:
   version "4.0.0"
@@ -1591,7 +1560,7 @@ hyperscript@^2.0.2:
     class-list "~0.1.0"
     html-element "^2.0.0"
 
-iconv-lite@^0.4.4, iconv-lite@~0.4.13:
+iconv-lite@^0.4.4:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
   dependencies:
@@ -1795,7 +1764,7 @@ is-retry-allowed@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.2.0.tgz#d778488bd0a4666a3be8a1482b9f2baafedea8b4"
 
-is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
 
@@ -1961,10 +1930,6 @@ load-json-file@^4.0.0:
 local-access@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/local-access/-/local-access-1.0.1.tgz#5121258146d64e869046c642ea4f1dd39ff942bb"
-
-lodash.escape@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/lodash.escape/-/lodash.escape-4.0.1.tgz#c9044690c21e04294beaa517712fded1fa88de98"
 
 lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.15, lodash@~4.17.10:
   version "4.17.15"
@@ -2149,10 +2114,6 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-native-promise-only@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/native-promise-only/-/native-promise-only-0.8.1.tgz#20a318c30cb45f71fe7adfbf7b21c99c1472ef11"
-
 needle@^2.2.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.4.0.tgz#6833e74975c444642590e15a750288c5f939b57c"
@@ -2164,13 +2125,6 @@ needle@^2.2.1:
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
-
-node-fetch@~1.7.1:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
 
 node-gyp@^3.8.0:
   version "3.8.0"
@@ -2501,10 +2455,6 @@ progress-stream@^2.0.0:
     speedometer "~1.0.0"
     through2 "~2.0.3"
 
-promise-polyfill@^6.0.2:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-6.1.0.tgz#dfa96943ea9c121fca4de9b5868cb39d3472e057"
-
 pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
@@ -2812,75 +2762,6 @@ safe-regex@^1.1.0:
 same-origin@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/same-origin/-/same-origin-0.1.1.tgz#c2287d3192577df517acbbd6d1451a9c3c3914f5"
-
-sanctuary-def@0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-def/-/sanctuary-def-0.20.0.tgz#bcecc9a1469c025467ea31f0ec6228ed56962bb3"
-  dependencies:
-    sanctuary-either "1.1.0"
-    sanctuary-show "1.0.x"
-    sanctuary-type-classes "11.0.x"
-    sanctuary-type-identifiers "2.0.x"
-
-sanctuary-either@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-either/-/sanctuary-either-1.1.0.tgz#9d45b344d870c16fc72f574feec1744dc50f4e1f"
-  dependencies:
-    sanctuary-show "1.0.x"
-    sanctuary-type-classes "10.0.0"
-
-sanctuary-either@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-either/-/sanctuary-either-1.2.0.tgz#3126196a2067ea4a9b1de6b6c4c045504059a44b"
-  dependencies:
-    sanctuary-show "1.0.x"
-    sanctuary-type-classes "11.0.0"
-
-sanctuary-maybe@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-maybe/-/sanctuary-maybe-1.2.0.tgz#e994825d62f6d5a3c60771e859261b08c517acc5"
-  dependencies:
-    sanctuary-show "1.0.x"
-    sanctuary-type-classes "11.0.0"
-
-sanctuary-pair@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-pair/-/sanctuary-pair-1.2.0.tgz#2538dbdac011594fd601ca1112e83cb5083bc865"
-  dependencies:
-    sanctuary-show "1.0.x"
-    sanctuary-type-classes "11.0.0"
-
-sanctuary-show@1.0.0, sanctuary-show@1.0.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-show/-/sanctuary-show-1.0.0.tgz#72deb4812f9decec850e03286807dca1c97a1d61"
-
-sanctuary-type-classes@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-type-classes/-/sanctuary-type-classes-10.0.0.tgz#25126f009348101dbe627c7b7efb7c6f63f792b1"
-  dependencies:
-    sanctuary-type-identifiers "2.0.1"
-
-sanctuary-type-classes@11.0.0, sanctuary-type-classes@11.0.x:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/sanctuary-type-classes/-/sanctuary-type-classes-11.0.0.tgz#f7f752a846aad057d894183a20169bc593ddb039"
-  dependencies:
-    sanctuary-type-identifiers "2.0.1"
-
-sanctuary-type-identifiers@2.0.1, sanctuary-type-identifiers@2.0.x:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/sanctuary-type-identifiers/-/sanctuary-type-identifiers-2.0.1.tgz#fc524cf6dd92cebfcbb0dd9509eff193159a20ed"
-
-sanctuary@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/sanctuary/-/sanctuary-2.0.0.tgz#71c2e8af7cfe034ece2c7a932232ba917a03dd0f"
-  dependencies:
-    sanctuary-def "0.20.0"
-    sanctuary-either "1.2.0"
-    sanctuary-maybe "1.2.0"
-    sanctuary-pair "1.2.0"
-    sanctuary-show "1.0.0"
-    sanctuary-type-classes "11.0.0"
-    sanctuary-type-identifiers "2.0.1"
 
 sass-graph@^2.2.4:
   version "2.2.4"
@@ -3393,10 +3274,6 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
-
-weakmap-polyfill@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/weakmap-polyfill/-/weakmap-polyfill-2.0.0.tgz#8f28f935e3853896ad40747e5258db578d9dc8de"
 
 which-module@^1.0.0:
   version "1.0.0"

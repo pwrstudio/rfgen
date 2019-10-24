@@ -1,18 +1,12 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  App
+  //  RFGEN.SHARJAHARCHITECTURE.ORG
   //
   // # # # # # # # # # # # # #
 
-  // *** POLYFILLS
-  // import "intersection-observer";
-  // import "whatwg-fetch";
-
-  // import "es6-shim";
-
   // *** IMPORT
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router, Route } from "svelte-routing";
   import shuffle from "lodash/shuffle";
 
   // *** COMPONENTS
@@ -34,14 +28,11 @@
     isEnglish
   } from "./stores.js";
 
+  // *** GLOBALS
   import { categoryListDefaults, colorList } from "./globals.js";
 
-  // ** CONSTANTS
-
-  // ** VARIABLES
-
-  // ** FUNCTIONS
-  let shuffledColors = shuffle(colorList);
+  // Randomize category colors on each reload
+  const shuffledColors = shuffle(colorList);
   categoryList.set(
     categoryListDefaults.map((c, i) => {
       c.color = shuffledColors[i];
@@ -66,11 +57,6 @@
     overflow-x: hidden;
     padding: 0;
     text-align: left;
-    font-display: fallback;
-
-    &.no-scroll {
-      overflow: hidden;
-    }
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
@@ -102,10 +88,6 @@
   ::-moz-selection {
     background: #e4e4e4;
     /* Gecko Browsers */
-  }
-
-  strong {
-    // font-weight: normal;
   }
 
   .page-view {

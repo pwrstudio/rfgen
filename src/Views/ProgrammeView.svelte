@@ -6,14 +6,14 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
   import { Router, links } from "svelte-routing";
-  import imagesLoaded from "imagesloaded";
+  import { fade, fly } from "svelte/transition";
+  // _lodash
   import get from "lodash/get";
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
-  import { fade } from "svelte/transition";
+  // date-fns
   import format from "date-fns/format";
   import remove from "lodash/remove";
 
@@ -33,8 +33,8 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, baseProjections } from "../globals.js";
-  import { client, renderBlockText, urlFor } from "../sanity.js";
+  import { siteInfo } from "../globals.js";
+  import { loadProgrammeData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
@@ -42,47 +42,17 @@
   export let language = "";
   export let location = {};
 
-  // *** DOM REFERENCES
-  let imageEl = {};
-
-  // ** VARIABLES
-  let loaded = true;
-  let color = "rfgen-white";
-  let introduction = {};
-
   // ** CONSTANTS
   const query =
     '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {performanceDate, eventType, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
 
-  const isCategoryIntroduciton = p => p.category === "categoryIntroduction";
+  let programme = loadProgrammeData(query, {});
 
-  let events = loadData(query, {});
+  const getEventColor = type =>
+    get($categoryList.find(c => c.categorySlug === type), "color", "");
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  navigationColor.set("rfgen-white");
-
-  async function loadData(query, params) {
-    try {
-      const res = await client.fetch(query, params);
-      introduction = remove(res, isCategoryIntroduciton)[0];
-      res.forEach(
-        e =>
-          (e.color = $categoryList.find(
-            c => c.categorySlug === e.eventType
-          ).color)
-      );
-      return res;
-    } catch (err) {
-      console.log(err);
-      Sentry.captureException(err);
-    }
-  }
-
-  // *** ON MOUNT
-  onMount(async () => {
-    window.scrollTo(0, 0);
-  });
 </script>
 
 <style lang="scss">
@@ -156,12 +126,8 @@
       height: unset;
     }
 
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s $easing;
-
-    &.loaded {
-      opacity: 1;
-    }
 
     &.arabic {
       right: unset;
@@ -218,58 +184,54 @@
     <title>Opening Programme / {siteInfo.title.english}</title>
   {/if}
   {#if $isArabic}
-    <title>{siteInfo.title.arabic} / Opening Programme</title>
+    <title>Opening Programme / {siteInfo.title.arabic}</title>
   {/if}
 </svelte:head>
 
 <Router>
   <div class="programme">
-    {#await events then events}
+    {#await programme then programme}
       <div class="programme-text" class:arabic={$isArabic} in:fade>
         <div class="programme-title">Opening programme</div>
         <div class="programme-text-inner">
           {#if $isEnglish}
-            {@html renderBlockText(introduction.en_content)}
+            {@html renderBlockText(programme.introduction.content.english)}
           {/if}
           {#if $isArabic}
-            {@html renderBlockText(introduction.ar_content)}
+            {@html renderBlockText(programme.introduction.content.arabic)}
           {/if}
         </div>
       </div>
 
-      <div
-        class="programme-calendar"
-        class:loaded
-        class:arabic={$isArabic}
-        use:links>
-        {#each events as event}
-          <div class="programme-event {event.color}">
+      <div class="programme-calendar" class:arabic={$isArabic} use:links>
+        {#each programme.events as event}
+          <div class="programme-event {getEventColor(event.event.type)}">
             <div class="programme-event-date">
-              {format(new Date(event.performanceDate), 'MMMM do kk:mm')}
+              {format(new Date(event.event.date), 'MMMM do kk:mm')}
             </div>
             <div class="programme-event-title">
-              {#if $isEnglish}{event.en_title}{/if}
-              {#if $isArabic}{event.ar_title}{/if}
+              {#if $isEnglish}{event.title.english}{/if}
+              {#if $isArabic}{event.title.arabic}{/if}
             </div>
             <div class="programme-event-text">
-              {#if $isEnglish && event.en_content}
-                {@html renderBlockText(event.en_content)}
+              {#if $isEnglish && event.content.arabic}
+                {@html renderBlockText(event.content.english)}
               {/if}
-              {#if $isArabic && event.ar_content}
-                {@html renderBlockText(event.ar_content)}
+              {#if $isArabic && event.content.arabic}
+                {@html renderBlockText(event.content.arabic)}
               {/if}
             </div>
             <div class="programme-event-text" />
-            {#if event.participants}
-              {#each event.participants as participant}
+            {#if event.event.performers}
+              {#each event.event.performers as performer}
                 <a
-                  href="/{$languagePrefix}/{participant.category}/{participant.slug}">
-                  {participant.en_title}
+                  href="/{$languagePrefix}/{performer.category}/{performer.slug}">
+                  {performer.en_title}
                 </a>
               {/each}
             {/if}
-            {#if event.discussions}
-              {#each event.discussions as discussion}
+            {#if event.event.discussions}
+              {#each event.event.discussions as discussion}
                 <a
                   href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
                   {discussion.en_title}
