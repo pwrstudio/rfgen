@@ -20,7 +20,7 @@
   import {
     isArabic,
     isEnglish,
-    navigationColor,
+    isTileView,
     activeNavigation,
     categoryList,
     languagePrefix,
@@ -62,6 +62,7 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
+  isTileView.set(false);
 
   // *** ON MOUNT
   onMount(async () => {
