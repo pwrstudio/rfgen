@@ -276,6 +276,7 @@
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
+    margin-bottom: 40px;
   }
 
   .video-container {

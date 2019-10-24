@@ -33,9 +33,9 @@
   const changeLanguage = () =>
     globalLanguage.set($isEnglish ? "arabic" : "english");
 
-  const locationChange = (e) => {
-    console.log('url is now ' + e)
-  }
+  const locationChange = e => {
+    console.log("url is now " + e);
+  };
 </script>
 
 <style lang="scss">
@@ -245,10 +245,14 @@
                 {#if $isArabic}{category.nameDisplay.arabic}{/if}
               </a>
             </li>
-          {/each}<!-- FIX: ISSUE #42 --><li class="category-menu-list-item" class:arabic={$isArabic}>
+          {/each}
+          <!-- FIX: ISSUE #42 -->
+          <li class="category-menu-list-item" class:arabic={$isArabic}>
             <a
               href="/{$languagePrefix}/programme"
-              class:active={$activeNavigation === 'programme'}>{#if $isEnglish}Opening Programme{/if}{#if $isArabic}Opening Programme{/if}
+              class:active={$activeNavigation === 'programme'}>
+              {#if $isEnglish}Opening Programme{/if}
+              {#if $isArabic}Opening Programme{/if}
             </a>
           </li>
         </ul>

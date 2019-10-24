@@ -158,16 +158,6 @@
       left: unset;
       right: 0;
     }
-
-    &.video {
-      position: static;
-      height: auto;
-      // width: 300px;
-      // font-size: $rfgen-font-size-small;
-      // line-height: $rfgen-font-size-small;
-    }
-
-    // padding-bottom: 80px;
   }
 
   .post-view-image {
@@ -240,16 +230,6 @@
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
-  }
-
-  .video-container {
-    width: 100vw;
-    height: 60vh;
-    background: lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
   }
 
   .links-container {

@@ -15,6 +15,7 @@
   import kebabCase from "lodash/kebabCase";
   import { fade } from "svelte/transition";
   import format from "date-fns/format";
+  import remove from "lodash/remove";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -45,76 +46,32 @@
   let imageEl = {};
 
   // ** VARIABLES
-  let headTitle = {
-    english: "",
-    arabic: ""
-  };
   let loaded = true;
-
-  const allProjections = uniq(
-    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
-  );
+  let color = "rfgen-white";
+  let introduction = {};
 
   // ** CONSTANTS
   const query =
-    '*[_type == "event"] | order(performanceDate asc) {performanceDate, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}';
+    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {performanceDate, eventType, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
 
-  // const linksQuery = "*[participants[]._ref == $id]{" + allProjections + "}";
+  const isCategoryIntroduciton = p => p.category === "categoryIntroduction";
 
   let events = loadData(query, {});
 
-  // $: {
-  //   activeNavigation.set(category ? category : "");
-  //   navigationColor.set(
-  //     $categoryList.find(c => c.categorySlug == kebabCase($activeNavigation))
-  //       .color
-  //   );
-  // }
-
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  // navigationColor.set("rfgen-grey");
+  navigationColor.set("rfgen-white");
 
   async function loadData(query, params) {
     try {
       const res = await client.fetch(query, params);
-
-      console.dir(res);
-
-      // console.dir(res);
-      // if (category === "participant") {
-      //   client.fetch(linksQuery, { id: get(res, "_id", "") }).then(linksRes => {
-      //     // console.dir(linksRes);
-      //     links = linksRes;
-      //   });
-      // } else {
-      //   links = get(res, "participants", []);
-      // }
-
-      // let postConstruction = {
-      //   title: {
-      //     english: "",
-      //     arabic: ""
-      //   },
-      //   content: {
-      //     english: [],
-      //     arabic: []
-      //   },
-      //   mainImage: false,
-      //   slug: ""
-      // };
-
-      // postConstruction.id = get(res, "_id", "");
-      // postConstruction.title.english = get(res, "en_title", "");
-      // postConstruction.title.arabic = get(res, "ar_title", "");
-      // postConstruction.content.english = get(res, "en_content", []);
-      // postConstruction.content.arabic = get(res, "ar_content", []);
-      // postConstruction.mainImage = get(res, "mainImage", false);
-      // // postConstruction.videoLink = get(res, "videoLink", false);
-      // // postConstruction.programmeerImage = get(res, "posterImage", false);
-      // postConstruction.slug = get(res, "slug", "");
-      // // postConstruction.category = get(res, "category", "");
-
+      introduction = remove(res, isCategoryIntroduciton)[0];
+      res.forEach(
+        e =>
+          (e.color = $categoryList.find(
+            c => c.categorySlug === e.eventType
+          ).color)
+      );
       return res;
     } catch (err) {
       console.log(err);
@@ -122,14 +79,9 @@
     }
   }
 
-  // async function loadLinks(query, params) {}
-
   // *** ON MOUNT
   onMount(async () => {
     window.scrollTo(0, 0);
-    // imagesLoaded(imageEl, instance => {
-    //   loaded = true;
-    // });
   });
 </script>
 
@@ -275,17 +227,23 @@
     {#await events then events}
       <div class="programme-text" class:arabic={$isArabic} in:fade>
         <div class="programme-title">Opening programme</div>
-        <div class="programme-text-inner">More text...</div>
+        <div class="programme-text-inner">
+          {#if $isEnglish}
+            {@html renderBlockText(introduction.en_content)}
+          {/if}
+          {#if $isArabic}
+            {@html renderBlockText(introduction.ar_content)}
+          {/if}
+        </div>
       </div>
+
       <div
         class="programme-calendar"
         class:loaded
         class:arabic={$isArabic}
         use:links>
-
         {#each events as event}
-          <div
-            class="programme-event {$categoryList.find(c => c.categorySlug === 'performance').color}">
+          <div class="programme-event {event.color}">
             <div class="programme-event-date">
               {format(new Date(event.performanceDate), 'MMMM do kk:mm')}
             </div>
@@ -302,12 +260,22 @@
               {/if}
             </div>
             <div class="programme-event-text" />
-            {#each event.participants as participant}
-              <a
-                href="/{$languagePrefix}/{participant.category}/{participant.slug}">
-                {participant.en_title}
-              </a>
-            {/each}
+            {#if event.participants}
+              {#each event.participants as participant}
+                <a
+                  href="/{$languagePrefix}/{participant.category}/{participant.slug}">
+                  {participant.en_title}
+                </a>
+              {/each}
+            {/if}
+            {#if event.discussions}
+              {#each event.discussions as discussion}
+                <a
+                  href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
+                  {discussion.en_title}
+                </a>
+              {/each}
+            {/if}
           </div>
         {/each}
       </div>

@@ -38,7 +38,6 @@
 
   // ** CONSTANTS
   const query = '*[_type == "page" && slug.current == $slug][0]';
-  // const params = { slug: slug };
 
   $: {
     page = loadData(query, { slug: slug });
@@ -47,8 +46,6 @@
   $: {
     activeNavigation.set(slug ? slug : "");
   }
-
-  //   $isSinglePage.set(true);
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
