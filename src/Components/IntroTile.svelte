@@ -54,7 +54,7 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 280px;
+  $tile-height: 220px;
   $tile-bar-height: 40px;
 
   .intro-tile {
@@ -131,8 +131,8 @@
     justify-content: space-between;
     transition: none;
     z-index: 10;
-    font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
+    // font-size: $rfgen-font-size-large;
+    // line-height: $rfgen-font-size-large;
     overflow: hidden;
     // @include screen-size("small") {
     //   font-size: $rfgen-font-size-mobile-large;
@@ -141,6 +141,13 @@
   // .tile:active .tile-bar {
   //   height: $tile-height;
   // }
+
+  .width-15 {
+    width: 15%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
 
   .width-20 {
     width: 20%;
@@ -180,7 +187,8 @@
 
   .order-0,
   .order-1,
-  .order-2 {
+  .order-2,
+  .order-3 {
     border-right: 2px solid white;
   }
 </style>
@@ -196,7 +204,7 @@
     <a href="/{$languagePrefix}/introduction/{post.slug}">
       <div class="tile-bar {color}">
         {@html truncate(renderBlockText(post.en_content), {
-          length: 200,
+          length: 240,
           separator: ' '
         })}
         <!-- {truncate(post.en_content, { length: 300, separator: ' ' })} -->

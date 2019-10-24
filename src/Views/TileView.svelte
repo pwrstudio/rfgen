@@ -67,11 +67,11 @@
     }
   }
 
-  $: { 
+  $: {
     if (categoryDisplayName) {
-      dynamicTitle = `${categoryDisplayName} / ${siteInfo.title.english}`
+      dynamicTitle = `${categoryDisplayName} / ${siteInfo.title.english}`;
     } else {
-      dynamicTitle = siteInfo.title.english
+      dynamicTitle = siteInfo.title.english;
     }
   }
 
@@ -158,12 +158,12 @@
   }
 </style>
 
-<Head title={dynamicTitle}></Head>
+<Head title={dynamicTitle} />
 
 <div class="tile-view">
   {#await posts then posts}
     <!-- <IntroTile category /> -->
-    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 4) : chunk(posts, 4) as row, i (uniqueId('row_'))}
+    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 5) : chunk(posts, 5) as row, i (uniqueId('row_'))}
       <Row {row} order={i + 1} />
     {/each}
   {/await}

@@ -70,7 +70,7 @@
 <style lang="scss">
   @import "../variables.scss";
 
-  $tile-height: 280px;
+  $tile-height: 220px;
   $tile-bar-height: 40px;
 
   .tile {
@@ -360,6 +360,13 @@
   //   }
   // }
 
+  .width-15 {
+    width: 15%;
+    @include screen-size("small") {
+      width: 100%;
+    }
+  }
+
   .width-20 {
     width: 20%;
     @include screen-size("small") {
@@ -398,7 +405,8 @@
 
   .order-0,
   .order-1,
-  .order-2 {
+  .order-2,
+  .order-3 {
     border-right: 2px solid white;
   }
 </style>
