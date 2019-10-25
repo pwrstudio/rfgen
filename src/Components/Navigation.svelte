@@ -129,14 +129,30 @@
     list-style: none;
     margin: 0;
     padding: 0;
+
     @include screen-size("small") {
+      width: 100%;
       padding-top: 10px;
       padding-bottom: 10px;
-      padding-right: 5px;
       display: flex;
       overflow-x: scroll;
-      // scroll-snap-type: x mandatory;
+      position: relative;
       @include hide-scroll;
+    }
+  }
+
+  .category-menu-list-overlay {
+    display: none;
+
+    @include screen-size("small") {
+      display: block;
+      height: 48px;
+      width: 80px;
+      position: fixed;
+      right: 0;
+      top: 32px;
+      background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
+      pointer-events: none;
     }
   }
 
@@ -242,6 +258,8 @@
               {#if $isArabic}Opening Programme{/if}
             </a>
           </li>
+          <!-- OVERLAY -->
+          <div class="category-menu-list-overlay"></div>
         </ul>
       </menu>
     </nav>
