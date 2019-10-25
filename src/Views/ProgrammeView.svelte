@@ -13,9 +13,11 @@
   import uniq from "lodash/uniq";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
+  import remove from "lodash/remove";
+
   // date-fns
   import format from "date-fns/format";
-  import remove from "lodash/remove";
+  import isValid from "date-fns/isValid";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -50,6 +52,16 @@
 
   const getEventColor = type =>
     get($categoryList.find(c => c.categorySlug === type), "color", "");
+
+  const getEventDate = date => {
+    console.log("date", date);
+    console.log("asdfasfas");
+    let eventDate = new Date(date);
+    console.dir(eventDate);
+    console.log(isValid(eventDate));
+    if (isValid(eventDate)) return format(eventDate, "MMMM do kk:mm");
+    return "";
+  };
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
@@ -103,6 +115,7 @@
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
+    overflow-y: auto;
 
     img {
       width: 100%;
@@ -208,7 +221,7 @@
         {#each programme.events as event}
           <div class="programme-event {getEventColor(event.event.type)}">
             <div class="programme-event-date">
-              {format(new Date(event.event.date), 'MMMM do kk:mm')}
+              {getEventDate(event.event.date)}
             </div>
             <div class="programme-event-title">
               {#if $isEnglish}{event.title.english}{/if}
