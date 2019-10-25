@@ -16,6 +16,21 @@ $rfgen-leaf: rgba(97, 108, 102, 1);
 $rfgen-brown: rgba(71, 63, 59, 1);
 $rfgen-beige: rgba(230, 237, 208, 1);
 
+// Colormap
+$colors: (
+  'rfgen-red': $rfgen-red,
+  'rfgen-blue': $rfgen-blue,
+  'rfgen-green': $rfgen-green,
+  'rfgen-khaki': $rfgen-khaki,
+  'rfgen-military': $rfgen-military,
+  'rfgen-leaf': $rfgen-leaf,
+  'rfgen-brown': $rfgen-brown,
+  'rfgen-beige': $rfgen-beige,
+  'rfgen-black': $rfgen-black,
+  'rfgen-white': $rfgen-white,
+  'rfgen-grey': $rfgen-grey
+);
+
 // Typography
 $font-stack: 'HelveticaNeue', 'Helvetica Neue', helvetica, 'arial', sans-serif;
 $rfgen-font-size-small: 14px;
@@ -54,55 +69,37 @@ $breakpoints: (
     max-height: 700px
   )
 );
-
-// Colors
-.rfgen-red {
-  background: $rfgen-red;
+  
+// Color classes
+@each $color, $var in $colors {
+  .#{$color} {
+    background: $var;
+    
+    // ! Changes the gradient overlay color for each color
+    .category-menu-list-overlay {
+      background: linear-gradient(to left, $var, transparent);
+      
+      &.arabic {
+        background: linear-gradient(to right, $var, transparent);
+      }
+    }
+  }
 }
 
-.rfgen-blue {
-  background: $rfgen-blue;
-}
-
-.rfgen-green {
-  background: $rfgen-green;
-}
-
-.rfgen-khaki {
-  background: $rfgen-khaki;
-}
-
-.rfgen-military {
-  background: $rfgen-military;
-}
-
-.rfgen-leaf {
-  background: $rfgen-leaf;
-}
-
-.rfgen-brown {
-  background: $rfgen-brown;
-}
-
-.rfgen-beige {
-  background: $rfgen-beige;
-}
-
+// Additional text color changes
 .rfgen-black {
-  background: $rfgen-black;
   color: $rfgen-white;
 }
 
 .rfgen-white {
-  background: $rfgen-white;
   color: $rfgen-black;
 }
 
 .rfgen-grey {
-  background: $rfgen-grey;
   color: $rfgen-black;
 }
 
+// Locale
 .text-arabic {
   direction: rtl;
   font-family: Arial, Helvetica, sans-serif;
