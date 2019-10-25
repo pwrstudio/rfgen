@@ -145,14 +145,19 @@
     display: none;
 
     @include screen-size("small") {
+      right: 0;
+      left: auto;
       display: block;
       height: 48px;
       width: 80px;
       position: fixed;
-      right: 0;
       top: 32px;
-      background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
       pointer-events: none;
+
+      &.arabic {
+        right: auto;  
+        left: 0;
+      }
     }
   }
 
@@ -259,7 +264,7 @@
             </a>
           </li>
           <!-- OVERLAY -->
-          <div class="category-menu-list-overlay"></div>
+          <div class="category-menu-list-overlay" class:arabic={$isArabic}></div>
         </ul>
       </menu>
     </nav>
