@@ -70,7 +70,8 @@
     text-align: left;
     position: relative;
     top: 5px;
-    font-weight: bold;
+    // font-weight: bold;
+    font-weight: normal;
     @include screen-size("small") {
       margin-bottom: 0;
       padding-left: $rfgen-grid-unit;
@@ -155,7 +156,7 @@
       pointer-events: none;
 
       &.arabic {
-        right: auto;  
+        right: auto;
         left: 0;
       }
     }
@@ -264,7 +265,7 @@
             </a>
           </li>
           <!-- OVERLAY -->
-          <div class="category-menu-list-overlay" class:arabic={$isArabic}></div>
+          <div class="category-menu-list-overlay" class:arabic={$isArabic} />
         </ul>
       </menu>
     </nav>

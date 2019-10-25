@@ -27,9 +27,16 @@
   let color = "";
   let categoryDisplayName = "";
 
+  console.dir(post);
+
   // >>> RE-USE
   $: {
-    if (post.category) {
+    if (post.category === "event") {
+      categoryDisplayName = "Opening Programme";
+      color = "rfgen-grey";
+      post.slug = "";
+      post.category = "programme";
+    } else {
       let matchingCategory = $categoryList.find(
         cat => cat.categorySlug === kebabCase(post.category)
       );

@@ -6,7 +6,7 @@ $rfgen-dark-grey: rgba(150, 150, 150, 1);
 
 // Highlight
 $rfgen-blue: rgba(0, 195, 255, 1);
-$rfgen-red: rgb(223, 59, 41);
+$rfgen-red: rgb(255, 70, 55);
 $rfgen-green: rgba(55, 240, 50, 1);
 
 // Base
@@ -69,16 +69,16 @@ $breakpoints: (
     max-height: 700px
   )
 );
-  
+
 // Color classes
 @each $color, $var in $colors {
   .#{$color} {
     background: $var;
-    
+
     // ! Changes the gradient overlay color for each color
     .category-menu-list-overlay {
       background: linear-gradient(to left, $var, transparent);
-      
+
       &.arabic {
         background: linear-gradient(to right, $var, transparent);
       }

@@ -1,8 +1,22 @@
 import sanityClient from '@sanity/client'
 import blocksToHtml from '@sanity/block-content-to-html'
 import imageUrlBuilder from '@sanity/image-url'
+// _lodash
 import get from 'lodash/get'
 import remove from 'lodash/remove'
+import map from 'lodash/map'
+import flatten from 'lodash/flatten'
+import fp from 'lodash/fp'
+
+// date-fns
+import isValid from 'date-fns/isValid'
+import getDate from 'date-fns/getDate'
+import format from 'date-fns/format'
+
+const tracer = x => {
+  console.dir(x)
+  return x
+}
 
 export const client = sanityClient({
   projectId: 's581o0va',
@@ -73,16 +87,36 @@ export const loadSingleData = async (query, params) => {
 
 const isCategoryIntroduciton = p => p.category === 'categoryIntroduction'
 
+const getEventDate = e => {
+  e.event.date = new Date(get(e, 'event.date', false))
+  // console.log(e.event.date)
+  return e
+}
+
 export const loadProgrammeData = async (query, params) => {
   console.dir('programme shared')
   try {
     const res = await client.fetch(query, params)
-
     const introduction = remove(res, isCategoryIntroduciton)
+
+    let processedEvents = fp.compose(
+      fp.groupBy(e => format(e.event.date, 'MMMM do')), // Group by date
+      fp.map(getEventDate), // Convert date
+      fp.map(sanitizePost) // Sanetize posts
+    )(res)
+
+    // Fold the date label into the array of events
+    // and flatten array
+    processedEvents = flatten(
+      map(processedEvents, (value, key) => [
+        { category: 'date-marker', text: key },
+        ...value
+      ])
+    )
 
     return {
       introduction: sanitizePost(introduction[0]),
-      events: res.map(sanitizePost)
+      events: processedEvents
     }
   } catch (err) {
     Sentry.captureException(err)

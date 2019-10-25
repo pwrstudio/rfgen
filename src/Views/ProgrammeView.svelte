@@ -54,12 +54,8 @@
     get($categoryList.find(c => c.categorySlug === type), "color", "");
 
   const getEventDate = date => {
-    console.log("date", date);
-    console.log("asdfasfas");
     let eventDate = new Date(date);
-    console.dir(eventDate);
-    console.log(isValid(eventDate));
-    if (isValid(eventDate)) return format(eventDate, "MMMM do kk:mm");
+    if (isValid(eventDate)) return format(eventDate, "kk:mm");
     return "";
   };
 
@@ -155,6 +151,18 @@
     padding-bottom: 1em;
   }
 
+  .programme-event-date {
+    margin-bottom: 1em;
+  }
+
+  .programme-event-title {
+    margin-bottom: 1em;
+  }
+
+  .programme-event-text {
+    margin-bottom: 1em;
+  }
+
   a {
     text-decoration: underline;
     &:hover {
@@ -173,13 +181,13 @@
 
   .programme-title {
     margin-bottom: 1em;
-    font-weight: bold;
+    font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
   }
 
   .programme-event-title {
-    font-weight: bold;
+    // font-weight: bold;
   }
 
   .programme-text-inner {
@@ -219,40 +227,46 @@
 
       <div class="programme-calendar" class:arabic={$isArabic} use:links>
         {#each programme.events as event}
-          <div class="programme-event {getEventColor(event.event.type)}">
-            <div class="programme-event-date">
-              {getEventDate(event.event.date)}
+          {#if event.category === 'date-marker'}
+            <div class="programme-event">
+              <div class="programme-event-date">{event.text}</div>
             </div>
-            <div class="programme-event-title">
-              {#if $isEnglish}{event.title.english}{/if}
-              {#if $isArabic}{event.title.arabic}{/if}
-            </div>
-            <div class="programme-event-text">
-              {#if $isEnglish && event.content.arabic}
-                {@html renderBlockText(event.content.english)}
+          {:else}
+            <div class="programme-event {getEventColor(event.event.type)}">
+              <div class="programme-event-date">
+                {getEventDate(event.event.date)}
+              </div>
+              <div class="programme-event-title">
+                {#if $isEnglish}{event.title.english}{/if}
+                {#if $isArabic}{event.title.arabic}{/if}
+              </div>
+              <div class="programme-event-text">
+                {#if $isEnglish && event.content.arabic}
+                  {@html renderBlockText(event.content.english)}
+                {/if}
+                {#if $isArabic && event.content.arabic}
+                  {@html renderBlockText(event.content.arabic)}
+                {/if}
+              </div>
+              <div class="programme-event-text" />
+              {#if event.event.performers}
+                {#each event.event.performers as performer}
+                  <a
+                    href="/{$languagePrefix}/{performer.category}/{performer.slug}">
+                    {performer.en_title}
+                  </a>
+                {/each}
               {/if}
-              {#if $isArabic && event.content.arabic}
-                {@html renderBlockText(event.content.arabic)}
+              {#if event.event.discussions}
+                {#each event.event.discussions as discussion}
+                  <a
+                    href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
+                    {discussion.en_title}
+                  </a>
+                {/each}
               {/if}
             </div>
-            <div class="programme-event-text" />
-            {#if event.event.performers}
-              {#each event.event.performers as performer}
-                <a
-                  href="/{$languagePrefix}/{performer.category}/{performer.slug}">
-                  {performer.en_title}
-                </a>
-              {/each}
-            {/if}
-            {#if event.event.discussions}
-              {#each event.event.discussions as discussion}
-                <a
-                  href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
-                  {discussion.en_title}
-                </a>
-              {/each}
-            {/if}
-          </div>
+          {/if}
         {/each}
       </div>
 
