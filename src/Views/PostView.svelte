@@ -227,6 +227,8 @@
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
     margin-bottom: 40px;
+    width: 95%;
+    max-width: 45ch;
   }
 
   .video-container {

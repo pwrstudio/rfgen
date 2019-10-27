@@ -79,6 +79,14 @@
     }
     overflow-y: auto;
     @include hide-scroll;
+
+    width: 90%;
+    max-width: 45ch;
+  }
+
+  .page-view-text-inner {
+    width: 95%;
+    max-width: 45ch;
   }
 
   .page-view-image {
@@ -126,16 +134,16 @@
 
 <div class="page-view">
   {#await page then page}
-    {#if $isEnglish}
-      <div class="page-view-text" in:fade>
-        {@html renderBlockText(page.content.english)}
+    <div class="page-view-text" in:fade>
+      <div class="page-view-text-inner">
+        {#if $isEnglish}
+          {@html renderBlockText(page.content.english)}
+        {/if}
+        {#if $isArabic}
+          {@html renderBlockText(page.content.arabic)}
+        {/if}
       </div>
-    {/if}
-    {#if $isArabic}
-      <div class="page-view-text" in:fade>
-        {@html renderBlockText(page.content.arabic)}
-      </div>
-    {/if}
+    </div>
     <div class="page-view-image" class:arabic={$isArabic}>
       {#if page.mainImage}
         <img

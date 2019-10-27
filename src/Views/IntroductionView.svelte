@@ -176,6 +176,8 @@
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
+    width: 95%;
+    max-width: 45ch;
   }
 
   .links-container {

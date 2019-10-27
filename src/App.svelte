@@ -106,6 +106,10 @@
       text-align: right;
     }
   }
+
+  strong {
+    font-weight: normal;
+  }
 </style>
 
 <div class="app" class:arabic={$isArabic}>
