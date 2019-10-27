@@ -1,20 +1,20 @@
 // Basics
-$rfgen-black: rgba(0, 0, 0, 1);
-$rfgen-white: rgba(255, 255, 255, 1);
-$rfgen-grey: rgba(225, 225, 225, 1);
-$rfgen-dark-grey: rgba(150, 150, 150, 1);
+$rfgen-black: rgb(0, 0, 0);
+$rfgen-white: rgb(255, 255, 255);
+$rfgen-grey: rgb(225, 225, 225);
+$rfgen-dark-grey: rgb(150, 150, 150);
 
 // Highlight
-$rfgen-blue: rgba(0, 195, 255, 1);
+$rfgen-blue: rgb(0, 195, 255);
 $rfgen-red: rgb(255, 70, 55);
-$rfgen-green: rgba(55, 240, 50, 1);
+$rfgen-green: rgb(55, 240, 50);
 
 // Base
-$rfgen-khaki: rgba(164, 166, 151, 1);
-$rfgen-military: rgba(84, 91, 77, 1);
-$rfgen-leaf: rgba(97, 108, 102, 1);
-$rfgen-brown: rgba(71, 63, 59, 1);
-$rfgen-beige: rgba(230, 237, 208, 1);
+$rfgen-khaki: rgb(164, 166, 151);
+$rfgen-military: rgb(84, 91, 77);
+$rfgen-leaf: rgb(97, 108, 102);
+$rfgen-brown: rgb(71, 63, 59);
+$rfgen-beige: rgb(230, 237, 208);
 
 // Colormap
 $colors: (
@@ -78,10 +78,10 @@ $breakpoints: (
 
     // ! Changes the gradient overlay color for each color
     .category-menu-list-overlay {
-      background: linear-gradient(to left, $var, transparent);
+      background-image: linear-gradient(to left, $var, rgba($var, 0));
 
       &.arabic {
-        background: linear-gradient(to right, $var, transparent);
+        background-image: linear-gradient(to right, $var, rgba($var, 0));
       }
     }
   }

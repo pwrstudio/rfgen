@@ -167,6 +167,12 @@
     padding: 0;
     margin-right: 2 * $rfgen-grid-unit;
 
+    &.block {
+      display: inline-block;
+      width: $rfgen-grid-unit * 4;
+      padding-right: $rfgen-grid-unit * 8;
+    }
+
     @include screen-size("small") {
       margin-left: $rfgen-grid-unit;
       margin-right: $rfgen-grid-unit;
@@ -264,6 +270,8 @@
               {#if $isArabic}Opening Programme{/if}
             </a>
           </li>
+          <!-- EXTRA WHITESPACE -->
+          <li class="category-menu-list-item block">&nbsp;</li>
           <!-- OVERLAY -->
           <div class="category-menu-list-overlay" class:arabic={$isArabic} />
         </ul>
