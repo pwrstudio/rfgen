@@ -59,7 +59,6 @@
 
   // ** VARIABLES
   let introductions = [];
-  let color = "rfgen-white";
 
   $: {
     activeNavigation.set(category ? category : "");
@@ -83,15 +82,6 @@
       dynamicTitle = siteInfo.title.english;
     }
   }
-
-  // >>> RE-USE
-  $: {
-    let matchingCategory = $categoryList.find(
-      cat => cat.categorySlug === kebabCase($activeNavigation)
-    );
-    color = matchingCategory ? matchingCategory.color : "rfgen-white";
-  }
-  // <<< RE-USE
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
@@ -228,7 +218,7 @@
 
 <Head title={dynamicTitle} />
 
-<div class="tile-view {color}">
+<div class="tile-view">
   {#await posts then posts}
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}

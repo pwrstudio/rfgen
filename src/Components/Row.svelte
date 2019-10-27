@@ -34,13 +34,7 @@
   @import "../variables.scss";
   .row {
     display: inline-block;
-    border-bottom: 2px solid $rfgen-white;
-
     width: 100vw;
-
-    @include screen-size("small") {
-      border-bottom: 2px solid $rfgen-white;
-    }
   }
 </style>
 

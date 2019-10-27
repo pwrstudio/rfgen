@@ -76,10 +76,10 @@
     opacity: 0;
     transition: opacity 0.5s $easing;
     cursor: pointer;
+    margin-bottom: 2px;
 
     @include screen-size("small") {
       width: 100%;
-      border-bottom: 2px solid $rfgen-white;
       height: $mobile-tile-height;
     }
 
