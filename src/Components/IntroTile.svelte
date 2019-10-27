@@ -7,10 +7,9 @@
 
   // *** IMPORT
   import { Router, links } from "svelte-routing";
-  import { renderBlockText } from "../sanity.js";
+  import { toPlainText } from "../sanity.js";
   // _lodash
   import kebabCase from "lodash/kebabCase";
-  import truncate from "lodash/truncate";
 
   // *** STORES
   import {
@@ -73,6 +72,22 @@
     z-index: 10;
     overflow: hidden;
 
+    span {
+      padding-top: $rfgen-grid-unit;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      line-clamp: 12;
+      -webkit-line-clamp: 12;
+      width: 95%;
+      max-width: 45ch;
+
+      @include screen-size("small") {
+        line-clamp: 10;
+        -webkit-line-clamp: 8;
+      }
+    }
+
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
       line-height: $rfgen-font-size-mobile-large;
@@ -129,12 +144,8 @@
 
     <a href="/{$languagePrefix}/introduction/{post.slug}">
       <div class="intro-tile-bar {color}">
-        {@html truncate(renderBlockText(post.en_content), {
-          length: 240,
-          separator: ' '
-        })}
+        <span>{toPlainText(post.en_content)}</span>
       </div>
-
     </a>
   </div>
 
