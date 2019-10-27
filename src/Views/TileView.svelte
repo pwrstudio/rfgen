@@ -13,8 +13,10 @@
   import concat from "lodash/concat";
   import remove from "lodash/remove";
   import uniq from "lodash/uniq";
+  import map from "lodash/map";
   import flattenDeep from "lodash/flattenDeep";
   import groupBy from "lodash/groupBy";
+  import sample from "lodash/sample";
   import values from "lodash/values";
   import get from "lodash/get";
   import compact from "lodash/compact";
@@ -27,6 +29,7 @@
   import Head from "../Components/Head.svelte";
   import IntroTile from "../Components/IntroTile.svelte";
   import Row from "../Components/Row.svelte";
+  import Satoshi from "../Components/Satoshi.svelte";
 
   // *** STORES
   import {
@@ -39,7 +42,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, baseProjections } from "../globals.js";
+  import { siteInfo, baseProjections, colorList } from "../globals.js";
   import { client } from "../sanity.js";
 
   // *** PROPS
@@ -117,6 +120,20 @@
     return filteredPosts;
   };
 
+  const splitRows = posts => {
+    if (category.length > 0) {
+      return chunk(filterPostsByCategory(posts), 5);
+    } else {
+      let chunked = chunk(posts, 5);
+      let spliced = [];
+      chunked.forEach((row, i) => {
+        if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
+        spliced.push(row);
+      });
+      return spliced;
+    }
+  };
+
   // Predicates
   const hasImage = p => p.mainImage;
   const isCategoryIntroduction = p => p.category === "categoryIntroduction";
@@ -161,14 +178,33 @@
     margin-top: $navigation-top-height;
     padding-bottom: $navigation-bottom-height;
   }
+
+  .satoshi-strip {
+    height: 2 * $tile-height;
+    border-bottom: 2px solid $rfgen-white;
+    .satoshi-strip-image {
+      width: 80%;
+      max-width: 600px;
+      height: 100%;
+      float: right;
+    }
+  }
 </style>
 
 <Head title={dynamicTitle} />
 
 <div class="tile-view">
   {#await posts then posts}
-    {#each category.length > 0 ? chunk(filterPostsByCategory(posts), 5) : chunk(posts, 5) as row, i (uniqueId('row_'))}
-      <Row {row} />
+    {#each splitRows(posts) as row, i (uniqueId('row_'))}
+      {#if row.satoshi}
+        <div class="satoshi-strip {sample(colorList)}">
+          <div class="satoshi-strip-image">
+            <Satoshi />
+          </div>
+        </div>
+      {:else}
+        <Row {row} />
+      {/if}
     {/each}
   {/await}
 </div>
