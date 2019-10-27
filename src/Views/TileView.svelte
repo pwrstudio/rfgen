@@ -19,7 +19,10 @@
   import sample from "lodash/sample";
   import values from "lodash/values";
   import get from "lodash/get";
+  import take from "lodash/take";
   import compact from "lodash/compact";
+  import size from "lodash/size";
+  import last from "lodash/last";
   import kebabCase from "lodash/kebabCase";
   import uniqueId from "lodash/uniqueId";
   // _lodash/fp
@@ -34,6 +37,7 @@
   // *** STORES
   import {
     activeNavigation,
+    navigationColor,
     isTileView,
     isArabic,
     categoryList,
@@ -55,6 +59,7 @@
 
   // ** VARIABLES
   let introductions = [];
+  let color = "rfgen-white";
 
   $: {
     activeNavigation.set(category ? category : "");
@@ -78,6 +83,15 @@
       dynamicTitle = siteInfo.title.english;
     }
   }
+
+  // >>> RE-USE
+  $: {
+    let matchingCategory = $categoryList.find(
+      cat => cat.categorySlug === kebabCase($activeNavigation)
+    );
+    color = matchingCategory ? matchingCategory.color : "rfgen-white";
+  }
+  // <<< RE-USE
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
@@ -122,7 +136,19 @@
 
   const splitRows = posts => {
     if (category.length > 0) {
-      return chunk(filterPostsByCategory(posts), 5);
+      let chunked = chunk(filterPostsByCategory(posts), 5);
+
+      let lastItem = chunked.pop();
+      if (size(lastItem) < 5) {
+        chunked.push([
+          ...lastItem,
+          ...take([{}, {}, {}, {}, {}], 5 - size(lastItem))
+        ]);
+      } else {
+        chunked.push(lastItem);
+      }
+      console.dir(chunked);
+      return chunked;
     } else {
       let chunked = chunk(posts, 5);
       let spliced = [];
@@ -130,6 +156,14 @@
         if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
         spliced.push(row);
       });
+
+      let lastItem = spliced.pop();
+      if (size(lastItem) < 5) {
+        spliced.push([...lastItem, ...take(spliced[0], 5 - size(lastItem))]);
+      } else {
+        spliced.push(lastItem);
+      }
+
       return spliced;
     }
   };
@@ -177,6 +211,7 @@
     line-height: 0;
     margin-top: $navigation-top-height;
     padding-bottom: $navigation-bottom-height;
+    min-height: calc(100vh - 120px);
   }
 
   .satoshi-strip {
@@ -193,7 +228,7 @@
 
 <Head title={dynamicTitle} />
 
-<div class="tile-view">
+<div class="tile-view {color}">
   {#await posts then posts}
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}

@@ -79,7 +79,7 @@
 
     @include screen-size("small") {
       width: 100%;
-      margin-bottom: 2px;
+      border-bottom: 2px solid $rfgen-white;
       height: $mobile-tile-height;
     }
 
@@ -263,8 +263,8 @@
         <div class="tile-bar {color}">
           {#if !linkOutActive}
             <div class="tile-title">
-              {#if $isEnglish}{post.en_title}{/if}
-              {#if $isArabic}{post.ar_title}{/if}
+              {#if $isEnglish && post.en_title}{post.en_title}{/if}
+              {#if $isArabic && post.ar_title}{post.ar_title}{/if}
             </div>
           {/if}
         </div>
