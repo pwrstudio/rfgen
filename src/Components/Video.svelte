@@ -52,6 +52,7 @@
 
     @include screen-size("small") {
       height: 140px;
+      left: 52%;
     }
   }
 </style>
