@@ -12,6 +12,9 @@
   // _lodash
   import get from "lodash/get";
 
+  // *** COMPONENTS
+  import Satoshi from "../Components/Satoshi.svelte";
+
   // *** STORES
   import {
     isArabic,
@@ -24,7 +27,7 @@
 
   // *** GLOBALS
   import { siteInfo } from "../globals.js";
-  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
   export let slug = {};
@@ -94,11 +97,6 @@
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
 
     &.arabic {
       right: unset;
@@ -142,15 +140,7 @@
       </div>
     </div>
     <div class="page-view-image" class:arabic={$isArabic}>
-      {#if page.mainImage}
-        <img
-          src={urlFor(page.mainImage)
-            .height(1400)
-            .quality(90)
-            .auto('format')
-            .url()}
-          alt={$isEnglish ? page.title.english : page.title.arabic} />
-      {/if}
+      <Satoshi />
     </div>
   {/await}
 </div>

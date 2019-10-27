@@ -7,7 +7,6 @@
 
   // *** IMPORT
   import { onMount } from "svelte";
-  import imagesLoaded from "imagesloaded";
   import { fade } from "svelte/transition";
   // _lodash
   import get from "lodash/get";
@@ -15,6 +14,7 @@
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
+  import Satoshi from "../Components/Satoshi.svelte";
 
   // *** STORES
   import {
@@ -29,16 +29,13 @@
 
   // *** GLOBALS
   import { siteInfo, baseProjections } from "../globals.js";
-  import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
+  import { loadSingleData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
   export let slug = "";
   export let category = "";
   export let language = "";
   export let location = {};
-
-  // *** DOM REFERENCES
-  let imageEl = {};
 
   // ** VARIABLES
   let post = {};
@@ -67,9 +64,6 @@
   // *** ON MOUNT
   onMount(async () => {
     window.scrollTo(0, 0);
-    imagesLoaded(imageEl, instance => {
-      loaded = true;
-    });
   });
 </script>
 
@@ -124,20 +118,6 @@
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    iframe {
-      display: block;
-      margin-top: 40px;
-      margin-left: auto;
-      margin-right: auto;
-      width: calc(100% - 10px);
-    }
-
     @include screen-size("small") {
       position: static;
       float: left;
@@ -147,12 +127,7 @@
       height: unset;
     }
 
-    opacity: 0;
-    transition: opacity 0.5s $easing;
-
-    &.loaded {
-      opacity: 1;
-    }
+    opacity: 1;
 
     &.arabic {
       right: unset;
@@ -214,18 +189,8 @@
       </div>
     </div>
     {#if post.mainImage}
-      <div
-        class="introduction-view-image"
-        bind:this={imageEl}
-        class:loaded
-        class:arabic={$isArabic}>
-        <img
-          src={urlFor(post.mainImage)
-            .height(1400)
-            .quality(90)
-            .auto('format')
-            .url()}
-          alt={$isEnglish ? post.title.english : post.title.arabic} />
+      <div class="introduction-view-image" class:arabic={$isArabic}>
+        <Satoshi />
       </div>
     {/if}
   {/await}

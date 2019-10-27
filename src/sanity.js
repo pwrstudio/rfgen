@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import remove from 'lodash/remove'
 import map from 'lodash/map'
 import flatten from 'lodash/flatten'
+import sample from 'lodash/sample'
 import fp from 'lodash/fp'
 
 // date-fns
@@ -29,6 +30,25 @@ export const renderBlockText = text =>
   blocksToHtml({
     blocks: text
   })
+
+export const toPlainText = (blocks = []) => {
+  return (
+    blocks
+      // loop through each block
+      .map(block => {
+        // if it's not a text block with children,
+        // return nothing
+        if (block._type !== 'block' || !block.children) {
+          return ''
+        }
+        // loop through the children spans, and join the
+        // text strings
+        return block.children.map(child => child.text).join('')
+      })
+      // join the parapgraphs leaving split by two linebreaks
+      .join('\n\n')
+  )
+}
 
 const builder = imageUrlBuilder(client)
 
@@ -118,6 +138,15 @@ export const loadProgrammeData = async (query, params) => {
       introduction: sanitizePost(introduction[0]),
       events: processedEvents
     }
+  } catch (err) {
+    Sentry.captureException(err)
+  }
+}
+
+export const loadRandomSatoshi = async query => {
+  try {
+    const res = await client.fetch(query)
+    return sanitizePost(sample(res))
   } catch (err) {
     Sentry.captureException(err)
   }

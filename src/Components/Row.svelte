@@ -34,12 +34,7 @@
   @import "../variables.scss";
   .row {
     display: inline-block;
-    margin-bottom: 2px;
     width: 100vw;
-
-    @include screen-size("small") {
-      margin-bottom: 0px;
-    }
   }
 </style>
 

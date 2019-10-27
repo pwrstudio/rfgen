@@ -76,10 +76,10 @@
     opacity: 0;
     transition: opacity 0.5s $easing;
     cursor: pointer;
+    margin-bottom: 2px;
 
     @include screen-size("small") {
       width: 100%;
-      margin-bottom: 2px;
       height: $mobile-tile-height;
     }
 
@@ -94,12 +94,22 @@
     left: 0;
     height: $tile-bar-height;
     width: 100%;
-    padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    display: flex;
-    justify-content: space-between;
     z-index: 10;
+    overflow: hidden;
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
+    }
+  }
+
+  .tile-title {
+    height: $tile-bar-height;
+    padding: $rfgen-grid-unit;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
   }
 
@@ -111,8 +121,6 @@
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    // font-size: $rfgen-font-size-large;
-    // line-height: $rfgen-font-size-large;
     height: calc(#{$tile-height} - #{$tile-bar-height});
     height: $tile-height;
     z-index: 11;
@@ -122,6 +130,11 @@
     &.active {
       opacity: 1;
       pointer-events: all;
+    }
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
     }
   }
 
@@ -263,8 +276,8 @@
         <div class="tile-bar {color}">
           {#if !linkOutActive}
             <div class="tile-title">
-              {#if $isEnglish}{post.en_title}{/if}
-              {#if $isArabic}{post.ar_title}{/if}
+              {#if $isEnglish && post.en_title}{post.en_title}{/if}
+              {#if $isArabic && post.ar_title}{post.ar_title}{/if}
             </div>
           {/if}
         </div>
