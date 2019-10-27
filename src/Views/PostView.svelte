@@ -132,11 +132,17 @@
 
       &.left {
         float: left;
+        &.arabic {
+          float: right;
+        }
       }
 
       &.right {
         float: left;
         padding-top: 0;
+        &.arabic {
+          float: right;
+        }
       }
     }
 
@@ -168,14 +174,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    iframe {
-      display: block;
-      margin-top: 40px;
-      margin-left: auto;
-      margin-right: auto;
-      width: calc(100% - 10px);
     }
 
     @include screen-size("small") {
@@ -286,7 +284,7 @@
       class:arabic={$isArabic}
       in:fade
       class:video={post.videoLink}>
-      <div class="post-view-column left">
+      <div class="post-view-column left" class:arabic={$isArabic}>
         <div class="post-view-category">{post.category}</div>
         <div class="post-view-title">
           {#if $isEnglish}{post.title.english}{/if}
@@ -305,7 +303,7 @@
           {/if}
         </div>
       </div>
-      <div class="post-view-column right">
+      <div class="post-view-column right" class:arabic={$isArabic}>
         <div class="links-container" class:video={post.videoLink}>
           {#each post.links as link}
             <InternalLink post={link} />
