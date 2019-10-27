@@ -69,11 +69,14 @@
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    display: flex;
-    justify-content: space-between;
     transition: none;
     z-index: 10;
     overflow: hidden;
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
+    }
   }
 
   .width-15 {

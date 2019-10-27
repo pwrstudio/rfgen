@@ -175,8 +175,6 @@
     margin-bottom: 1em;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
-    // font-size: $rfgen-font-size-small;
-    // line-height: $rfgen-font-size-small;
   }
 
   .programme-title {

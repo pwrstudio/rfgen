@@ -98,6 +98,11 @@
     line-height: $rfgen-font-size-small;
     z-index: 10;
     overflow: hidden;
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
+    }
   }
 
   .tile-title {
@@ -125,6 +130,11 @@
     &.active {
       opacity: 1;
       pointer-events: all;
+    }
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
     }
   }
 
