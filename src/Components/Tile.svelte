@@ -94,12 +94,17 @@
     left: 0;
     height: $tile-bar-height;
     width: 100%;
-    padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    display: flex;
-    justify-content: space-between;
     z-index: 10;
+    overflow: hidden;
+  }
+
+  .tile-title {
+    height: $tile-bar-height;
+    padding: $rfgen-grid-unit;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
   }
 
@@ -111,8 +116,6 @@
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
     line-height: $rfgen-font-size-small;
-    // font-size: $rfgen-font-size-large;
-    // line-height: $rfgen-font-size-large;
     height: calc(#{$tile-height} - #{$tile-bar-height});
     height: $tile-height;
     z-index: 11;
