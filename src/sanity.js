@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import remove from 'lodash/remove'
 import map from 'lodash/map'
 import flatten from 'lodash/flatten'
+import sample from 'lodash/sample'
 import fp from 'lodash/fp'
 
 // date-fns
@@ -118,6 +119,15 @@ export const loadProgrammeData = async (query, params) => {
       introduction: sanitizePost(introduction[0]),
       events: processedEvents
     }
+  } catch (err) {
+    Sentry.captureException(err)
+  }
+}
+
+export const loadRandomSatoshi = async query => {
+  try {
+    const res = await client.fetch(query)
+    return sanitizePost(sample(res))
   } catch (err) {
     Sentry.captureException(err)
   }
