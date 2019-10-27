@@ -87,6 +87,10 @@
     margin-top: $navigation-top-height;
     line-height: $rfgen-font-size-large;
     padding-bottom: $navigation-bottom-height;
+
+    @include screen-size("small") {
+      padding-bottom: 46px;
+    }
   }
 
   .post-view-text {
@@ -181,6 +185,9 @@
       top: unset;
       left: unset;
       height: unset;
+      background: transparent;
+      height: 50vh;
+      line-height: 0;
     }
 
     opacity: 0;
@@ -257,6 +264,21 @@
         <Video url={post.videoLink} posterImage={post.posterImage} />
       </div>
     {/if}
+    {#if post.mainImage && !post.videoLink}
+      <div
+        class="post-view-image"
+        bind:this={imageEl}
+        class:loaded
+        class:arabic={$isArabic}>
+        <img
+          src={urlFor(post.mainImage)
+            .height(1400)
+            .quality(90)
+            .auto('format')
+            .url()}
+          alt={$isEnglish ? post.title.english : post.title.arabic} />
+      </div>
+    {/if}
     <div
       class="post-view-text"
       class:arabic={$isArabic}
@@ -289,20 +311,5 @@
         </div>
       </div>
     </div>
-    {#if post.mainImage && !post.videoLink}
-      <div
-        class="post-view-image"
-        bind:this={imageEl}
-        class:loaded
-        class:arabic={$isArabic}>
-        <img
-          src={urlFor(post.mainImage)
-            .height(1400)
-            .quality(90)
-            .auto('format')
-            .url()}
-          alt={$isEnglish ? post.title.english : post.title.arabic} />
-      </div>
-    {/if}
   {/await}
 </div>

@@ -81,6 +81,10 @@
     margin-top: $navigation-top-height;
     line-height: $rfgen-font-size-large;
     padding-bottom: $navigation-bottom-height;
+
+    @include screen-size("small") {
+      padding-bottom: 30px;
+    }
   }
 
   .introduction-view-text {

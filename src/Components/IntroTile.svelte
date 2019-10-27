@@ -55,6 +55,8 @@
 
     @include screen-size("small") {
       width: 100%;
+      margin-bottom: 2px;
+      border-right: 0px;
     }
   }
 
