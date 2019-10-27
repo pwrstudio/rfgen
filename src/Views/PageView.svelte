@@ -79,9 +79,6 @@
     }
     overflow-y: auto;
     @include hide-scroll;
-
-    width: 90%;
-    max-width: 45ch;
   }
 
   .page-view-text-inner {
