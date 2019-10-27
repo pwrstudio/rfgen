@@ -72,6 +72,11 @@
     line-height: $rfgen-font-size-large;
     transition: none;
     z-index: 10;
+
+    @include screen-size("small") {
+      font-size: $rfgen-font-size-mobile-large;
+      line-height: $rfgen-font-size-mobile-large;
+    }
   }
 
   .cross-link-title {

@@ -37,7 +37,7 @@
   let color = "";
   let loaded = false;
   let linkOutActive = false;
-  const imgWidth = width >= 25 ? 500 : 300;
+  const imgWidth = width >= 25 ? 600 : 400;
 
   // >>> RE-USE
   $: {
@@ -79,6 +79,8 @@
 
     @include screen-size("small") {
       width: 100%;
+      margin-bottom: 2px;
+      height: $mobile-tile-height;
     }
 
     &.loaded {
@@ -127,6 +129,10 @@
     margin-top: $tile-bar-height;
     height: calc(#{$tile-height} - #{$tile-bar-height});
     width: 100%;
+
+    @include screen-size("small") {
+      height: calc(#{$mobile-tile-height} - #{$tile-bar-height});
+    }
 
     img {
       height: 100%;
@@ -191,6 +197,9 @@
   .order-2,
   .order-3 {
     border-right: 2px solid white;
+    @include screen-size("small") {
+      border-right: 0px solid white;
+    }
   }
 </style>
 
@@ -219,8 +228,8 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(220)
-                .width(400)
+                .height(320)
+                .width(imgWidth)
                 .quality(100)
                 .auto('format')
                 .url()}
@@ -263,7 +272,7 @@
           {#if post.mainImage}
             <img
               src={urlFor(post.mainImage)
-                .height(220)
+                .height(320)
                 .width(imgWidth)
                 .quality(100)
                 .auto('format')
