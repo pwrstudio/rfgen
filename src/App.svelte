@@ -23,10 +23,15 @@
   // *** STORES
   import {
     globalLanguage,
+    languagePrefix,
     categoryList,
     isArabic,
     isEnglish
   } from "./stores.js";
+
+  $: {
+    document.documentElement.lang = $languagePrefix;
+  }
 
   // *** GLOBALS
   import { categoryListDefaults, colorList } from "./globals.js";
