@@ -49,6 +49,10 @@
     transform: translateX(-50%) translateY(-50%);
     color: white;
     pointer-events: none;
+
+    @include screen-size("small") {
+      height: 140px;
+    }
   }
 </style>
 
@@ -72,8 +76,6 @@
     fill="none"
     stroke="currentColor"
     stroke-width="0.2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
     class="feather feather-play play">
     <polygon points="5 3 19 12 5 21 5 3" />
   </svg>
