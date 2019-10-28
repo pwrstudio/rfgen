@@ -125,37 +125,30 @@
   };
 
   const splitRows = posts => {
-    if (category.length > 0) {
-      let chunked = chunk(filterPostsByCategory(posts), 5);
+    // Return filtered posts if a category is set
+    if (category.length > 0) return chunk(filterPostsByCategory(posts), 5);
 
-      let lastItem = chunked.pop();
-      if (size(lastItem) < 5) {
-        chunked.push([
-          ...lastItem,
-          ...take([{}, {}, {}, {}, {}], 5 - size(lastItem))
-        ]);
-      } else {
-        chunked.push(lastItem);
-      }
-      console.dir(chunked);
-      return chunked;
+    // ...
+
+    // Divide posts into rows of 5
+    let chunked = chunk(posts, 5);
+
+    // Add a satoshi strip every 3rd row
+    let spliced = [];
+    chunked.forEach((row, i) => {
+      if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
+      spliced.push(row);
+    });
+
+    // Fill out last row with posts from start if needed
+    let lastItem = spliced.pop();
+    if (size(lastItem) < 5) {
+      spliced.push([...lastItem, ...take(spliced[0], 5 - size(lastItem))]);
     } else {
-      let chunked = chunk(posts, 5);
-      let spliced = [];
-      chunked.forEach((row, i) => {
-        if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
-        spliced.push(row);
-      });
-
-      let lastItem = spliced.pop();
-      if (size(lastItem) < 5) {
-        spliced.push([...lastItem, ...take(spliced[0], 5 - size(lastItem))]);
-      } else {
-        spliced.push(lastItem);
-      }
-
-      return spliced;
+      spliced.push(lastItem);
     }
+
+    return spliced;
   };
 
   // Predicates
