@@ -11,6 +11,7 @@
 
   // *** COMPONENTS
   import Navigation from "./Components/Navigation.svelte";
+  import DustMachine from "./Components/DustMachine.svelte";
 
   // *** ROUTES
   import TileView from "./Views/TileView.svelte";
@@ -115,11 +116,19 @@
   strong {
     font-weight: normal;
   }
+
+  .mote {
+    max-width: 50px;
+    max-height: 60px;
+    position: fixed;
+  }
 </style>
 
 <div class="app" class:arabic={$isArabic}>
 
   <Navigation />
+
+  <DustMachine />
 
   <Router>
     <Route path="/" component={TileView} />
