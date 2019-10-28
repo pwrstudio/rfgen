@@ -115,6 +115,15 @@
   strong {
     font-weight: normal;
   }
+
+  p {
+    a {
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
 </style>
 
 <div class="app" class:arabic={$isArabic}>

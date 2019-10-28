@@ -8,6 +8,7 @@ $rfgen-dark-grey: rgb(150, 150, 150);
 $rfgen-blue: rgb(0, 195, 255);
 $rfgen-red: rgb(255, 70, 55);
 $rfgen-green: rgb(55, 240, 50);
+$rfgen-yellow: rgb(245, 233, 72);
 
 // Base
 $rfgen-khaki: rgb(164, 166, 151);
@@ -28,7 +29,8 @@ $colors: (
   'rfgen-beige': $rfgen-beige,
   'rfgen-black': $rfgen-black,
   'rfgen-white': $rfgen-white,
-  'rfgen-grey': $rfgen-grey
+  'rfgen-grey': $rfgen-grey,
+  'rfgen-yellow': $rfgen-yellow
 );
 
 // Typography

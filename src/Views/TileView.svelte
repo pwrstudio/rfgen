@@ -206,7 +206,6 @@
 
   .satoshi-strip {
     height: 2 * $tile-height;
-    border-bottom: 2px solid $rfgen-white;
     .satoshi-strip-image {
       width: 80%;
       max-width: 600px;
@@ -223,9 +222,7 @@
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}
         <div class="satoshi-strip {sample(colorList)}">
-          <div class="satoshi-strip-image">
-            <Satoshi />
-          </div>
+          <Satoshi horizontal={true} tiled={true} />
         </div>
       {:else}
         <Row {row} />
