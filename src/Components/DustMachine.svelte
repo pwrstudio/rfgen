@@ -61,19 +61,19 @@
     left: 0;
   }
 
-  .info {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: red;
-    color: black;
-    z-index: 100000;
-    font-size: 10px;
-  }
+  // .info {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   background: red;
+  //   color: black;
+  //   z-index: 100000;
+  //   font-size: 10px;
+  // }
 </style>
 
 <svelte:window on:mousemove={throttle(handleMouseMove, 200)} />
 
 <section class="dust-machine-container" bind:this={dustMachineContainer} />
 
-<div class="info">{counter}</div>
+<!-- <div class="info">{counter}</div> -->
