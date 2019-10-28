@@ -81,6 +81,7 @@
     @include screen-size("small") {
       width: 100%;
       height: $mobile-tile-height;
+      margin-bottom: 0px;
     }
 
     &.loaded {
