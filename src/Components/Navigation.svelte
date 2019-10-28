@@ -227,6 +227,10 @@
       display: none;
     }
   }
+
+  .opening-programme-spacing-hack {
+    margin-right: 2px;
+  }
 </style>
 
 <Router>
@@ -252,6 +256,16 @@
       </div>
       <menu class="category-menu">
         <ul class="category-menu-list">
+          <li
+            class="category-menu-list-item opening-programme-spacing-hack"
+            class:arabic={$isArabic}>
+            <a
+              href="/{$languagePrefix}/programme"
+              class:active={$activeNavigation === 'programme'}>
+              {#if $isEnglish}Opening Programme{/if}
+              {#if $isArabic}Opening Programme{/if}
+            </a>
+          </li>
           {#each $categoryList as category}
             <li class="category-menu-list-item" class:arabic={$isArabic}>
               <a
@@ -262,14 +276,7 @@
               </a>
             </li>
           {/each}
-          <li class="category-menu-list-item" class:arabic={$isArabic}>
-            <a
-              href="/{$languagePrefix}/programme"
-              class:active={$activeNavigation === 'programme'}>
-              {#if $isEnglish}Opening Programme{/if}
-              {#if $isArabic}Opening Programme{/if}
-            </a>
-          </li>
+
           <!-- EXTRA WHITESPACE -->
           <li class="category-menu-list-item block">&nbsp;</li>
           <!-- OVERLAY -->
