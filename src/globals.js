@@ -126,7 +126,8 @@ export const categoryListDefaults = [
     projections: [
       '"en_title": en_name',
       '"ar_title": ar_name',
-      'author->{en_name, ar_name, slug}',
+      'participants[]->{en_title, ar_title, "slug": slug.current}',
+      'link',
       'publisherName'
     ]
   },

@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import remove from 'lodash/remove'
 import map from 'lodash/map'
 import flatten from 'lodash/flatten'
-import sample from 'lodash/sample'
 import fp from 'lodash/fp'
 
 // date-fns
@@ -89,7 +88,9 @@ const sanitizePost = res => {
       date: get(res, 'performanceDate', ''),
       discussions: get(res, 'discussions', []),
       performers: get(res, 'participants', [])
-    }
+    },
+    link: get(res, 'link', ''),
+    publisherName: get(res, 'publisherName', '')
   }
 }
 

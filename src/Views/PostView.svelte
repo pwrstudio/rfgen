@@ -52,7 +52,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
   $: {
     post = loadSingleData(query, { slug: slug, category: category });
@@ -296,6 +296,13 @@
             {#if Array.isArray(post.content.arabic)}
               {@html renderBlockText(post.content.arabic)}
             {:else}{post.content.arabic}{/if}
+          {/if}
+          {#if category === 'writing'}
+            <p>
+              <a href={post.link} target="_blank" class="external-link">
+                Read on {post.publisherName}
+              </a>
+            </p>
           {/if}
         </div>
       </div>

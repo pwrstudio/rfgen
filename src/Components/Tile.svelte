@@ -13,6 +13,7 @@
   // _lodash
   import kebabCase from "lodash/kebabCase";
   import get from "lodash/get";
+  import isEmpty from "lodash/isEmpty";
 
   // *** STORES
   import {
@@ -253,13 +254,15 @@
         </div>
         <div class="tile-overlay {color}" class:active={linkOutActive}>
           {#if linkOutActive}
-            <p in:fly={{ duration: 150, y: 10 }}>
-              <a
-                href="/{$languagePrefix}/participant/{post.author && post.author.slug && post.author.slug.current ? post.author.slug.current : ''}"
-                class="author">
-                {get(post, 'author.en_name', '')}
-              </a>
-            </p>
+            {#if !isEmpty(post.participants)}
+              <p in:fly={{ duration: 150, y: 10 }}>
+                <a
+                  href="/{$languagePrefix}/participant/{get(post, 'participants[0].slug', '')}"
+                  class="author">
+                  {get(post, 'participants[0].en_title', '')}
+                </a>
+              </p>
+            {/if}
             <p in:fly={{ duration: 150, delay: 100, y: 10 }}>
               {#if $isEnglish}{post.en_title}{/if}
               {#if $isArabic}{post.ar_title}{/if}
