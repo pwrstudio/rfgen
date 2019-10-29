@@ -96,13 +96,11 @@
     border-radius: 0;
     font-size: $rfgen-font-size-large;
     padding: 0;
-
-    border-bottom: 2px solid transparent;
     cursor: pointer;
 
     &:hover,
     &.active {
-      border-bottom: 2px solid $rfgen-black;
+      text-decoration: underline;
     }
 
     @include screen-size("small") {
@@ -183,20 +181,9 @@
     }
 
     a {
-      // border-bottom: 2px solid transparent;
-
-      @include screen-size("small") {
-        // border-bottom: 2px solid transparent;
-      }
-
       &:hover,
       &.active {
         text-decoration: underline;
-        // border-bottom: 2px solid black;
-
-        @include screen-size("small") {
-          // border-bottom: 2px solid black;
-        }
       }
     }
 
@@ -213,10 +200,9 @@
 
   .sat-link {
     float: right;
-    border-bottom: 2px solid transparent;
 
     &:hover {
-      border-bottom: 2px solid $rfgen-black;
+      text-decoration: underline;
     }
 
     &.arabic {
