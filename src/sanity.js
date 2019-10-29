@@ -71,6 +71,7 @@ const sanitizePost = res => {
     id: get(res, '_id', ''),
     slug: get(res, 'slug', ''),
     category: get(res, 'category', ''),
+    satoshiIndex: get(res, 'satoshiIndex', 0),
     title: {
       english: get(res, 'en_title', ''),
       arabic: get(res, 'en_title', '')
@@ -93,7 +94,6 @@ const sanitizePost = res => {
 }
 
 export const loadSingleData = async (query, params) => {
-  console.dir('shared')
   try {
     const res = await client.fetch(query, params)
 
@@ -121,12 +121,10 @@ const isCategoryIntroduciton = p => p.category === 'categoryIntroduction'
 
 const getEventDate = e => {
   e.event.date = new Date(get(e, 'event.date', false))
-  // console.log(e.event.date)
   return e
 }
 
 export const loadProgrammeData = async (query, params) => {
-  console.dir('programme shared')
   try {
     const res = await client.fetch(query, params)
     const introduction = remove(res, isCategoryIntroduciton)
@@ -155,10 +153,10 @@ export const loadProgrammeData = async (query, params) => {
   }
 }
 
-export const loadRandomSatoshi = async query => {
+export const loadSatoshis = async query => {
   try {
     const res = await client.fetch(query)
-    return sanitizePost(sample(res))
+    return res.map(sanitizePost)
   } catch (err) {
     Sentry.captureException(err)
   }

@@ -8,6 +8,8 @@ export const activeNavigation = writable('')
 
 export const categoryList = writable([])
 
+export const satoshiList = writable([])
+
 export const globalLanguage = writable('english')
 
 export const isTileView = writable(true)

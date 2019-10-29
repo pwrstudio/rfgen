@@ -140,7 +140,7 @@
       </div>
     </div>
     <div class="page-view-image" class:arabic={$isArabic}>
-      <Satoshi />
+      <Satoshi satoshiIndex={page.satoshiIndex} />
     </div>
   {/await}
 </div>

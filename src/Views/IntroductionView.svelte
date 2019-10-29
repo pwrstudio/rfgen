@@ -47,7 +47,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == "categoryIntroduction"]{en_title, ar_title, en_content, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
+    '*[slug.current == $slug && _type == "categoryIntroduction"]{satoshiIndex, en_title, ar_title, en_content, ar_content, "slug": slug.current, mainImage, "category": _type}[0]';
 
   $: {
     post = loadSingleData(query, { slug: slug });
@@ -190,7 +190,7 @@
     </div>
     {#if post.mainImage}
       <div class="introduction-view-image" class:arabic={$isArabic}>
-        <Satoshi />
+        <Satoshi satoshiIndex={post.satoshiIndex} />
       </div>
     {/if}
   {/await}

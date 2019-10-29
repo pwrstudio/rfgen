@@ -25,6 +25,7 @@
     globalLanguage,
     languagePrefix,
     categoryList,
+    satoshiList,
     isArabic,
     isEnglish
   } from "./stores.js";
@@ -35,6 +36,16 @@
 
   // *** GLOBALS
   import { categoryListDefaults, colorList } from "./globals.js";
+
+  import { loadSatoshis } from "./sanity.js";
+
+  // *** CONSTANTS
+  const query = '*[_type == "satoshi"]{mainImage}';
+  const satoshis = loadSatoshis(query, {});
+
+  satoshis.then(sats => {
+    satoshiList.set(shuffle(sats));
+  });
 
   // Randomize category colors on each reload
   const shuffledColors = shuffle(colorList);

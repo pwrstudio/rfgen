@@ -10,19 +10,30 @@
   import imagesLoaded from "imagesloaded";
   // _lodash
   import sample from "lodash/sample";
+  import get from "lodash/get";
 
   // *** GLOBALS
-  import { loadRandomSatoshi, urlFor } from "../sanity.js";
+  import { urlFor } from "../sanity.js";
+
+  // *** STORES
+  import { satoshiList } from "../stores.js";
 
   // *** DOM REFERENCES
   let satoshiEl = {};
   let horizontal = false;
   export let tiled = false;
+  export let satoshiIndex = 0;
 
   let orientation = "vertical";
   let imageHeight = "height-100";
   let imageWidth = "width-100";
   let imagePosition = "position-right";
+
+  let imageObject = {};
+
+  $: {
+    imageObject = get($satoshiList[satoshiIndex], "mainImage", {});
+  }
 
   const orientationsList = ["vertical", "horizontal"];
   const imageHeightsList = ["height-100"];
@@ -47,12 +58,8 @@
     }
   };
 
-  // *** CONSTANTS
-  const query = '*[_type == "satoshi"]{mainImage}';
-
   // ** VARIABLES
   let loaded = false;
-  let post = loadRandomSatoshi(query, {});
 
   // if (tiled) randomizeLayout();
 
@@ -132,24 +139,22 @@
   }
 </style>
 
-{#await post then post}
-  <div class="satoshi-container" class:tiled bind:this={satoshiEl}>
-    <img
-      src={tiled ? urlFor(post.mainImage)
-            .width(1400)
-            .height(440)
-            .quality(90)
-            .auto('format')
-            .url() : urlFor(post.mainImage)
-            .height(1400)
-            .width(1000)
-            .quality(90)
-            .auto('format')
-            .url()}
-      class="satoshi-image {imageHeight}
-      {imageWidth}
-      {imagePosition}"
-      class:loaded
-      alt="Satoshi Fujiwara" />
-  </div>
-{/await}
+<div class="satoshi-container" class:tiled bind:this={satoshiEl}>
+  <img
+    src={tiled ? urlFor(imageObject)
+          .width(1400)
+          .height(440)
+          .quality(90)
+          .auto('format')
+          .url() : urlFor(imageObject)
+          .height(1400)
+          .width(1000)
+          .quality(90)
+          .auto('format')
+          .url()}
+    class="satoshi-image {imageHeight}
+    {imageWidth}
+    {imagePosition}"
+    class:loaded
+    alt="Satoshi Fujiwara" />
+</div>
