@@ -27,8 +27,6 @@
   let color = "";
   let categoryDisplayName = "";
 
-  console.dir(post);
-
   // >>> RE-USE
   $: {
     if (post.category === "event") {

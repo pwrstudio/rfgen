@@ -60,6 +60,9 @@
 
   $: {
     activeNavigation.set(category ? category : "");
+    if (category) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   // >>> RE-USE

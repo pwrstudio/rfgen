@@ -190,6 +190,7 @@
 
   .top-date {
     background: $rfgen-dark-grey;
+    padding-bottom: 3em;
   }
 
   .other {
