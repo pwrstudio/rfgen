@@ -187,6 +187,14 @@
   .links-container {
     margin-top: 1em;
   }
+
+  .top-date {
+    background: $rfgen-dark-grey;
+  }
+
+  .other {
+    background: $rfgen-grey;
+  }
 </style>
 
 <svelte:head>
@@ -215,32 +223,38 @@
       <div class="programme-calendar" class:arabic={$isArabic} use:links>
         {#each programme.events as event}
           {#if event.category === 'date-marker'}
-            <div class="programme-event">
+            <div class="programme-event top-date">
               <div class="programme-event-date">{event.text}</div>
             </div>
           {:else}
-            <div class="programme-event {getEventColor(event.event.type)}">
+            <div
+              class="programme-event {getEventColor(event.event.type)}
+              {event.event.type}">
               <div class="programme-event-date">
                 {getEventDate(event.event.date)}
               </div>
-              <div class="programme-event-text">
-                {#if event.event.performers}
+              {#if !isEmpty(event.event.performers)}
+                <div class="programme-event-text">
                   {#each event.event.performers as performer}
                     <a
                       href="/{$languagePrefix}/{performer.category}/{performer.slug}">
-                      {performer.en_title}
+                      {#if $isEnglish}{performer.en_title}{/if}
+                      {#if $isArabic}{performer.ar_title}{/if}
                     </a>
                   {/each}
-                {/if}
-                {#if event.event.discussions}
+                </div>
+              {/if}
+              {#if !isEmpty(event.event.discussions)}
+                <div class="programme-event-text">
                   {#each event.event.discussions as discussion}
                     <a
                       href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
-                      {discussion.en_title}
+                      {#if $isEnglish}{discussion.en_title}{/if}
+                      {#if $isArabic}{discussion.ar_title}{/if}
                     </a>
                   {/each}
-                {/if}
-              </div>
+                </div>
+              {/if}
               {#if isEmpty(event.event.performers) && isEmpty(event.event.discussions)}
                 <div class="programme-event-title">
                   {#if $isEnglish}{event.title.english}{/if}
