@@ -11,6 +11,7 @@
   // _lodash
   import get from "lodash/get";
   import uniq from "lodash/uniq";
+  import isEmpty from "lodash/isEmpty";
   import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
   import remove from "lodash/remove";
@@ -80,10 +81,10 @@
     width: 50vw;
     top: $navigation-top-height;
     left: 0;
-    padding-top: 2 * $rfgen-grid-unit;
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
+
     @include screen-size("small") {
       position: static;
       float: right;
@@ -212,7 +213,6 @@
   <div class="programme">
     {#await programme then programme}
       <div class="programme-text" class:arabic={$isArabic} in:fade>
-        <div class="programme-title">Opening programme</div>
         <div class="programme-text-inner">
           {#if $isEnglish}
             {@html renderBlockText(programme.introduction.content.english)}
@@ -234,10 +234,30 @@
               <div class="programme-event-date">
                 {getEventDate(event.event.date)}
               </div>
-              <div class="programme-event-title">
-                {#if $isEnglish}{event.title.english}{/if}
-                {#if $isArabic}{event.title.arabic}{/if}
+              <div class="programme-event-text">
+                {#if event.event.performers}
+                  {#each event.event.performers as performer}
+                    <a
+                      href="/{$languagePrefix}/{performer.category}/{performer.slug}">
+                      {performer.en_title}
+                    </a>
+                  {/each}
+                {/if}
+                {#if event.event.discussions}
+                  {#each event.event.discussions as discussion}
+                    <a
+                      href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
+                      {discussion.en_title}
+                    </a>
+                  {/each}
+                {/if}
               </div>
+              {#if isEmpty(event.event.performers) && isEmpty(event.event.discussions)}
+                <div class="programme-event-title">
+                  {#if $isEnglish}{event.title.english}{/if}
+                  {#if $isArabic}{event.title.arabic}{/if}
+                </div>
+              {/if}
               <div class="programme-event-text">
                 {#if $isEnglish && event.content.arabic}
                   {@html renderBlockText(event.content.english)}
@@ -246,23 +266,6 @@
                   {@html renderBlockText(event.content.arabic)}
                 {/if}
               </div>
-              <div class="programme-event-text" />
-              {#if event.event.performers}
-                {#each event.event.performers as performer}
-                  <a
-                    href="/{$languagePrefix}/{performer.category}/{performer.slug}">
-                    {performer.en_title}
-                  </a>
-                {/each}
-              {/if}
-              {#if event.event.discussions}
-                {#each event.event.discussions as discussion}
-                  <a
-                    href="/{$languagePrefix}/{discussion.category}/{discussion.slug}">
-                    {discussion.en_title}
-                  </a>
-                {/each}
-              {/if}
             </div>
           {/if}
         {/each}
