@@ -10,8 +10,6 @@ import sample from 'lodash/sample'
 import fp from 'lodash/fp'
 
 // date-fns
-import isValid from 'date-fns/isValid'
-import getDate from 'date-fns/getDate'
 import format from 'date-fns/format'
 
 const tracer = x => {
@@ -26,9 +24,23 @@ export const client = sanityClient({
   useCdn: true // `false` if you want to ensure fresh data
 })
 
+const h = blocksToHtml.h
+
+const serializers = {
+  marks: {
+    link: props =>
+      h(
+        'a',
+        { target: '_blank', rel: 'noreferrer', href: props.mark.href },
+        props.children
+      )
+  }
+}
+
 export const renderBlockText = text =>
   blocksToHtml({
-    blocks: text
+    blocks: text,
+    serializers: serializers
   })
 
 export const toPlainText = (blocks = []) => {
