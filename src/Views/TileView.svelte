@@ -126,19 +126,7 @@
 
   const splitRows = posts => {
     if (category.length > 0) {
-      let chunked = chunk(filterPostsByCategory(posts), 5);
-
-      let lastItem = chunked.pop();
-      if (size(lastItem) < 5) {
-        chunked.push([
-          ...lastItem,
-          ...take([{}, {}, {}, {}, {}], 5 - size(lastItem))
-        ]);
-      } else {
-        chunked.push(lastItem);
-      }
-      console.dir(chunked);
-      return chunked;
+      return chunk(filterPostsByCategory(posts), 5);
     } else {
       let chunked = chunk(posts, 5);
       let spliced = [];
