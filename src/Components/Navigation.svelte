@@ -231,6 +231,13 @@
   .opening-programme-spacing-hack {
     margin-right: 2px;
   }
+
+  .social-media-spacing-hack {
+    margin-left: -5px;
+    @include screen-size("small") {
+      margin-left: 5px;
+    }
+  }
 </style>
 
 <Router>
@@ -276,7 +283,16 @@
               </a>
             </li>
           {/each}
-
+          <li
+            class="category-menu-list-item social-media-spacing-hack"
+            class:arabic={$isArabic}>
+            <a
+              href="https://www.instagram.com/explore/tags/rfgen/"
+              target="_blank"
+              rel="noreferrer">
+              #rfgen
+            </a>
+          </li>
           <!-- EXTRA WHITESPACE -->
           <li class="category-menu-list-item block">&nbsp;</li>
           <!-- OVERLAY -->

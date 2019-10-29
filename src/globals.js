@@ -141,16 +141,16 @@ export const categoryListDefaults = [
     query: '_type == "participant"',
     menuOrder: 6,
     projections: []
-  },
-  {
-    name: 'socialMedia',
-    nameDisplay: {
-      english: '#rfgen',
-      arabic: '#rfgen'
-    },
-    categorySlug: 'social-media',
-    menuOrder: 7,
-    query: '_type == "socialMedia", ',
-    projections: ['link', 'networkName']
   }
+  // {
+  //   name: 'socialMedia',
+  //   nameDisplay: {
+  //     english: '#rfgen',
+  //     arabic: '#rfgen'
+  //   },
+  //   categorySlug: 'social-media',
+  //   menuOrder: 7,
+  //   query: '_type == "socialMedia", ',
+  //   projections: ['link', 'networkName']
+  // }
 ]
