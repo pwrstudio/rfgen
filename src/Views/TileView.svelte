@@ -210,7 +210,7 @@
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}
         <div class="satoshi-strip {sample(colorList)}">
-          <Satoshi horizontal={true} tiled={true} />
+          <Satoshi tiled={true} satoshiIndex={Math.round(i / 3)} />
         </div>
       {:else}
         <Row {row} />
