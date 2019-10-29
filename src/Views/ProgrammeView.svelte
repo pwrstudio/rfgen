@@ -7,14 +7,10 @@
 
   // *** IMPORT
   import { Router, links } from "svelte-routing";
-  import { fade, fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   // _lodash
   import get from "lodash/get";
-  import uniq from "lodash/uniq";
   import isEmpty from "lodash/isEmpty";
-  import flattenDeep from "lodash/flattenDeep";
-  import kebabCase from "lodash/kebabCase";
-  import remove from "lodash/remove";
 
   // date-fns
   import format from "date-fns/format";

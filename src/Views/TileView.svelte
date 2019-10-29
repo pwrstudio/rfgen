@@ -13,14 +13,10 @@
   import concat from "lodash/concat";
   import remove from "lodash/remove";
   import uniq from "lodash/uniq";
-  import map from "lodash/map";
   import flattenDeep from "lodash/flattenDeep";
-  import groupBy from "lodash/groupBy";
   import sample from "lodash/sample";
-  import values from "lodash/values";
   import get from "lodash/get";
   import take from "lodash/take";
-  import compact from "lodash/compact";
   import size from "lodash/size";
   import last from "lodash/last";
   import kebabCase from "lodash/kebabCase";
@@ -30,7 +26,6 @@
 
   // *** COMPONENTS
   import Head from "../Components/Head.svelte";
-  import IntroTile from "../Components/IntroTile.svelte";
   import Row from "../Components/Row.svelte";
   import Satoshi from "../Components/Satoshi.svelte";
 

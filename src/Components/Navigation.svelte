@@ -281,9 +281,9 @@
           </li>
           <!-- EXTRA WHITESPACE -->
           <li class="category-menu-list-item block">&nbsp;</li>
-          <!-- OVERLAY -->
-          <div class="category-menu-list-overlay" class:arabic={$isArabic} />
         </ul>
+        <!-- OVERLAY -->
+        <div class="category-menu-list-overlay" class:arabic={$isArabic} />
       </menu>
     </nav>
   </header>

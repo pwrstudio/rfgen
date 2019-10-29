@@ -11,9 +11,6 @@
   import imagesLoaded from "imagesloaded";
   import { fade } from "svelte/transition";
   // _lodash
-  import get from "lodash/get";
-  import uniq from "lodash/uniq";
-  import flattenDeep from "lodash/flattenDeep";
   import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS

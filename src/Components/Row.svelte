@@ -15,7 +15,6 @@
 
   // *** PROPS
   export let row = [];
-  export let location = {};
 
   const layouts = [
     [20, 20, 20, 20, 20],

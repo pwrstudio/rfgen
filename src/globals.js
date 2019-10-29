@@ -16,7 +16,6 @@ export const colorList = [
   'rfgen-leaf',
   'rfgen-green',
   'rfgen-military',
-  'rfgen-military',
   'rfgen-khaki',
   'rfgen-beige',
   'rfgen-red'
@@ -142,15 +141,4 @@ export const categoryListDefaults = [
     menuOrder: 6,
     projections: []
   }
-  // {
-  //   name: 'socialMedia',
-  //   nameDisplay: {
-  //     english: '#rfgen',
-  //     arabic: '#rfgen'
-  //   },
-  //   categorySlug: 'social-media',
-  //   menuOrder: 7,
-  //   query: '_type == "socialMedia", ',
-  //   projections: ['link', 'networkName']
-  // }
 ]
