@@ -157,8 +157,8 @@
       fp.zipAll, // Intertwine the arrays
       fp.map(fp.shuffle), // Shuffle internal order of post-array
       fp.values, // Get values from grouped object => an aray for each
-      fp.groupBy(p => p.category), // Group by category
-      fp.filter(hasImage) // Filter out posts without preview images (for now)
+      fp.groupBy(p => p.category) // Group by category
+      // fp.filter(hasImage) // Filter out posts without preview images (for now)
     )(posts);
 
   // >>> RE-USE

@@ -220,7 +220,8 @@
 <Router>
 
   <div
-    class="tile width-{width} order-{order}"
+    class="tile width-{width} order-{order}
+    {color}"
     use:links
     bind:this={tileEl}
     class:loaded>
@@ -230,7 +231,7 @@
         on:click={e => {
           handleClick(e);
         }}>
-        <div class="tile-bar {color}">
+        <div class="tile-bar">
           {#if !linkOutActive}
             <div class="tile-title">
               {#if $isEnglish}{post.en_title}{/if}
@@ -274,7 +275,7 @@
       </div>
     {:else}
       <a href="/{$languagePrefix}/{post.category}/{post.slug}">
-        <div class="tile-bar {color}">
+        <div class="tile-bar">
           {#if !linkOutActive}
             <div class="tile-title">
               {#if $isEnglish && post.en_title}{post.en_title}{/if}
