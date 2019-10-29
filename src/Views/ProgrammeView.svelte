@@ -81,6 +81,7 @@
     width: 50vw;
     top: $navigation-top-height;
     left: 0;
+    padding-top: $rfgen-grid-unit;
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
@@ -152,10 +153,6 @@
     padding-bottom: 1em;
   }
 
-  .programme-event-date {
-    margin-bottom: 1em;
-  }
-
   .programme-event-title {
     margin-bottom: 1em;
   }
@@ -183,10 +180,6 @@
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
-  }
-
-  .programme-event-title {
-    // font-weight: bold;
   }
 
   .programme-text-inner {

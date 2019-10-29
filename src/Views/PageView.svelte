@@ -76,7 +76,7 @@
     width: 50vw;
     padding-left: $rfgen-grid-unit;
     padding-right: $rfgen-grid-unit;
-    padding-top: 2 * $rfgen-grid-unit;
+    padding-top: $rfgen-grid-unit;
     @include screen-size("small") {
       width: 100vw;
     }

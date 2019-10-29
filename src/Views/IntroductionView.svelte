@@ -86,7 +86,7 @@
     width: 50vw;
     top: $navigation-top-height;
     left: 0;
-    padding-top: 2 * $rfgen-grid-unit;
+    padding-top: $rfgen-grid-unit;
     height: calc(
       100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
     );
