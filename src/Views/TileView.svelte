@@ -21,6 +21,9 @@
   import last from "lodash/last";
   import kebabCase from "lodash/kebabCase";
   import uniqueId from "lodash/uniqueId";
+  import sortBy from "lodash/sortBy";
+  import reverse from "lodash/reverse";
+
   // _lodash/fp
   import fp from "lodash/fp";
 
@@ -115,6 +118,9 @@
 
   const filterPostsByCategory = posts => {
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
+    if (category === "discussion") {
+      filteredPosts = reverse(sortBy(filteredPosts, p => p.eventDate));
+    }
     filteredPosts.unshift(introductions.find(p => p.slug === category));
     return filteredPosts;
   };

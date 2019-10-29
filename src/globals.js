@@ -90,7 +90,7 @@ export const categoryListDefaults = [
     categorySlug: 'discussion',
     menuOrder: 2,
     query: '_type == "talk"',
-    projections: ['timeAndDate']
+    projections: ['eventDate']
   },
   {
     name: 'performance',
@@ -101,7 +101,7 @@ export const categoryListDefaults = [
     categorySlug: 'performance',
     menuOrder: 3,
     query: '_type == "performance"',
-    projections: ['timeAndDate']
+    projections: ['eventDate']
   },
   {
     name: 'workingGroup',
