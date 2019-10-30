@@ -53,7 +53,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, "en_content": en_biography, en_content, "ar_content": ar_biography, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, en_content, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
 
   $: {
     post = loadSingleData(query, { slug: slug, category: category });
@@ -282,14 +282,10 @@
         {#if category !== 'workingGroup'}
           <div class="post-view-text-inner">
             {#if $isEnglish}
-              {#if Array.isArray(post.content.english)}
-                {@html renderBlockText(post.content.english)}
-              {:else}{post.content.english}{/if}
+              {@html renderBlockText(post.content.english)}
             {/if}
             {#if $isArabic}
-              {#if Array.isArray(post.content.arabic)}
-                {@html renderBlockText(post.content.arabic)}
-              {:else}{post.content.arabic}{/if}
+              {@html renderBlockText(post.content.arabic)}
             {/if}
             {#if category === 'writing'}
               <p>
