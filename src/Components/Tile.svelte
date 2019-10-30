@@ -137,6 +137,7 @@
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
       line-height: $rfgen-font-size-mobile-large;
+      height: $mobile-tile-height;
     }
   }
 

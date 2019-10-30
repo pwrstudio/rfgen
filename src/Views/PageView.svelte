@@ -107,7 +107,8 @@
       position: static;
       width: 100%;
       line-height: 0;
-      tiop: unset;
+      top: unset;
+      height: 50vh;
     }
   }
 
@@ -122,6 +123,9 @@
 
 <div class="page-view">
   {#await page then page}
+    <div class="page-view-image" class:arabic={$isArabic}>
+      <Satoshi satoshiIndex={page.satoshiIndex} />
+    </div>
     <div class="page-view-text" in:fade>
       <div class="page-view-text-inner">
         {#if $isEnglish}
@@ -132,8 +136,6 @@
         {/if}
       </div>
     </div>
-    <div class="page-view-image" class:arabic={$isArabic}>
-      <Satoshi satoshiIndex={page.satoshiIndex} />
-    </div>
+
   {/await}
 </div>
