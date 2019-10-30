@@ -59,7 +59,7 @@
         : siteInfo.description.arabic
   };
 
-  const image = has(post, "mainImage")
+  const image = has(post, "mainImage.asset")
     ? urlFor(post.mainImage)
         .quality(80)
         .height(1200)
