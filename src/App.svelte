@@ -20,6 +20,10 @@
   import ProgrammeView from "./Views/ProgrammeView.svelte";
   import Error404 from "./Views/Error404.svelte";
 
+  // *** GLOBALS
+  import { categoryListDefaults, colorList } from "./globals.js";
+  import { loadSatoshis } from "./sanity.js";
+
   // *** STORES
   import {
     globalLanguage,
@@ -34,15 +38,12 @@
     document.documentElement.lang = $languagePrefix;
   }
 
-  // *** GLOBALS
-  import { categoryListDefaults, colorList } from "./globals.js";
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js");
+  }
 
-  import { loadSatoshis } from "./sanity.js";
-
-  // *** CONSTANTS
   const query = '*[_type == "satoshi"]{mainImage}';
   const satoshis = loadSatoshis(query, {});
-
   satoshis.then(sats => {
     satoshiList.set(shuffle(sats));
   });

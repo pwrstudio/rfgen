@@ -11,9 +11,10 @@
   import isArray from "lodash/isArray";
   import isEmpty from "lodash/isEmpty";
   import truncate from "lodash/truncate";
+  import kebabCase from "lodash/kebabCase";
 
   // *** STORES
-  import { isArabic, isEnglish } from "../stores.js";
+  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
 
   import { siteInfo } from "../globals.js";
 
@@ -67,21 +68,28 @@
         .auto("format")
         .url()
     : siteInfo.image;
+
+  // const url =
+  //   "https://rfgen.net/" +
+  //   $languagePrefix +
+  //   (has(post, "category") ? "/" + kebabCase(post.category) : "") +
+  //   (has(post, "slug") ? "/" + post.slug : "");
+  console.dir(post);
 </script>
 
 <svelte:head>
   {#if $isEnglish}
     <title>{title.english}</title>
-    <meta name="og:title" content={title.english} />
-    <meta name="twitter:title" content={title.english} />
+    <meta property="og:title" content={title.english} />
+    <meta property="twitter:title" content={title.english} />
     <meta property="description" content={description.english} />
     <meta property="og:description" content={description.english} />
     <meta property="twitter:description" content={description.english} />
   {/if}
   {#if $isArabic}
     <title>{title.arabic}</title>
-    <meta name="og:title" content={title.arabic} />
-    <meta name="twitter:title" content={title.arabic} />
+    <meta property="og:title" content={title.arabic} />
+    <meta property="twitter:title" content={title.arabic} />
     <meta property="description" content={description.arabic} />
     <meta property="og:description" content={description.arabic} />
     <meta property="twitter:description" content={description.arabic} />
@@ -89,4 +97,6 @@
   <meta property="image" content={image} />
   <meta property="og:image" content={image} />
   <meta property="twitter:image" content={image} />
+  <!-- <meta property="og:url" content={url} /> -->
+
 </svelte:head>
