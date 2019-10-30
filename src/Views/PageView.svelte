@@ -14,6 +14,7 @@
 
   // *** COMPONENTS
   import Satoshi from "../Components/Satoshi.svelte";
+  import MetaData from "../Components/MetaData.svelte";
 
   // *** STORES
   import {
@@ -26,7 +27,6 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo } from "../globals.js";
   import { loadSingleData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
@@ -116,16 +116,9 @@
   }
 </style>
 
-<svelte:head>
-  {#await page then page}
-    {#if $isEnglish}
-      <title>{page.title.english} / {siteInfo.title.english}</title>
-    {/if}
-    {#if $isArabic}
-      <title>{siteInfo.title.arabic} / {page.title.arabic}</title>
-    {/if}
-  {/await}
-</svelte:head>
+{#await page then page}
+  <MetaData post={page} />
+{/await}
 
 <div class="page-view">
   {#await page then page}

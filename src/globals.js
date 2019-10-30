@@ -3,12 +3,17 @@ export const siteInfo = {
     english: 'Rights of Future Generations',
     arabic: 'حقوق الأجيال القادمة'
   },
+  satTitle: {
+    english: 'Sharjah Architecture Triennial 2019',
+    arabic: 'Sharjah Architecture Triennial 2019'
+  },
   description: {
     english:
       'Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence.',
-    arabic: 'arabic description to come'
+    arabic:
+      'Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence.'
   },
-  image: '/img/default-image.jpg'
+  image: '/img/rfgen.jpg'
 }
 
 export const colorList = [

@@ -28,7 +28,8 @@
   import fp from "lodash/fp";
 
   // *** COMPONENTS
-  import Head from "../Components/Head.svelte";
+  import MetaData from "../Components/MetaData.svelte";
+
   import Row from "../Components/Row.svelte";
   import Satoshi from "../Components/Satoshi.svelte";
 
@@ -46,6 +47,10 @@
   // *** GLOBALS
   import { siteInfo, baseProjections, colorList } from "../globals.js";
   import { client } from "../sanity.js";
+
+  let metaObject = {
+    title: {}
+  };
 
   // *** PROPS
   export let category = "";
@@ -77,11 +82,8 @@
   // <<< RE-USE
 
   $: {
-    if (categoryDisplayName) {
-      dynamicTitle = `${categoryDisplayName} / ${siteInfo.title.english}`;
-    } else {
-      dynamicTitle = siteInfo.title.english;
-    }
+    metaObject.title.english = categoryDisplayName;
+    metaObject.title.arabic = categoryDisplayName;
   }
 
   // Set globals
@@ -215,7 +217,7 @@
   }
 </style>
 
-<Head title={dynamicTitle} />
+<MetaData post={metaObject} />
 
 <div class="tile-view">
   {#await posts then posts}

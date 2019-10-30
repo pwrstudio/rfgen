@@ -16,6 +16,7 @@
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
   import Video from "../Components/Video.svelte";
+  import MetaData from "../Components/MetaData.svelte";
 
   // *** STORES
   import {
@@ -29,7 +30,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, baseProjections } from "../globals.js";
+  import { baseProjections } from "../globals.js";
   import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
@@ -241,17 +242,9 @@
   }
 </style>
 
-<svelte:head>
-  {#await post then post}
-    {#if $isEnglish}
-      <title>{post.title.english} / {siteInfo.title.english}</title>
-    {/if}
-    {#if $isArabic}
-      <title>{siteInfo.title.arabic} / {post.title.arabic}</title>
-    {/if}
-  {/await}
-
-</svelte:head>
+{#await post then post}
+  <MetaData {post} />
+{/await}
 
 <div class="post-view">
   {#await post then post}

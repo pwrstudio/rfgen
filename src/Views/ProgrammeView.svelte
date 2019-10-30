@@ -19,7 +19,7 @@
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
-  import Video from "../Components/Video.svelte";
+  import MetaData from "../Components/MetaData.svelte";
 
   // *** STORES
   import {
@@ -200,14 +200,9 @@
   }
 </style>
 
-<svelte:head>
-  {#if $isEnglish}
-    <title>Opening Programme / {siteInfo.title.english}</title>
-  {/if}
-  {#if $isArabic}
-    <title>Opening Programme / {siteInfo.title.arabic}</title>
-  {/if}
-</svelte:head>
+{#await programme then programme}
+  <MetaData post={programme.introduction} />
+{/await}
 
 <Router>
   <div class="programme">
