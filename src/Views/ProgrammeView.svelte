@@ -13,8 +13,9 @@
   import isEmpty from "lodash/isEmpty";
 
   // date-fns
-  import format from "date-fns/format";
+  // import format from "date-fns/format";
   import isValid from "date-fns/isValid";
+  // import zonedTimeToUtc from "date-fns/zonedTimeToUtc";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -43,18 +44,19 @@
 
   // ** CONSTANTS
   const query =
-    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {performanceDate, eventType, _id, en_title, ar_title, en_content, ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
+    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {startTime,  performanceDate, eventType, _id, en_title, ar_title, en_content,  ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
 
   let programme = loadProgrammeData(query, {});
 
   const getEventColor = type =>
     get($categoryList.find(c => c.categorySlug === type), "color", "");
 
-  const getEventDate = date => {
-    let eventDate = new Date(date);
-    if (isValid(eventDate)) return format(eventDate, "kk:mm");
-    return "";
-  };
+  // const getEventDate = date => {
+  //   let eventDate = new Date(date);
+  //   const output = format(zonedDate, pattern, { timeZone });
+  //   if (isValid(eventDate)) return format(eventDate, "kk:mm");
+  //   return "";
+  // };
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
@@ -232,7 +234,8 @@
               class="programme-event {getEventColor(event.event.type)}
               {event.event.type}">
               <div class="programme-event-date">
-                {getEventDate(event.event.date)}
+                {event.event.startTime}
+                <!-- {getEventDate(event.event.date)} -->
               </div>
               {#if !isEmpty(event.event.performers)}
                 <div class="programme-event-text">

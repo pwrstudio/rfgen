@@ -86,6 +86,7 @@ const sanitizePost = res => {
     event: {
       type: get(res, 'eventType', ''),
       date: get(res, 'performanceDate', ''),
+      startTime: get(res, 'startTime', ''),
       discussions: get(res, 'discussions', []),
       performers: get(res, 'participants', [])
     },
