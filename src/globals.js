@@ -13,7 +13,7 @@ export const siteInfo = {
     arabic:
       'Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence.'
   },
-  image: '/img/rfgen.jpg'
+  image: 'https://rfgen.net/img/rfgen.jpg'
 }
 
 export const colorList = [
