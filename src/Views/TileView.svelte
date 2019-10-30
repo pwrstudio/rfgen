@@ -65,9 +65,7 @@
 
   $: {
     activeNavigation.set(category ? category : "");
-    if (category) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    if (category) window.scrollTo(0, 0);
   }
 
   // >>> RE-USE

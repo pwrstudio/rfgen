@@ -74,6 +74,7 @@
     overflow-x: hidden;
     padding: 0;
     text-align: left;
+    scroll-behavior: smooth;
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
