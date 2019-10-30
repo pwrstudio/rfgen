@@ -124,6 +124,9 @@
     if (category === "discussion") {
       filteredPosts = reverse(sortBy(filteredPosts, p => p.eventDate));
     }
+    if (category === "working-group") {
+      filteredPosts = sortBy(filteredPosts, p => p.customOrder);
+    }
     filteredPosts.unshift(introductions.find(p => p.slug === category));
     return filteredPosts;
   };

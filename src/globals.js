@@ -112,7 +112,7 @@ export const categoryListDefaults = [
     categorySlug: 'working-group',
     query: '_type == "workingGroup"',
     menuOrder: 4,
-    projections: []
+    projections: ['customOrder']
   },
   {
     name: 'writing',

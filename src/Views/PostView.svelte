@@ -286,25 +286,27 @@
           {#if $isEnglish}{post.title.english}{/if}
           {#if $isArabic}{post.title.arabic}{/if}
         </div>
-        <div class="post-view-text-inner">
-          {#if $isEnglish}
-            {#if Array.isArray(post.content.english)}
-              {@html renderBlockText(post.content.english)}
-            {:else}{post.content.english}{/if}
-          {/if}
-          {#if $isArabic}
-            {#if Array.isArray(post.content.arabic)}
-              {@html renderBlockText(post.content.arabic)}
-            {:else}{post.content.arabic}{/if}
-          {/if}
-          {#if category === 'writing'}
-            <p>
-              <a href={post.link} target="_blank" class="external-link">
-                Read on {post.publisherName}
-              </a>
-            </p>
-          {/if}
-        </div>
+        {#if category !== 'workingGroup'}
+          <div class="post-view-text-inner">
+            {#if $isEnglish}
+              {#if Array.isArray(post.content.english)}
+                {@html renderBlockText(post.content.english)}
+              {:else}{post.content.english}{/if}
+            {/if}
+            {#if $isArabic}
+              {#if Array.isArray(post.content.arabic)}
+                {@html renderBlockText(post.content.arabic)}
+              {:else}{post.content.arabic}{/if}
+            {/if}
+            {#if category === 'writing'}
+              <p>
+                <a href={post.link} target="_blank" class="external-link">
+                  Read on {post.publisherName}
+                </a>
+              </p>
+            {/if}
+          </div>
+        {/if}
       </div>
       <div class="post-view-column right" class:arabic={$isArabic}>
         <div class="links-container" class:video={post.videoLink}>
