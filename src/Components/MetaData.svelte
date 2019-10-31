@@ -11,10 +11,9 @@
   import isArray from "lodash/isArray";
   import isEmpty from "lodash/isEmpty";
   import truncate from "lodash/truncate";
-  import kebabCase from "lodash/kebabCase";
 
   // *** STORES
-  import { isArabic, isEnglish, languagePrefix } from "../stores.js";
+  import { isArabic, isEnglish } from "../stores.js";
 
   import { siteInfo } from "../globals.js";
 
@@ -68,13 +67,6 @@
         .auto("format")
         .url()
     : siteInfo.image;
-
-  // const url =
-  //   "https://rfgen.net/" +
-  //   $languagePrefix +
-  //   (has(post, "category") ? "/" + kebabCase(post.category) : "") +
-  //   (has(post, "slug") ? "/" + post.slug : "");
-  console.dir(post);
 </script>
 
 <svelte:head>

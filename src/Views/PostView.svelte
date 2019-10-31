@@ -277,7 +277,8 @@
         class:arabic={$isArabic}>
         <img
           src={urlFor(post.mainImage)
-            .height(1400)
+            .height(1200)
+            .width(1000)
             .quality(90)
             .auto('format')
             .url()}

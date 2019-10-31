@@ -125,7 +125,7 @@
       width: 100vw;
       top: unset;
       left: unset;
-      height: unset;
+      height: 50vh;
     }
 
     opacity: 1;
@@ -154,6 +154,11 @@
     min-height: calc(70vh - 230px);
     width: 95%;
     max-width: 45ch;
+
+    &.arabic {
+      padding-left: 4 * $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
+    }
   }
 
   .links-container {
@@ -167,12 +172,15 @@
 
 <div class="introduction-view">
   {#await post then post}
+    <div class="introduction-view-image" class:arabic={$isArabic}>
+      <Satoshi satoshiIndex={post.satoshiIndex} />
+    </div>
     <div class="introduction-view-text" class:arabic={$isArabic} in:fade>
       <div class="introduction-view-title">
         {#if $isEnglish}{post.title.english}{/if}
         {#if $isArabic}{post.title.arabic}{/if}
       </div>
-      <div class="introduction-view-text-inner">
+      <div class="introduction-view-text-inner" class:arabic={$isArabic}>
         {#if $isEnglish}
           {@html renderBlockText(post.content.english)}
         {/if}
@@ -181,10 +189,5 @@
         {/if}
       </div>
     </div>
-    {#if post.mainImage}
-      <div class="introduction-view-image" class:arabic={$isArabic}>
-        <Satoshi satoshiIndex={post.satoshiIndex} />
-      </div>
-    {/if}
   {/await}
 </div>

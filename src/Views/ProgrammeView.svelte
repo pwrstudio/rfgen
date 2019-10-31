@@ -184,6 +184,11 @@
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
+
+    &.arabic {
+      padding-left: 4 * $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
+    }
   }
 
   .links-container {
@@ -208,7 +213,7 @@
   <div class="programme">
     {#await programme then programme}
       <div class="programme-text" class:arabic={$isArabic} in:fade>
-        <div class="programme-text-inner">
+        <div class="programme-text-inner" class:arabic={$isArabic}>
           {#if $isEnglish}
             {@html renderBlockText(programme.introduction.content.english)}
           {/if}

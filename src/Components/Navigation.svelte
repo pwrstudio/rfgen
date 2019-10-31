@@ -75,6 +75,7 @@
     @include screen-size("small") {
       margin-bottom: 0;
       padding-left: $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
     }
   }
 
@@ -190,6 +191,10 @@
     &.arabic {
       margin-right: 0;
       margin-left: 2 * $rfgen-grid-unit;
+
+      &:first-child {
+        padding-right: $rfgen-grid-unit;
+      }
     }
 
     @include screen-size("small") {
