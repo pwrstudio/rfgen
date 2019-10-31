@@ -38,9 +38,9 @@
     document.documentElement.lang = $languagePrefix;
   }
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js");
-  }
+  // if ("serviceWorker" in navigator) {
+  //   navigator.serviceWorker.register("/service-worker.js");
+  // }
 
   const query = '*[_type == "satoshi"]{mainImage}';
   const satoshis = loadSatoshis(query, {});
