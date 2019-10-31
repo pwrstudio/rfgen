@@ -135,12 +135,7 @@
     if (category.length > 0) {
       return chunk(filterPostsByCategory(posts), 5);
     } else {
-      let chunked = chunk(
-        posts.filter(
-          p => p.category !== "participant" && p.category !== "workingGroup"
-        ),
-        5
-      );
+      let chunked = chunk(posts.filter(p => p.category !== "participant"), 5);
       let spliced = [];
       chunked.forEach((row, i) => {
         if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
