@@ -44,7 +44,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {startTime,  performanceDate, eventType, _id, en_title, ar_title, en_content,  ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
+    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {startTime,  performanceDate, eventType, _id, en_title, ar_title, en_content,  ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, ar_title, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
 
   let programme = loadProgrammeData(query, {});
 

@@ -12,6 +12,7 @@
   import { fade } from "svelte/transition";
   // _lodash
   import kebabCase from "lodash/kebabCase";
+  import get from "lodash/get";
 
   // *** COMPONENTS
   import InternalLink from "../Components/InternalLink.svelte";
@@ -53,7 +54,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, en_content, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{"en_title": en_name, en_title, "ar_title": ar_name, "slug": slug.current, "category": _type}}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, en_content, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{en_title, ar_title, "slug": slug.current, "category": _type}}[0]';
 
   $: {
     post = loadSingleData(query, { slug: slug, category: category });
@@ -208,6 +209,11 @@
     margin-bottom: 1em;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
+
+    &.arabic {
+      padding-left: 4 * $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
+    }
   }
 
   .post-view-title {
@@ -215,6 +221,11 @@
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
+
+    &.arabic {
+      padding-left: 4 * $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
+    }
   }
 
   .post-view-text-inner {
@@ -224,6 +235,11 @@
     margin-bottom: 40px;
     width: 95%;
     max-width: 45ch;
+
+    &.arabic {
+      padding-left: 4 * $rfgen-grid-unit;
+      padding-right: $rfgen-grid-unit;
+    }
   }
 
   .video-container {
@@ -274,13 +290,15 @@
       in:fade
       class:video={post.videoLink}>
       <div class="post-view-column left" class:arabic={$isArabic}>
-        <div class="post-view-category">{post.category}</div>
-        <div class="post-view-title">
+        <div class="post-view-category" class:arabic={$isArabic}>
+          {post.category === 'workingGroup' ? 'Working group' : post.category}
+        </div>
+        <div class="post-view-title" class:arabic={$isArabic}>
           {#if $isEnglish}{post.title.english}{/if}
           {#if $isArabic}{post.title.arabic}{/if}
         </div>
         {#if category !== 'workingGroup'}
-          <div class="post-view-text-inner">
+          <div class="post-view-text-inner" class:arabic={$isArabic}>
             {#if $isEnglish}
               {@html renderBlockText(post.content.english)}
             {/if}

@@ -312,7 +312,7 @@
       target="_blank"
       rel="noreferrer">
       {#if $isEnglish}Sharjah Architecture Triennial{/if}
-      {#if $isArabic}Sharjah Architecture Triennial (ar){/if}
+      {#if $isArabic}Sharjah Architecture Triennial{/if}
     </a>
   </footer>
 

@@ -73,7 +73,7 @@ const sanitizePost = res => {
     satoshiIndex: get(res, 'satoshiIndex', 0),
     title: {
       english: get(res, 'en_title', ''),
-      arabic: get(res, 'en_title', '')
+      arabic: get(res, 'ar_title', '')
     },
     content: {
       english: get(res, 'en_content', []),
