@@ -21,7 +21,6 @@
 
   // *** PROPS
   export let post = {};
-  export let width = 20;
 
   // ** VARIABLES
   let color = "";
@@ -42,7 +41,7 @@
   @import "../variables.scss";
 
   .intro-tile {
-    width: 33.33%;
+    width: 30%;
     height: $tile-height;
     margin: 0;
     float: left;
@@ -66,8 +65,8 @@
     height: 100%;
     width: 100%;
     padding: $rfgen-grid-unit;
-    font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
+    font-size: $rfgen-font-size-large;
+    line-height: $rfgen-font-size-large;
     transition: none;
     z-index: 10;
     overflow: hidden;
@@ -77,13 +76,12 @@
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      line-clamp: 12;
-      -webkit-line-clamp: 12;
-      width: 95%;
+      line-clamp: 7;
+      -webkit-line-clamp: 7;
       max-width: 45ch;
 
       @include screen-size("small") {
-        line-clamp: 10;
+        line-clamp: 8;
         -webkit-line-clamp: 8;
       }
     }
@@ -93,60 +91,14 @@
       line-height: $rfgen-font-size-mobile-large;
     }
   }
-
-  .width-15 {
-    width: 15%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-20 {
-    width: 20%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-25 {
-    width: 25%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-30 {
-    width: 30%;
-
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-35 {
-    width: 35%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
-
-  .width-40 {
-    width: 40%;
-    @include screen-size("small") {
-      width: 100%;
-    }
-  }
 </style>
 
 <Router>
-
-  <div class="intro-tile width-{width}" use:links>
-
+  <div class="intro-tile" use:links>
     <a href="/{$languagePrefix}/introduction/{post.slug}">
       <div class="intro-tile-bar {color}">
         <span>{toPlainText(post.en_content)}</span>
       </div>
     </a>
   </div>
-
 </Router>

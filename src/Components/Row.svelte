@@ -25,10 +25,18 @@
     [15, 15, 15, 15, 40]
   ];
 
+  const introRowLayouts = [[15, 15, 20, 20], [15, 15, 15, 25]];
+
+  const hasIntroText = row => {
+    return row.find(p => p.category === "categoryIntroduction");
+  };
+
   const defaultLayout = layouts[0];
 
   const tileWidths =
     row.length === 5 ? shuffle(sample(layouts)) : defaultLayout;
+
+  const introRowTileWidths = shuffle(sample(introRowLayouts));
 </script>
 
 <style lang="scss">
@@ -40,11 +48,17 @@
 </style>
 
 <div class="row">
-  {#each row as post, i (post.slug)}
-    {#if post.category === 'categoryIntroduction'}
-      <IntroTile {post} width={tileWidths[i]} />
-    {:else}
+  {#if hasIntroText(row)}
+    {#each row as post, i (post.slug)}
+      {#if post.category === 'categoryIntroduction'}
+        <IntroTile {post} />
+      {:else}
+        <Tile {post} width={introRowTileWidths[i - 1]} order={i} />
+      {/if}
+    {/each}
+  {:else}
+    {#each row as post, i (post.slug)}
       <Tile {post} width={tileWidths[i]} order={i} />
-    {/if}
-  {/each}
+    {/each}
+  {/if}
 </div>
