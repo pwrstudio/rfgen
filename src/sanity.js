@@ -4,12 +4,7 @@ import imageUrlBuilder from '@sanity/image-url'
 // _lodash
 import get from 'lodash/get'
 import remove from 'lodash/remove'
-import map from 'lodash/map'
-import flatten from 'lodash/flatten'
 import fp from 'lodash/fp'
-
-// date-fns
-import format from 'date-fns/format'
 
 const tracer = x => {
   console.dir(x)
@@ -88,6 +83,7 @@ const sanitizePost = res => {
     event: {
       type: get(res, 'eventType', ''),
       date: get(res, 'performanceDate', ''),
+      simpleDate: get(res, 'simpleDate', 12),
       startTime: get(res, 'startTime', ''),
       discussions: get(res, 'discussions', []),
       performers: get(res, 'participants', [])
@@ -123,30 +119,15 @@ export const loadSingleData = async (query, params) => {
 
 const isCategoryIntroduciton = p => p.category === 'categoryIntroduction'
 
-const getEventDate = e => {
-  e.event.date = new Date(get(e, 'event.date', false))
-  return e
-}
-
 export const loadProgrammeData = async (query, params) => {
   try {
     const res = await client.fetch(query, params)
     const introduction = remove(res, isCategoryIntroduciton)
 
     let processedEvents = fp.compose(
-      fp.groupBy(e => format(e.event.date, 'MMMM do')), // Group by date
-      fp.map(getEventDate), // Convert date
+      fp.groupBy(e => e.event.simpleDate), // Group by (simple) date
       fp.map(sanitizePost) // Sanetize posts
     )(res)
-
-    // Fold the date label into the array of events
-    // and flatten array
-    processedEvents = flatten(
-      map(processedEvents, (value, key) => [
-        { category: 'date-marker', text: key },
-        ...value
-      ])
-    )
 
     return {
       introduction: sanitizePost(introduction[0]),
