@@ -70,7 +70,6 @@
     text-align: left;
     position: relative;
     top: 5px;
-    // font-weight: bold;
     font-weight: normal;
     @include screen-size("small") {
       margin-bottom: 0;

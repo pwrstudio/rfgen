@@ -6,14 +6,11 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   // _lodash
   import get from "lodash/get";
-  import kebabCase from "lodash/kebabCase";
 
   // *** COMPONENTS
-  import InternalLink from "../Components/InternalLink.svelte";
   import Satoshi from "../Components/Satoshi.svelte";
   import MetaData from "../Components/MetaData.svelte";
 
@@ -29,7 +26,6 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { baseProjections } from "../globals.js";
   import { loadSingleData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
@@ -40,11 +36,6 @@
 
   // ** VARIABLES
   let post = {};
-  let headTitle = {
-    english: "",
-    arabic: ""
-  };
-  let loaded = false;
 
   // ** CONSTANTS
   const query =
@@ -61,11 +52,6 @@
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   isTileView.set(false);
-
-  // *** ON MOUNT
-  onMount(async () => {
-    window.scrollTo(0, 0);
-  });
 </script>
 
 <style lang="scss">
@@ -142,7 +128,6 @@
 
   .introduction-view-title {
     margin-bottom: 1em;
-    // font-weight: bold;
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;

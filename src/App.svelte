@@ -128,6 +128,10 @@
     font-weight: normal;
   }
 
+  .page-view-text-inner strong {
+    font-weight: bold;
+  }
+
   p {
     a {
       text-decoration: underline;

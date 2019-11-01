@@ -218,7 +218,7 @@
 
   .post-view-title {
     margin-bottom: 1em;
-    font-weight: normal;
+    font-weight: bold;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
 

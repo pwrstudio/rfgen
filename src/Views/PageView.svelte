@@ -6,8 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount, onDestroy } from "svelte";
-  import { Router } from "svelte-routing";
+  import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   // _lodash
   import get from "lodash/get";
@@ -89,6 +88,11 @@
     max-width: 45ch;
   }
 
+  .page-title {
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+
   .page-view-image {
     position: fixed;
     width: 50vw;
@@ -120,8 +124,20 @@
     margin-bottom: 1em;
   }
 
+  .page-category {
+    margin-bottom: 1em;
+  }
+
+  .team-title {
+    font-weight: bold;
+  }
+
   .team-body {
     margin-bottom: 2em;
+  }
+
+  .sharjah-team {
+    padding-top: 1em;
   }
 </style>
 
@@ -140,7 +156,7 @@
           <div class="curatorial-team">
             <div class="team-header">Curatorial Team</div>
             {#each page.curatorialTeam as curatorialMember}
-              <div class="team-header">
+              <div class="team-header team-title">
                 {#if $isEnglish}{curatorialMember.en_name}{/if}
                 {#if $isArabic}{curatorialMember.ar_name}{/if}
               </div>
@@ -166,17 +182,13 @@
                 {#if $isEnglish}{sharjahlMember.en_position}{/if}
                 {#if $isArabic}{sharjahlMember.ar_position}{/if}
               </div>
-              <!-- <div class="team-body">
-                {#if $isEnglish}
-                  {@html renderBlockText(curatorialMember.en_bio)}
-                {/if}
-                {#if $isArabic}
-                  {@html renderBlockText(curatorialMember.ar_bio)}
-                {/if}
-              </div> -->
             {/each}
           </div>
         {:else}
+          <div class="page-category">
+            {#if $isEnglish}{page.title.english}{/if}
+            {#if $isArabic}{page.title.arabic}{/if}
+          </div>
           {#if $isEnglish}
             {@html renderBlockText(page.content.english)}
           {/if}
