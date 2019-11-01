@@ -67,22 +67,23 @@
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     transition: none;
     z-index: 10;
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
-      line-height: $rfgen-font-size-mobile-large;
     }
   }
 
   .cross-link-title {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
+;
   }
 
   .cross-link-category {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
+;
   }
 </style>
 

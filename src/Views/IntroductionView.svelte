@@ -60,7 +60,7 @@
   .introduction-view {
     display: inline-block;
     margin-top: $navigation-top-height;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     padding-bottom: $navigation-bottom-height;
 
     @include screen-size("small") {
@@ -127,7 +127,7 @@
   }
 
   .introduction-view-title {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
@@ -147,7 +147,7 @@
   }
 
   .links-container {
-    margin-top: 1em;
+    margin-top: $unified-line-height;
   }
 </style>
 

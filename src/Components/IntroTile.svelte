@@ -66,7 +66,7 @@
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-large;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     transition: none;
     z-index: 10;
     overflow: hidden;
@@ -88,7 +88,7 @@
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
-      line-height: $rfgen-font-size-mobile-large;
+      line-height: $unified-line-height;
     }
   }
 </style>

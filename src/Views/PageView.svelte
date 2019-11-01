@@ -63,7 +63,7 @@
   .page-view {
     display: inline-block;
     margin-top: $navigation-top-height;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     padding-bottom: $navigation-bottom-height;
 
     @include screen-size("small") {
@@ -90,7 +90,7 @@
 
   .page-title {
     font-weight: bold;
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
   }
 
   .page-view-image {
@@ -121,11 +121,11 @@
   }
 
   .team-header {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
   }
 
   .page-category {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
   }
 
   .team-title {
@@ -137,7 +137,7 @@
   }
 
   .sharjah-team {
-    padding-top: 1em;
+    padding-top: $unified-line-height;
   }
 </style>
 

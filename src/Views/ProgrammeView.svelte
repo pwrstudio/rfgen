@@ -54,7 +54,7 @@
   .programme {
     display: inline-block;
     margin-top: $navigation-top-height;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     padding-bottom: $navigation-bottom-height;
   }
 
@@ -88,13 +88,13 @@
 
   .programme-category {
     text-transform: capitalize;
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
   }
 
   .programme-title {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;

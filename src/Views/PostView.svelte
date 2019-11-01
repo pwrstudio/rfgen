@@ -84,7 +84,7 @@
   .post-view {
     display: inline-block;
     margin-top: $navigation-top-height;
-    line-height: $rfgen-font-size-large;
+    line-height: $unified-line-height;
     padding-bottom: $navigation-bottom-height;
 
     @include screen-size("small") {
@@ -206,7 +206,7 @@
 
   .post-view-category {
     text-transform: capitalize;
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;
 
@@ -217,7 +217,7 @@
   }
 
   .post-view-title {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
     font-weight: bold;
     padding-left: $rfgen-grid-unit;
     padding-right: 4 * $rfgen-grid-unit;

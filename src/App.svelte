@@ -69,7 +69,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: $rfgen-font-size-large;
-    line-height: 1em;
+    line-height: $unified-line-height;
     margin: 0;
     overflow-x: hidden;
     padding: 0;

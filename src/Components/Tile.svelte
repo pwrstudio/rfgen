@@ -97,13 +97,13 @@
     height: $tile-bar-height;
     width: 100%;
     font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
+    line-height: $unified-line-height;
     z-index: 10;
     overflow: hidden;
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
-      line-height: $rfgen-font-size-mobile-large;
+      line-height: $unified-line-height;
     }
   }
 
@@ -122,7 +122,7 @@
     width: 100%;
     padding: $rfgen-grid-unit;
     font-size: $rfgen-font-size-small;
-    line-height: $rfgen-font-size-small;
+    line-height: $unified-line-height;
     height: calc(#{$tile-height} - #{$tile-bar-height});
     height: $tile-height;
     z-index: 11;
@@ -136,7 +136,7 @@
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
-      line-height: $rfgen-font-size-mobile-large;
+      line-height: $unified-line-height;
       height: $mobile-tile-height;
     }
   }

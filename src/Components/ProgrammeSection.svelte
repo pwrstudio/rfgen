@@ -44,15 +44,15 @@
   .programme-event {
     margin-bottom: 2px;
     padding: $rfgen-grid-unit;
-    padding-bottom: 1em;
+    padding-bottom: $unified-line-height;
   }
 
   .programme-event-title {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
   }
 
   .programme-event-text {
-    margin-bottom: 1em;
+    margin-bottom: $unified-line-height;
   }
 
   a {
