@@ -137,20 +137,45 @@
     <div class="page-view-text" in:fade>
       <div class="page-view-text-inner">
         {#if slug === 'team'}
-          {#each page.curatorialTeam as curatorialMember}
-            <div class="team-header">
-              {#if $isEnglish}{curatorialMember.en_name}{/if}
-              {#if $isArabic}{curatorialMember.ar_name}{/if}
-            </div>
-            <div class="team-body">
-              {#if $isEnglish}
-                {@html renderBlockText(curatorialMember.en_bio)}
-              {/if}
-              {#if $isArabic}
-                {@html renderBlockText(curatorialMember.ar_bio)}
-              {/if}
-            </div>
-          {/each}
+          <div class="curatorial-team">
+            <div class="team-header">Curatorial Team</div>
+            {#each page.curatorialTeam as curatorialMember}
+              <div class="team-header">
+                {#if $isEnglish}{curatorialMember.en_name}{/if}
+                {#if $isArabic}{curatorialMember.ar_name}{/if}
+              </div>
+              <div class="team-body">
+                {#if $isEnglish}
+                  {@html renderBlockText(curatorialMember.en_bio)}
+                {/if}
+                {#if $isArabic}
+                  {@html renderBlockText(curatorialMember.ar_bio)}
+                {/if}
+              </div>
+            {/each}
+          </div>
+          <div class="sharjah-team">
+            <div class="team-header">Sharjah Architecture Triennial Team</div>
+            {#each page.sharjahTeam as sharjahlMember}
+              <div class="team-header">
+                <a href={sharjahlMember.link} target="_blank" rel="noreferrer">
+                  {#if $isEnglish}{sharjahlMember.en_name}{/if}
+                  {#if $isArabic}{sharjahlMember.ar_name}{/if}
+                </a>
+                <br />
+                {#if $isEnglish}{sharjahlMember.en_position}{/if}
+                {#if $isArabic}{sharjahlMember.ar_position}{/if}
+              </div>
+              <!-- <div class="team-body">
+                {#if $isEnglish}
+                  {@html renderBlockText(curatorialMember.en_bio)}
+                {/if}
+                {#if $isArabic}
+                  {@html renderBlockText(curatorialMember.ar_bio)}
+                {/if}
+              </div> -->
+            {/each}
+          </div>
         {:else}
           {#if $isEnglish}
             {@html renderBlockText(page.content.english)}
