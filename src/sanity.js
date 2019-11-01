@@ -83,6 +83,8 @@ const sanitizePost = res => {
     videoLink: get(res, 'videoLink', false),
     posterImage: get(res, 'posterImage', false),
     links: [],
+    curatorialTeam: get(res, 'curatorialTeam', []),
+    sharjahTeam: get(res, 'sharjahTeam', []),
     event: {
       type: get(res, 'eventType', ''),
       date: get(res, 'performanceDate', ''),

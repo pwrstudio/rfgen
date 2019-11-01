@@ -74,7 +74,7 @@
     overflow-x: hidden;
     padding: 0;
     text-align: left;
-    scroll-behavior: smooth;
+    // scroll-behavior: smooth;
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
@@ -105,7 +105,6 @@
 
   ::-moz-selection {
     background: #e4e4e4;
-    /* Gecko Browsers */
   }
 
   .page-view {

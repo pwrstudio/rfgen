@@ -115,6 +115,14 @@
   a {
     text-decoration: underline;
   }
+
+  .team-header {
+    margin-bottom: 1em;
+  }
+
+  .team-body {
+    margin-bottom: 2em;
+  }
 </style>
 
 {#await page then page}
@@ -128,11 +136,28 @@
     </div>
     <div class="page-view-text" in:fade>
       <div class="page-view-text-inner">
-        {#if $isEnglish}
-          {@html renderBlockText(page.content.english)}
-        {/if}
-        {#if $isArabic}
-          {@html renderBlockText(page.content.arabic)}
+        {#if slug === 'team'}
+          {#each page.curatorialTeam as curatorialMember}
+            <div class="team-header">
+              {#if $isEnglish}{curatorialMember.en_name}{/if}
+              {#if $isArabic}{curatorialMember.ar_name}{/if}
+            </div>
+            <div class="team-body">
+              {#if $isEnglish}
+                {@html renderBlockText(curatorialMember.en_bio)}
+              {/if}
+              {#if $isArabic}
+                {@html renderBlockText(curatorialMember.ar_bio)}
+              {/if}
+            </div>
+          {/each}
+        {:else}
+          {#if $isEnglish}
+            {@html renderBlockText(page.content.english)}
+          {/if}
+          {#if $isArabic}
+            {@html renderBlockText(page.content.arabic)}
+          {/if}
         {/if}
       </div>
     </div>
