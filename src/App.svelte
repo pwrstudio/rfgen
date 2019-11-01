@@ -132,6 +132,10 @@
     font-weight: bold;
   }
 
+  .introduction-view-text-inner strong {
+    font-weight: bold;
+  }
+
   p {
     a {
       text-decoration: underline;
