@@ -158,10 +158,18 @@
       </div>
     </div>
     <div class="programme-calendar" class:arabic={$isArabic}>
-      <ProgrammeSection date="November 9th" events={programme.events['9']} />
-      <ProgrammeSection date="November 10th" events={programme.events['10']} />
-      <ProgrammeSection date="November 11th" events={programme.events['11']} />
-      <ProgrammeSection date="November 12th" events={programme.events['12']} />
+      <ProgrammeSection
+        date="Saturday, November 9th"
+        events={programme.events['9']} />
+      <ProgrammeSection
+        date="Sunday, November 10th"
+        events={programme.events['10']} />
+      <ProgrammeSection
+        date="Monday, November 11th"
+        events={programme.events['11']} />
+      <ProgrammeSection
+        date="Tuesday, November 12th"
+        events={programme.events['12']} />
     </div>
 
   {/await}

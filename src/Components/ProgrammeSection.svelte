@@ -7,7 +7,7 @@
 
   // *** IMPORT
   import { Router, links } from "svelte-routing";
-  import { fade } from "svelte/transition";
+  import { fade, scale } from "svelte/transition";
 
   // _lodash
   import get from "lodash/get";
@@ -66,6 +66,23 @@
     background: $rfgen-grey;
   }
 
+  .programme-event-header-date {
+    float: left;
+  }
+
+  .programme-event-open {
+    float: right;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    top: -7px;
+    svg {
+      width: 100%;
+    }
+    margin-bottom: $unified-line-height;
+    // margin-right: 10px;
+  }
+
   .top-date {
     background: $rfgen-yellow;
     padding: $rfgen-grid-unit;
@@ -76,7 +93,37 @@
 
 <Router>
   <div class="programme-event top-date" on:click={() => (open = !open)}>
-    <div class="programme-event-date">{date}</div>
+    <div class="programme-event-header-date">{date}</div>
+    <div class="programme-event-open">
+      {#if open}
+        <svg
+          in:scale={{ duration: 250 }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          class="feather feather-x">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      {:else}
+        <svg
+          in:scale={{ duration: 250 }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          class="feather feather-chevron-down">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      {/if}
+    </div>
   </div>
   {#if open}
     <div class="programme-event-body">
