@@ -80,7 +80,6 @@
       width: 100%;
     }
     margin-bottom: $unified-line-height;
-    // margin-right: 10px;
   }
 
   .top-date {
@@ -92,7 +91,11 @@
 </style>
 
 <Router>
-  <div class="programme-event top-date" on:click={() => (open = !open)}>
+  <div
+    class="programme-event top-date"
+    on:click={e => {
+      open = !open;
+    }}>
     <div class="programme-event-header-date">{date}</div>
     <div class="programme-event-open">
       {#if open}

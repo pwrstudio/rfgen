@@ -76,6 +76,10 @@
       padding-left: $rfgen-grid-unit;
       padding-right: $rfgen-grid-unit;
     }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .language-switch {
@@ -240,6 +244,10 @@
       margin-left: 5px;
     }
   }
+
+  .force-ltr {
+    direction: ltr;
+  }
 </style>
 
 <Router>
@@ -293,8 +301,11 @@
             <a
               href="https://www.instagram.com/explore/tags/rfgen/"
               target="_blank"
+              class="force-ltr"
               rel="noreferrer">
-              #rfgen
+              {#if $isEnglish}#rfgen{/if}
+              {#if $isArabic}rfgen#{/if}
+
             </a>
           </li>
           <!-- EXTRA WHITESPACE -->

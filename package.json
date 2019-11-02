@@ -30,6 +30,7 @@
     "regenerator-runtime": "^0.13.3",
     "rollup-plugin-babel": "^4.3.3",
     "sirv-cli": "^0.4.4",
+    "svelte-media-query": "^0.0.4",
     "svelte-preprocess": "^3.1.2",
     "svelte-routing": "^1.4.0"
   },

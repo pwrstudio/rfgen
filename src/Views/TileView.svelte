@@ -206,6 +206,9 @@
       height: 100%;
       float: right;
     }
+    @include screen-size("small") {
+      display: none;
+    }
   }
 </style>
 

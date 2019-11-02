@@ -1,7 +1,7 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  RFGEN.SHARJAHARCHITECTURE.ORG
+  //  RFGEN.NET
   //
   // # # # # # # # # # # # # #
 

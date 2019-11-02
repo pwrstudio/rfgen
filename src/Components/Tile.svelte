@@ -10,6 +10,7 @@
   import { fly } from "svelte/transition";
   import { Router, links } from "svelte-routing";
   import imagesLoaded from "imagesloaded";
+  import MediaQuery from "svelte-media-query";
   // _lodash
   import kebabCase from "lodash/kebabCase";
   import get from "lodash/get";
@@ -74,8 +75,7 @@
     margin: 0;
     float: left;
     position: relative;
-    opacity: 0;
-    transition: opacity 0.5s $easing;
+    opacity: 1;
     cursor: pointer;
     margin-bottom: 2px;
 
@@ -83,10 +83,6 @@
       width: 100%;
       height: $mobile-tile-height;
       margin-bottom: 0px;
-    }
-
-    &.loaded {
-      opacity: 1;
     }
   }
 
@@ -113,6 +109,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+
+    transition: opacity 1s $easing;
+
+    opacity: 0;
+
+    &.loaded {
+      opacity: 1;
+    }
   }
 
   .tile-overlay {
@@ -154,6 +158,14 @@
       height: 100%;
       width: 100%;
       object-fit: cover;
+    }
+
+    transition: opacity 0.5s $easing;
+
+    opacity: 0;
+
+    &.loaded {
+      opacity: 1;
     }
   }
 
@@ -225,8 +237,7 @@
     class="tile width-{width} order-{order}
     {color}"
     use:links
-    bind:this={tileEl}
-    class:loaded>
+    bind:this={tileEl}>
 
     {#if post.category === 'writing' || post.category === 'socialMedia'}
       <div
@@ -235,22 +246,35 @@
         }}>
         <div class="tile-bar">
           {#if !linkOutActive}
-            <div class="tile-title">
+            <div class="tile-title" class:loaded>
               {#if $isEnglish}{post.en_title}{/if}
               {#if $isArabic}{post.ar_title}{/if}
             </div>
           {/if}
         </div>
-        <div class="tile-image">
+        <div class="tile-image" class:loaded>
           {#if post.mainImage}
-            <img
-              src={urlFor(post.mainImage)
-                .height(320)
-                .width(imgWidth)
-                .quality(100)
-                .auto('format')
-                .url()}
-              alt={$isEnglish ? post.en_title : post.ar_title} />
+            <MediaQuery query="(min-width: 800px)" let:matches>
+              {#if matches}
+                <img
+                  src={urlFor(post.mainImage)
+                    .height(320)
+                    .width(imgWidth)
+                    .quality(100)
+                    .auto('format')
+                    .url()}
+                  alt={$isEnglish ? post.en_title : post.ar_title} />
+              {:else}
+                <img
+                  src={urlFor(post.mainImage)
+                    .height(300)
+                    .width(600)
+                    .quality(100)
+                    .auto('format')
+                    .url()}
+                  alt={$isEnglish ? post.en_title : post.ar_title} />
+              {/if}
+            </MediaQuery>
           {/if}
         </div>
         <div class="tile-overlay {color}" class:active={linkOutActive}>
@@ -281,26 +305,38 @@
       <a href="/{$languagePrefix}/{post.category}/{post.slug}">
         <div class="tile-bar">
           {#if !linkOutActive}
-            <div class="tile-title">
+            <div class="tile-title" class:loaded>
               {#if $isEnglish && post.en_title}{post.en_title}{/if}
               {#if $isArabic && post.ar_title}{post.ar_title}{/if}
             </div>
           {/if}
         </div>
-        <div class="tile-image">
+        <div class="tile-image" class:loaded>
           {#if post.mainImage}
-            <img
-              src={urlFor(post.mainImage)
-                .height(320)
-                .width(imgWidth)
-                .quality(100)
-                .auto('format')
-                .url()}
-              alt={$isEnglish ? post.en_title : post.ar_title} />
+            <MediaQuery query="(min-width: 800px)" let:matches>
+              {#if matches}
+                <img
+                  src={urlFor(post.mainImage)
+                    .height(320)
+                    .width(imgWidth)
+                    .quality(100)
+                    .auto('format')
+                    .url()}
+                  alt={$isEnglish ? post.en_title : post.ar_title} />
+              {:else}
+                <img
+                  src={urlFor(post.mainImage)
+                    .height(300)
+                    .width(600)
+                    .quality(100)
+                    .auto('format')
+                    .url()}
+                  alt={$isEnglish ? post.en_title : post.ar_title} />
+              {/if}
+            </MediaQuery>
           {/if}
         </div>
       </a>
     {/if}
   </div>
-
 </Router>
