@@ -130,18 +130,15 @@
     margin-bottom: $unified-line-height;
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
   }
 
   .introduction-view-text-inner {
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
     width: 95%;
     max-width: 45ch;
 
     &.arabic {
-      padding-left: 4 * $rfgen-grid-unit;
       padding-right: $rfgen-grid-unit;
     }
   }

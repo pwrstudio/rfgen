@@ -208,7 +208,6 @@
     text-transform: capitalize;
     margin-bottom: $unified-line-height;
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
 
     &.arabic {
       padding-left: 4 * $rfgen-grid-unit;
@@ -220,7 +219,6 @@
     margin-bottom: $unified-line-height;
     font-weight: bold;
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
 
     &.arabic {
       padding-left: 4 * $rfgen-grid-unit;
@@ -230,14 +228,12 @@
 
   .post-view-text-inner {
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
     margin-bottom: 40px;
     width: 95%;
     max-width: 45ch;
 
     &.arabic {
-      padding-left: 4 * $rfgen-grid-unit;
       padding-right: $rfgen-grid-unit;
     }
   }

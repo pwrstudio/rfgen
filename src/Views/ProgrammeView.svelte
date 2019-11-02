@@ -90,22 +90,19 @@
     text-transform: capitalize;
     margin-bottom: $unified-line-height;
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
   }
 
   .programme-title {
     margin-bottom: $unified-line-height;
     font-weight: normal;
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
   }
 
   .programme-text-inner {
     padding-left: $rfgen-grid-unit;
-    padding-right: 4 * $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
+    width: 90%;
     &.arabic {
-      padding-left: 4 * $rfgen-grid-unit;
       padding-right: $rfgen-grid-unit;
     }
   }

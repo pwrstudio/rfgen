@@ -85,6 +85,7 @@
   .language-switch {
     float: right;
     margin-right: $rfgen-grid-unit;
+    height: 1.1em;
 
     &.arabic {
       float: left;
@@ -115,7 +116,9 @@
     }
 
     &.arabic {
-      top: -20px;
+      top: -15px;
+      padding-right: 3 * $rfgen-grid-unit;
+      padding-left: 3 * $rfgen-grid-unit;
 
       &:hover,
       &.active {
