@@ -94,9 +94,12 @@
     border: 0;
     outline: 0;
     border-radius: 0;
+    font-family: $font-stack;
     font-size: $rfgen-font-size-large;
     padding: 0;
     cursor: pointer;
+    position: relative;
+    top: 5px;
 
     &:hover,
     &.active {
@@ -105,6 +108,15 @@
 
     @include screen-size("small") {
       font-size: $rfgen-font-size-mobile-large;
+    }
+
+    &.arabic {
+      top: -20px;
+
+      &:hover,
+      &.active {
+        text-decoration: none;
+      }
     }
   }
 
@@ -241,8 +253,10 @@
       </a>
       <div class="language-switch" class:arabic={$isArabic}>
         {#if !$isArabic}
-          <button class="language-switch-button" on:click={changeLanguage}>
-            AR
+          <button
+            class="language-switch-button arabic"
+            on:click={changeLanguage}>
+            ﻉ
           </button>
         {/if}
         {#if !$isEnglish}
