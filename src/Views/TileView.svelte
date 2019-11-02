@@ -135,13 +135,12 @@
     if (category.length > 0) {
       return chunk(filterPostsByCategory(posts), 5);
     } else {
-      let chunked = chunk(posts.filter(p => p.category !== "participant"), 5);
+      let chunked = chunk(posts, 5);
       let spliced = [];
       chunked.forEach((row, i) => {
         if (i > 0 && i % 3 === 0) spliced.push({ satoshi: true });
         spliced.push(row);
       });
-
       let lastItem = spliced.pop();
       if (size(lastItem) < 5) {
         spliced.push([...lastItem, ...take(spliced[0], 5 - size(lastItem))]);
