@@ -50,6 +50,7 @@
     transition: opacity 0.5s $easing;
     cursor: pointer;
     border-right: 2px solid white;
+    user-select: none;
 
     @include screen-size("small") {
       width: 100%;
