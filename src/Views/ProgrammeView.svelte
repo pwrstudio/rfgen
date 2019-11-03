@@ -20,6 +20,7 @@
     isEnglish,
     isTileView,
     categoryList,
+    activeNavigation,
     languagePrefix,
     globalLanguage
   } from "../stores.js";
@@ -45,6 +46,7 @@
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   isTileView.set(true);
+  activeNavigation.set("programme");
 </script>
 
 <style lang="scss">
