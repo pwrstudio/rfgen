@@ -84,11 +84,10 @@
   .post-view {
     display: inline-block;
     margin-top: $navigation-top-height;
-    line-height: $unified-line-height;
     padding-bottom: $navigation-bottom-height;
 
     @include screen-size("small") {
-      padding-bottom: 46px;
+      padding-bottom: 42px;
     }
   }
 

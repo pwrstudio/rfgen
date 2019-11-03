@@ -116,7 +116,7 @@
     }
 
     &.arabic {
-      top: -15px;
+      top: -20px;
       padding-right: 3 * $rfgen-grid-unit;
       padding-left: 3 * $rfgen-grid-unit;
 
