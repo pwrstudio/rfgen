@@ -228,7 +228,7 @@
     {/each}
     {#if isEmpty($activeNavigation)}
       <div class="satoshi-strip {sample(colorList)} tall">
-        <Satoshi satoshiIndex={5} tall={true} />
+        <Satoshi satoshiIndex={5} />
       </div>
     {/if}
   {/await}
