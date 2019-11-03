@@ -200,14 +200,14 @@
 
   .satoshi-strip {
     height: 2 * $tile-height;
-    .satoshi-strip-image {
-      width: 80%;
-      max-width: 600px;
-      height: 100%;
-      float: right;
-    }
     @include screen-size("small") {
       display: none;
+    }
+
+    &.tall {
+      height: calc(
+        100vh - #{$navigation-top-height} - #{$navigation-bottom-height}
+      );
     }
   }
 </style>
@@ -219,11 +219,14 @@
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}
         <div class="satoshi-strip {sample(colorList)}">
-          <Satoshi tiled={true} satoshiIndex={Math.round(i / 3)} />
+          <Satoshi tiled={true} satoshiIndex={(Math.round(i / 3) - 1) % 10} />
         </div>
       {:else}
         <Row {row} />
       {/if}
     {/each}
+    <div class="satoshi-strip {sample(colorList)} tall">
+      <Satoshi satoshiIndex={6} tall={true} />
+    </div>
   {/await}
 </div>
