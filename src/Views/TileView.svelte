@@ -23,6 +23,7 @@
   import uniqueId from "lodash/uniqueId";
   import sortBy from "lodash/sortBy";
   import reverse from "lodash/reverse";
+  import isEmpty from "lodash/isEmpty";
 
   // _lodash/fp
   import fp from "lodash/fp";
@@ -225,8 +226,10 @@
         <Row {row} />
       {/if}
     {/each}
-    <div class="satoshi-strip {sample(colorList)} tall">
-      <Satoshi satoshiIndex={6} tall={true} />
-    </div>
+    {#if isEmpty($activeNavigation)}
+      <div class="satoshi-strip {sample(colorList)} tall">
+        <Satoshi satoshiIndex={5} tall={true} />
+      </div>
+    {/if}
   {/await}
 </div>
