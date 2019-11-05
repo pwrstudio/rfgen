@@ -12,10 +12,7 @@
   // _lodash
   import shuffle from "lodash/shuffle";
   import chunk from "lodash/chunk";
-  import concat from "lodash/concat";
   import remove from "lodash/remove";
-  import uniq from "lodash/uniq";
-  import flattenDeep from "lodash/flattenDeep";
   import sample from "lodash/sample";
   import get from "lodash/get";
   import take from "lodash/take";
@@ -91,33 +88,8 @@
   globalLanguage.set(language === "ar" ? "arabic" : "english");
   isTileView.set(true);
 
-  // – – –
-  // Start: Build query
-  // – – –
-
-  const allCategories = concat(fp.map(c => c.name)($categoryList), [
-    "categoryIntroduction"
-  ]);
-
-  const allProjections = uniq(
-    flattenDeep([...baseProjections, ...$categoryList.map(c => c.projections)])
-  );
-
-  // Convert all categories into a comma-separate list.
-  const categoryReducer = (acc, curr) => acc + ' "' + curr + '", ';
-
   const query =
-    "*[_type in [" +
-    allCategories.reduce(categoryReducer, "").slice(0, -2) + //Removel comma and space from last itme
-    "]]{" +
-    allProjections +
-    "}";
-
-  console.log(query);
-
-  // – – –
-  // End: Build query
-  // – – –
+    '*[_type in [ "project",  "discussion",  "performance",  "workingGroup",  "writing",  "participant",  "categoryIntroduction"]]{en_title, ar_title, "slug": slug.current, mainImage, "category": _type, en_content, ar_content, eventDate, customOrder, "en_title": en_name, "ar_title": ar_name, participants[]->{en_title, ar_title, "slug": slug.current}, link, publisherName}';
 
   const tracer = x => {
     console.dir(x);
@@ -156,13 +128,11 @@
       } else {
         spliced.push(lastItem);
       }
-
       return spliced;
     }
   };
 
   // Predicates
-  const hasImage = p => p.mainImage;
   const isCategoryIntroduction = p => p.category === "categoryIntroduction";
 
   const intertwineCategories = posts =>
