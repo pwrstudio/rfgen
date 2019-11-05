@@ -103,7 +103,7 @@
   .programme-text-inner {
     padding-left: $rfgen-grid-unit;
     min-height: calc(70vh - 230px);
-    width: 90%;
+    width: 95%;
     &.arabic {
       padding-right: $rfgen-grid-unit;
     }

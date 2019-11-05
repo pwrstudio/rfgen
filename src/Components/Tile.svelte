@@ -61,7 +61,7 @@
         }
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.05 }
   );
 
   if (!post.mainImage) loaded = true;

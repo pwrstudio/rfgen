@@ -19,7 +19,8 @@
 
   // *** DOM REFERENCES
   let satoshiEl = {};
-  let horizontal = false;
+
+  // *** PROPS
   export let tiled = false;
   export let satoshiIndex = 0;
 
@@ -44,7 +45,7 @@
         }
       });
     },
-    { threshold: 0.2 }
+    { threshold: 0.05 }
   );
 
   const orientationsList = ["vertical", "horizontal"];
@@ -73,7 +74,6 @@
   // ** VARIABLES
   let loaded = false;
 
-  // if (tiled) randomizeLayout();
   onMount(async () => {
     observer.observe(satoshiEl);
   });
@@ -87,10 +87,6 @@
     height: 100%;
 
     position: relative;
-
-    // background-image: url("/img/tri.svg");
-    // background-size: 26px;
-    // background-repeat: repeat;
 
     img {
       object-fit: cover;
