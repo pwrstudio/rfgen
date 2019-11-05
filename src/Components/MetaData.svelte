@@ -19,6 +19,7 @@
 
   import { toPlainText, urlFor } from "../sanity.js";
 
+  // *** PROPS
   export let post = {};
 
   const title = {
@@ -26,16 +27,16 @@
       (has(post, "title.english") && !isEmpty(post.title.english)
         ? post.title.english + " / "
         : "") +
-      siteInfo.title.english +
+      get(siteInfo, "title.english", "") +
       " / " +
-      siteInfo.satTitle.english,
+      get(siteInfo, "satTitle.english", ""),
     arabic:
       (has(post, "title.arabic") && !isEmpty(post.title.arabic)
         ? post.title.arabic + " / "
         : "") +
-      siteInfo.title.arabic +
+      get(siteInfo, "title.arabic", "") +
       " / " +
-      siteInfo.satTitle.arabic
+      get(siteInfo, "satTitle.arabic", "")
   };
 
   const description = {
@@ -47,7 +48,7 @@
             length: 160,
             separator: /.? +/
           })
-        : siteInfo.description.english,
+        : get(siteInfo, "description.english", ""),
     arabic:
       has(post, "content.arabic") &&
       isArray(post.content.arabic) &&
@@ -56,7 +57,7 @@
             length: 160,
             separator: /.? +/
           })
-        : siteInfo.description.arabic
+        : get(siteInfo, "description.arabic", "")
   };
 
   const image = has(post, "mainImage.asset")
@@ -89,6 +90,4 @@
   <meta property="image" content={image} />
   <meta property="og:image" content={image} />
   <meta property="twitter:image" content={image} />
-  <!-- <meta property="og:url" content={url} /> -->
-
 </svelte:head>

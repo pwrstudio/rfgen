@@ -1,13 +1,12 @@
 <script>
-  // # # # # # # # # # # # # #
+  // # # # # # # # # # # # # # # #
   //
   //  Satoshi Fujiwara composition
   //
-  // # # # # # # # # # # # # #
+  // # # # # # # # # # # # # # # #
 
   // *** IMPORT
   import { onMount } from "svelte";
-  import imagesLoaded from "imagesloaded";
   // _lodash
   import sample from "lodash/sample";
   import get from "lodash/get";
@@ -28,12 +27,25 @@
   let imageHeight = "height-100";
   let imageWidth = "width-100";
   let imagePosition = "position-right";
+  let inView = false;
 
   let imageObject = {};
 
   $: {
     imageObject = get($satoshiList[satoshiIndex], "mainImage", {});
   }
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          inView = true;
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
 
   const orientationsList = ["vertical", "horizontal"];
   const imageHeightsList = ["height-100"];
@@ -62,12 +74,8 @@
   let loaded = false;
 
   // if (tiled) randomizeLayout();
-
-  // *** ON MOUNT
   onMount(async () => {
-    imagesLoaded(satoshiEl, instance => {
-      loaded = true;
-    });
+    observer.observe(satoshiEl);
   });
 </script>
 
@@ -140,21 +148,25 @@
 </style>
 
 <div class="satoshi-container" class:tiled bind:this={satoshiEl}>
-  <img
-    src={tiled ? urlFor(imageObject)
-          .width(1400)
-          .height(440)
-          .quality(90)
-          .auto('format')
-          .url() : urlFor(imageObject)
-          .height(1400)
-          .width(1000)
-          .quality(90)
-          .auto('format')
-          .url()}
-    class="satoshi-image {imageHeight}
-    {imageWidth}
-    {imagePosition}"
-    class:loaded
-    alt="Satoshi Fujiwara" />
+  {#if inView}
+    <img
+      src={tiled ? urlFor(imageObject)
+            .width(1400)
+            .height(440)
+            .quality(90)
+            .auto('format')
+            .url() : urlFor(imageObject)
+            .height(1400)
+            .width(1000)
+            .quality(90)
+            .auto('format')
+            .url()}
+      on:load={() => (loaded = true)}
+      class="satoshi-image {imageHeight}
+      {imageWidth}
+      {imagePosition}"
+      class:loaded
+      alt="Satoshi Fujiwara" />
+  {/if}
+
 </div>

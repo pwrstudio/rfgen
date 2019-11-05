@@ -140,12 +140,11 @@
   }
 </style>
 
-{#await programme then programme}
+{#await programme}
+  <div />
+{:then programme}
   <MetaData post={programme.introduction} />
-{/await}
-
-<div class="programme">
-  {#await programme then programme}
+  <div class="programme">
     <div class="programme-text" class:arabic={$isArabic} in:fade>
       <div class="programme-text-inner" class:arabic={$isArabic}>
         {#if $isEnglish}
@@ -170,6 +169,7 @@
         date="Tuesday, November 12th"
         events={programme.events['12']} />
     </div>
-
-  {/await}
-</div>
+  </div>
+{:catch error}
+  <p style="color: red">{error.message}</p>
+{/await}

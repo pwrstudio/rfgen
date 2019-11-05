@@ -6,7 +6,9 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
+  import { navigate } from "svelte-routing";
+
   // _lodash
   import shuffle from "lodash/shuffle";
   import chunk from "lodash/chunk";
@@ -111,6 +113,8 @@
     allProjections +
     "}";
 
+  console.log(query);
+
   // – – –
   // End: Build query
   // – – –
@@ -121,6 +125,10 @@
   };
 
   const filterPostsByCategory = posts => {
+    if (!$categoryList.find(c => c.categorySlug === category)) {
+      navigate("/");
+      return;
+    }
     let filteredPosts = posts.filter(p => kebabCase(p.category) === category);
     if (category === "discussion") {
       filteredPosts = reverse(sortBy(filteredPosts, p => p.eventDate));
@@ -185,6 +193,8 @@
   onMount(async () => {
     window.scrollTo(0, 0);
   });
+
+  onDestroy(() => isTileView.set(false));
 </script>
 
 <style lang="scss">
@@ -216,7 +226,9 @@
 <MetaData post={metaObject} />
 
 <div class="tile-view">
-  {#await posts then posts}
+  {#await posts}
+    <div />
+  {:then posts}
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}
         <div class="satoshi-strip {sample(colorList)}">
@@ -231,5 +243,7 @@
         <Satoshi satoshiIndex={5} />
       </div>
     {/if}
+  {:catch error}
+    <p style="color: red">{error.message}</p>
   {/await}
 </div>

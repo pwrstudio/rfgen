@@ -50,7 +50,6 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  isTileView.set(false);
 
   onMount(async () => {
     window.scrollTo(0, 0);
@@ -146,7 +145,9 @@
 {/await}
 
 <div class="page-view">
-  {#await page then page}
+  {#await page}
+    <div />
+  {:then page}
     <div class="page-view-image" class:arabic={$isArabic}>
       <Satoshi satoshiIndex={page.satoshiIndex} />
     </div>
@@ -198,6 +199,7 @@
         {/if}
       </div>
     </div>
-
+  {:catch error}
+    <p style="color: red">{error.message}</p>
   {/await}
 </div>

@@ -7,8 +7,7 @@
 
   // *** IMPORT
   import { onMount } from "svelte";
-  import { Router } from "svelte-routing";
-  import imagesLoaded from "imagesloaded";
+  import { Router, links } from "svelte-routing";
   import { fade } from "svelte/transition";
   // _lodash
   import kebabCase from "lodash/kebabCase";
@@ -45,11 +44,6 @@
 
   // ** VARIABLES
   let post = {};
-  let links = [];
-  let headTitle = {
-    english: "",
-    arabic: ""
-  };
   let loaded = false;
 
   // ** CONSTANTS
@@ -66,14 +60,10 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  isTileView.set(false);
 
   // *** ON MOUNT
   onMount(async () => {
     window.scrollTo(0, 0);
-    imagesLoaded(imageEl, instance => {
-      loaded = true;
-    });
   });
 </script>
 
@@ -186,16 +176,18 @@
       line-height: 0;
     }
 
-    opacity: 0;
-    transition: opacity 0.5s $easing;
-
-    &.loaded {
-      opacity: 1;
-    }
-
     &.arabic {
       right: unset;
       left: 0;
+    }
+
+    img {
+      opacity: 0;
+      transition: opacity 1s $easing;
+
+      &.loaded {
+        opacity: 1;
+      }
     }
   }
 
@@ -251,6 +243,16 @@
       max-height: none;
     }
   }
+
+  .error {
+    margin: $rfgen-grid-unit;
+    a {
+      text-decoration: underline;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
 </style>
 
 {#await post then post}
@@ -258,25 +260,25 @@
 {/await}
 
 <div class="post-view">
-  {#await post then post}
+  {#await post}
+    <div />
+  {:then post}
     {#if post.videoLink}
       <div class="video-container">
         <Video url={post.videoLink} posterImage={post.posterImage} />
       </div>
     {/if}
     {#if post.mainImage && !post.videoLink}
-      <div
-        class="post-view-image"
-        bind:this={imageEl}
-        class:loaded
-        class:arabic={$isArabic}>
+      <div class="post-view-image" bind:this={imageEl} class:arabic={$isArabic}>
         <img
+          class:loaded
           src={urlFor(post.mainImage)
             .height(1200)
             .width(1000)
             .quality(90)
             .auto('format')
             .url()}
+          on:load={() => (loaded = true)}
           alt={$isEnglish ? post.title.english : post.title.arabic} />
       </div>
     {/if}
@@ -319,5 +321,12 @@
         </div>
       </div>
     </div>
+  {:catch error}
+    <Router>
+      <div class="error" use:links>
+        <div class="msg">Error: {error.message}</div>
+        <a href="/">Return to home page</a>
+      </div>
+    </Router>
   {/await}
 </div>

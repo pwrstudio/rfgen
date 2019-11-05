@@ -9,7 +9,6 @@
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
   import { Router, links } from "svelte-routing";
-  import imagesLoaded from "imagesloaded";
   import MediaQuery from "svelte-media-query";
   // _lodash
   import kebabCase from "lodash/kebabCase";
@@ -40,6 +39,7 @@
   let loaded = false;
   let linkOutActive = false;
   const imgWidth = width >= 25 ? 600 : 400;
+  let inView = false;
 
   // >>> RE-USE
   $: {
@@ -52,17 +52,22 @@
   }
   // <<< RE-USE
 
-  const isLongTitle = () => post.en_title.length > 35;
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          inView = true;
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
 
-  const handleClick = e => {
-    linkOutActive = !linkOutActive;
-  };
+  if (!post.mainImage) loaded = true;
 
-  // *** ON MOUNT
   onMount(async () => {
-    imagesLoaded(tileEl, instance => {
-      loaded = true;
-    });
+    observer.observe(tileEl);
   });
 </script>
 
@@ -240,10 +245,7 @@
     bind:this={tileEl}>
 
     {#if post.category === 'writing' || post.category === 'socialMedia'}
-      <div
-        on:click={e => {
-          handleClick(e);
-        }}>
+      <div on:click={e => (linkOutActive = !linkOutActive)}>
         <div class="tile-bar">
           {#if !linkOutActive}
             <div class="tile-title" class:loaded>
@@ -253,25 +255,27 @@
           {/if}
         </div>
         <div class="tile-image" class:loaded>
-          {#if post.mainImage}
+          {#if post.mainImage && inView}
             <MediaQuery query="(min-width: 800px)" let:matches>
               {#if matches}
                 <img
                   src={urlFor(post.mainImage)
                     .height(320)
                     .width(imgWidth)
-                    .quality(100)
+                    .quality(80)
                     .auto('format')
                     .url()}
+                  on:load={() => (loaded = true)}
                   alt={$isEnglish ? post.en_title : post.ar_title} />
               {:else}
                 <img
                   src={urlFor(post.mainImage)
                     .height(300)
                     .width(600)
-                    .quality(100)
+                    .quality(80)
                     .auto('format')
                     .url()}
+                  on:load={() => (loaded = true)}
                   alt={$isEnglish ? post.en_title : post.ar_title} />
               {/if}
             </MediaQuery>
@@ -312,25 +316,27 @@
           {/if}
         </div>
         <div class="tile-image" class:loaded>
-          {#if post.mainImage}
+          {#if post.mainImage && inView}
             <MediaQuery query="(min-width: 800px)" let:matches>
               {#if matches}
                 <img
                   src={urlFor(post.mainImage)
                     .height(320)
                     .width(imgWidth)
-                    .quality(100)
+                    .quality(80)
                     .auto('format')
                     .url()}
+                  on:load={() => (loaded = true)}
                   alt={$isEnglish ? post.en_title : post.ar_title} />
               {:else}
                 <img
                   src={urlFor(post.mainImage)
                     .height(300)
                     .width(600)
-                    .quality(100)
+                    .quality(80)
                     .auto('format')
                     .url()}
+                  on:load={() => (loaded = true)}
                   alt={$isEnglish ? post.en_title : post.ar_title} />
               {/if}
             </MediaQuery>

@@ -97,6 +97,10 @@ export const loadSingleData = async (query, params) => {
   try {
     const res = await client.fetch(query, params)
 
+    if (res === null) {
+      return Promise.reject(new Error(404));
+    }
+
     let postConstruction = sanitizePost(res)
 
     // LINKS >>>
@@ -114,6 +118,7 @@ export const loadSingleData = async (query, params) => {
     return postConstruction
   } catch (err) {
     Sentry.captureException(err)
+    return Promise.reject(new Error(404));
   }
 }
 
@@ -122,6 +127,11 @@ const isCategoryIntroduciton = p => p.category === 'categoryIntroduction'
 export const loadProgrammeData = async (query, params) => {
   try {
     const res = await client.fetch(query, params)
+
+    if (res === null) {
+      return Promise.reject(new Error(404));
+    }
+
     const introduction = remove(res, isCategoryIntroduciton)
 
     let processedEvents = fp.compose(
@@ -141,8 +151,12 @@ export const loadProgrammeData = async (query, params) => {
 export const loadSatoshis = async query => {
   try {
     const res = await client.fetch(query)
+    if (res === null) {
+      return Promise.reject(new Error(404));
+    }
     return res.map(sanitizePost)
   } catch (err) {
     Sentry.captureException(err)
+    return Promise.reject(new Error(404));
   }
 }

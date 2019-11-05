@@ -12,7 +12,7 @@ export const satoshiList = writable([])
 
 export const globalLanguage = writable('english')
 
-export const isTileView = writable(true)
+export const isTileView = writable(false)
 
 export const isArabic = derived(
   globalLanguage,

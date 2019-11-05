@@ -51,7 +51,6 @@
 
   // Set globals
   globalLanguage.set(language === "ar" ? "arabic" : "english");
-  isTileView.set(false);
 </script>
 
 <style lang="scss">
@@ -153,7 +152,9 @@
 {/await}
 
 <div class="introduction-view">
-  {#await post then post}
+  {#await post}
+    <div />
+  {:then post}
     <div class="introduction-view-image" class:arabic={$isArabic}>
       <Satoshi satoshiIndex={post.satoshiIndex} />
     </div>
@@ -171,5 +172,7 @@
         {/if}
       </div>
     </div>
+  {:catch error}
+    <p style="color: red">{error.message}</p>
   {/await}
 </div>

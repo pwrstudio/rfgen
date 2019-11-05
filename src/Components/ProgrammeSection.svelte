@@ -11,10 +11,8 @@
 
   // _lodash
   import get from "lodash/get";
+  import has from "lodash/has";
   import isEmpty from "lodash/isEmpty";
-
-  // *** COMPONENTS
-  import InternalLink from "../Components/InternalLink.svelte";
 
   // *** PROPS
   export let events = [];
@@ -166,10 +164,10 @@
             </div>
           {/if}
           <div class="programme-event-text">
-            {#if $isEnglish && event.content.arabic}
+            {#if $isEnglish && has(event, 'content.english', false)}
               {@html renderBlockText(event.content.english)}
             {/if}
-            {#if $isArabic && event.content.arabic}
+            {#if $isArabic && has(event, 'content.arabic', false)}
               {@html renderBlockText(event.content.arabic)}
             {/if}
           </div>
