@@ -6,6 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
+  import "intersection-observer";
   import { Router, Route } from "svelte-routing";
   import shuffle from "lodash/shuffle";
 
