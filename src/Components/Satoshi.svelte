@@ -9,10 +9,13 @@
   import { onMount } from "svelte";
   // _lodash
   import sample from "lodash/sample";
+  import random from "lodash/random";
+
   import get from "lodash/get";
 
   // *** GLOBALS
   import { urlFor } from "../sanity.js";
+  import { colorList } from "../globals.js";
 
   // *** STORES
   import { satoshiList } from "../stores.js";
@@ -24,10 +27,6 @@
   export let tiled = false;
   export let satoshiIndex = 0;
 
-  let orientation = "vertical";
-  let imageHeight = "height-100";
-  let imageWidth = "width-100";
-  let imagePosition = "position-right";
   let inView = false;
 
   let imageObject = {};
@@ -35,6 +34,16 @@
   $: {
     imageObject = get($satoshiList[satoshiIndex], "mainImage", {});
   }
+
+  const watermark = sample([
+    "/img/watermarks/1.png",
+    "/img/watermarks/2.png",
+    "/img/watermarks/3.png",
+    "/img/watermarks/4.png"
+  ]);
+
+  const showWatermark = sample([false, false, true]);
+  const showStripe = sample([false, false, true]);
 
   const observer = new IntersectionObserver(
     entries => {
@@ -47,29 +56,6 @@
     },
     { threshold: 0.05 }
   );
-
-  const orientationsList = ["vertical", "horizontal"];
-  const imageHeightsList = ["height-100"];
-  const imageWidthsList = ["width-100", "width-75", "width-50", "width-35"];
-  const imageHorizontalPositionsList = [
-    "position-left",
-    "position-right",
-    "position-center"
-  ];
-  const imageVerticalPositionsList = ["position-top", "position-bottom"];
-
-  const randomizeLayout = () => {
-    orientation = sample(orientationsList);
-    if (orientation === "vertical") {
-      imageHeight = "height-100";
-      imageWidth = sample(imageWidthsList);
-      imagePosition = sample(imageHorizontalPositionsList);
-    } else {
-      imageWidth = "width-100";
-      imageHeight = sample(imageHeightsList);
-      imagePosition = sample(imageVerticalPositionsList);
-    }
-  };
 
   // ** VARIABLES
   let loaded = false;
@@ -85,52 +71,34 @@
   .satoshi-container {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 
     position: relative;
 
-    img {
+    .satoshi-image {
       object-fit: cover;
       opacity: 0;
       position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transition: opacity 0.5s ease-out;
 
-      &.width-100 {
-        width: 100%;
+      &.loaded {
+        opacity: 1;
       }
-      &.width-75 {
-        width: calc(100% - 156px);
-      }
-      &.width-50 {
-        width: calc(100% - 312px);
-      }
-      &.width-35 {
-        width: calc(100% - 624px);
-      }
+    }
 
-      &.height-100 {
-        height: 100%;
-      }
-      // &.height-75 {
-      //   height: calc(100% - 78px);
-      // }
-      // &.height-50 {
-      //   height: calc(100% - 156px);
-      // }
-
-      &.position-right {
-        right: 0;
-      }
-
-      &.position-left {
-        left: 0;
-      }
-
-      &.position-top {
-        top: 0;
-      }
-
-      &.position-bottom {
-        bottom: 0;
-      }
+    .watermark {
+      position: absolute;
+      z-index: 10;
+      height: 1000px;
+      mix-blend-mode: multiply;
+      opacity: 0;
+      transform-origin: center;
+      transition: opacity 0.25s ease-out;
+      transition-delay: 1s;
 
       &.loaded {
         opacity: 1;
@@ -141,26 +109,52 @@
       border-bottom: 2px solid $rfgen-white;
     }
   }
+
+  .stripe {
+    position: absolute;
+    z-index: 9;
+    width: 100%;
+    opacity: 0;
+    left: 0;
+    transition: opacity 0.25s ease-out;
+    transition-delay: 1s;
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
 </style>
 
 <div class="satoshi-container" class:tiled bind:this={satoshiEl}>
   {#if inView}
+    {#if !tiled && showStripe}
+      <div
+        class="stripe {sample(colorList)}"
+        style="top:{random(0, 90)}%;height:{random(40, 240)}px;"
+        class:loaded />
+    {/if}
+    {#if showWatermark}
+      <img
+        src={watermark}
+        class="watermark"
+        alt="Rights of Future Generations"
+        style="top:{random(-40, 20)}%;left:{random(-40, 60)}%;height:{random(700, 1100)}px;"
+        class:loaded />
+    {/if}
     <img
       src={tiled ? urlFor(imageObject)
             .width(1400)
             .height(440)
-            .quality(90)
+            .quality(70)
             .auto('format')
             .url() : urlFor(imageObject)
             .height(1400)
             .width(1000)
-            .quality(90)
+            .quality(80)
             .auto('format')
             .url()}
       on:load={() => (loaded = true)}
-      class="satoshi-image {imageHeight}
-      {imageWidth}
-      {imagePosition}"
+      class="satoshi-image"
       class:loaded
       alt="Satoshi Fujiwara" />
   {/if}

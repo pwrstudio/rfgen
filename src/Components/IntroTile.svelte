@@ -46,8 +46,6 @@
     margin: 0;
     float: left;
     position: relative;
-    opacity: 1;
-    transition: opacity 0.5s $easing;
     cursor: pointer;
     border-right: 2px solid white;
     user-select: none;

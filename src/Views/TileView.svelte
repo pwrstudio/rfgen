@@ -201,7 +201,7 @@
   {:then posts}
     {#each splitRows(posts) as row, i (uniqueId('row_'))}
       {#if row.satoshi}
-        <div class="satoshi-strip {sample(colorList)}">
+        <div class="satoshi-strip">
           <Satoshi tiled={true} satoshiIndex={(Math.round(i / 3) - 1) % 10} />
         </div>
       {:else}
@@ -209,7 +209,7 @@
       {/if}
     {/each}
     {#if isEmpty($activeNavigation)}
-      <div class="satoshi-strip {sample(colorList)} tall">
+      <div class="satoshi-strip tall">
         <Satoshi satoshiIndex={5} />
       </div>
     {/if}

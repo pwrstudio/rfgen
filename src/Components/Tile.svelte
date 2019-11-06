@@ -115,7 +115,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 
-    transition: opacity 1s $easing;
+    // transition: opacity 1s $easing;
 
     opacity: 0;
 
@@ -165,7 +165,7 @@
       object-fit: cover;
     }
 
-    transition: opacity 0.5s $easing;
+    transition: opacity 0.3s $easing;
 
     opacity: 0;
 
