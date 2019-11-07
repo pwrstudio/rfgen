@@ -294,23 +294,21 @@
           {#if $isEnglish}{post.title.english}{/if}
           {#if $isArabic}{post.title.arabic}{/if}
         </div>
-        {#if category !== 'workingGroup'}
-          <div class="post-view-text-inner" class:arabic={$isArabic}>
-            {#if $isEnglish}
-              {@html renderBlockText(post.content.english)}
-            {/if}
-            {#if $isArabic}
-              {@html renderBlockText(post.content.arabic)}
-            {/if}
-            {#if category === 'writing'}
-              <p>
-                <a href={post.link} target="_blank" class="external-link">
-                  Read on {post.publisherName}
-                </a>
-              </p>
-            {/if}
-          </div>
-        {/if}
+        <div class="post-view-text-inner" class:arabic={$isArabic}>
+          {#if $isEnglish}
+            {@html renderBlockText(post.content.english)}
+          {/if}
+          {#if $isArabic}
+            {@html renderBlockText(post.content.arabic)}
+          {/if}
+          {#if category === 'writing'}
+            <p>
+              <a href={post.link} target="_blank" class="external-link">
+                Read on {post.publisherName}
+              </a>
+            </p>
+          {/if}
+        </div>
       </div>
       <div class="post-view-column right" class:arabic={$isArabic}>
         <div class="links-container" class:video={post.videoLink}>
