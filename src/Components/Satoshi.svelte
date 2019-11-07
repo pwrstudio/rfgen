@@ -27,9 +27,15 @@
   export let tiled = false;
   export let satoshiIndex = 0;
 
-  let inView = false;
+  // *** CONSTANTS
+  const showWatermark = sample([false, true]);
+  const showStripe = sample([false, false, true]);
 
+  // *** VARIABLES
+  let inView = false;
   let imageObject = {};
+  let loaded = false;
+  let watermarkLoaded = showWatermark ? false : true;
 
   $: {
     imageObject = get($satoshiList[satoshiIndex], "mainImage", {});
@@ -41,9 +47,6 @@
     "/img/watermarks/3.png",
     "/img/watermarks/4.png"
   ]);
-
-  const showWatermark = sample([false, false, true]);
-  const showStripe = sample([false, false, true]);
 
   const observer = new IntersectionObserver(
     entries => {
@@ -57,9 +60,6 @@
     { threshold: 0.05 }
   );
 
-  // ** VARIABLES
-  let loaded = false;
-
   onMount(async () => {
     observer.observe(satoshiEl);
   });
@@ -72,6 +72,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
 
     position: relative;
 
@@ -83,7 +84,7 @@
       height: 100%;
       left: 0;
       top: 0;
-      transition: opacity 0.5s ease-out;
+      transition: opacity 0.25s ease-out;
 
       &.loaded {
         opacity: 1;
@@ -98,7 +99,7 @@
       opacity: 0;
       transform-origin: center;
       transition: opacity 0.25s ease-out;
-      transition-delay: 1s;
+      max-width: 100vw;
 
       &.loaded {
         opacity: 1;
@@ -117,7 +118,6 @@
     opacity: 0;
     left: 0;
     transition: opacity 0.25s ease-out;
-    transition-delay: 1s;
 
     &.loaded {
       opacity: 1;
@@ -131,15 +131,17 @@
       <div
         class="stripe {sample(colorList)}"
         style="top:{random(0, 90)}%;height:{random(40, 240)}px;"
-        class:loaded />
+        class:loaded={loaded && watermarkLoaded} />
     {/if}
     {#if showWatermark}
       <img
         src={watermark}
         class="watermark"
         alt="Rights of Future Generations"
-        style="top:{random(-40, 20)}%;left:{random(-40, 60)}%;height:{random(700, 1100)}px;"
-        class:loaded />
+        style="top:{random(-30, 30)}%;left:{random(-40, 50)}%;max-height:{random(700, 1100)}px;
+        transform:rotate({random(-10, 10)}deg);"
+        on:load={() => (watermarkLoaded = true)}
+        class:loaded={loaded && watermarkLoaded} />
     {/if}
     <img
       src={tiled ? urlFor(imageObject)
@@ -155,7 +157,7 @@
             .url()}
       on:load={() => (loaded = true)}
       class="satoshi-image"
-      class:loaded
+      class:loaded={loaded && watermarkLoaded}
       alt="Satoshi Fujiwara" />
   {/if}
 
