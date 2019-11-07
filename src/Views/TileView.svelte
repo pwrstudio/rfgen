@@ -160,6 +160,16 @@
 
   let posts = loadData(query, {});
 
+  // Generate sitemap.txt
+  // posts.then(res => {
+  //   console.log(
+  //     [
+  //       ...res.map(r => "https://rfgen.net/en/" + r.category + "/" + r.slug),
+  //       ...res.map(r => "https://rfgen.net/ar/" + r.category + "/" + r.slug)
+  //     ].join("\r\n")
+  //   );
+  // });
+
   onMount(async () => {
     window.scrollTo(0, 0);
   });
