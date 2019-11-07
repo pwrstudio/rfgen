@@ -98,7 +98,12 @@
   <div class="intro-tile" use:links>
     <a href="/{$languagePrefix}/introduction/{post.slug}">
       <div class="intro-tile-bar {color}">
-        <span>{toPlainText(post.en_content)}</span>
+        {#if $isEnglish}
+          <span>{toPlainText(post.en_content)}</span>
+        {/if}
+        {#if $isArabic}
+          <span>{toPlainText(post.ar_content)}</span>
+        {/if}
       </div>
     </a>
   </div>

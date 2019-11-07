@@ -239,12 +239,20 @@
 
   .opening-programme-spacing-hack {
     margin-right: 2px;
+
+    &.arabic {
+      margin-left: 0;
+    }
   }
 
   .social-media-spacing-hack {
     margin-left: -5px;
     @include screen-size("small") {
       margin-left: 5px;
+    }
+
+    &.arabic {
+      margin-right: -7px;
     }
   }
 
@@ -285,7 +293,7 @@
               href="/{$languagePrefix}/programme"
               class:active={$activeNavigation === 'programme'}>
               {#if $isEnglish}Opening Programme{/if}
-              {#if $isArabic}Opening Programme{/if}
+              {#if $isArabic}برنامج الافتتاح{/if}
             </a>
           </li>
           {#each $categoryList as category}

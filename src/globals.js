@@ -37,21 +37,21 @@ export const pageList = [
   {
     name: {
       english: 'Venues',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'المواقع' //PLACEHOLDER
     },
     slug: 'venues'
   },
   {
     name: {
       english: 'Team',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'الفريق' //PLACEHOLDER
     },
     slug: 'team'
   },
   {
     name: {
       english: 'Press',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'الصحافة'
     },
     slug: 'press'
   },
@@ -63,78 +63,51 @@ export const pageList = [
     slug: 'contact'
   }
 ]
-
-export const baseProjections = [
-  'en_title',
-  'ar_title',
-  '"slug": slug.current',
-  'mainImage',
-  '"category": _type',
-  'en_content',
-  'ar_content'
-]
-
 export const categoryListDefaults = [
   {
     name: 'project',
     nameDisplay: {
       english: 'Projects',
-      arabic: 'المشاريع'
+      arabic: 'المشارع'
     },
     categorySlug: 'project',
     menuOrder: 1,
-    query: '_type == "projects"',
-    projections: []
   },
   {
     name: 'discussion',
     nameDisplay: {
       english: 'Discussions',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'نقاشات'
     },
     categorySlug: 'discussion',
     menuOrder: 2,
-    query: '_type == "talk"',
-    projections: ['eventDate']
   },
   {
     name: 'performance',
     nameDisplay: {
       english: 'Performances',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'عروض'
     },
     categorySlug: 'performance',
     menuOrder: 3,
-    query: '_type == "performance"',
-    projections: ['eventDate']
   },
   {
     name: 'workingGroup',
     nameDisplay: {
       english: 'Working Group',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'مجموعة العمل'
     },
     categorySlug: 'working-group',
-    query: '_type == "workingGroup"',
-    menuOrder: 4,
-    projections: ['customOrder']
+    menuOrder: 4
   },
   {
     name: 'writing',
     nameDisplay: {
       english: 'Writings',
-      arabic: 'صلة' //PLACEHOLDER
+      arabic: 'الكتابات'
     },
     categorySlug: 'writing',
-    query: '_type == "writing"',
-    menuOrder: 5,
-    projections: [
-      '"en_title": en_name',
-      '"ar_title": ar_name',
-      'participants[]->{en_title, ar_title, "slug": slug.current}',
-      'link',
-      'publisherName'
-    ]
+    menuOrder: 5
   },
   {
     name: 'participant',
@@ -143,8 +116,6 @@ export const categoryListDefaults = [
       arabic: 'المشاركون'
     },
     categorySlug: 'participant',
-    query: '_type == "participant"',
     menuOrder: 6,
-    projections: []
   }
 ]

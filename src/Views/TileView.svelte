@@ -45,7 +45,7 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { siteInfo, baseProjections, colorList } from "../globals.js";
+  import { siteInfo, colorList } from "../globals.js";
   import { client } from "../sanity.js";
 
   let metaObject = {

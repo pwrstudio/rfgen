@@ -30,7 +30,6 @@
   } from "../stores.js";
 
   // *** GLOBALS
-  import { baseProjections } from "../globals.js";
   import { loadSingleData, renderBlockText, urlFor } from "../sanity.js";
 
   // *** PROPS
