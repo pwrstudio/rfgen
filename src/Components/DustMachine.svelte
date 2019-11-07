@@ -15,7 +15,7 @@
   import { dustList } from "../globals.js";
 
   const DELAY = 10;
-  const INTERVAL = 3000;
+  const INTERVAL = 2500;
 
   // *** VARIABLES
   let counter = 0;
@@ -75,5 +75,3 @@
 <svelte:window on:mousemove={throttle(handleMouseMove, 200)} />
 
 <section class="dust-machine-container" bind:this={dustMachineContainer} />
-
-<!-- <div class="info">{counter}</div> -->
