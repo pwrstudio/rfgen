@@ -1082,10 +1082,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.6.0.tgz#a5bc82e6a4c3995ae124b0ba1a71aec7b8cbd666"
-  integrity sha512-F55YxqRdEfP/eYQmQjLN798v0AwLjmZ8nMBjdQvNwEE3N/zWVrlkkqT+9seBlPlsbkybG4JmWg3Ee3dIV9BcGQ==
+date-fns@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.7.0.tgz#8271d943cc4636a1f27698f1b8d6a9f1ceb74026"
+  integrity sha512-wxYp2PGoUDN5ZEACc61aOtYFvSsJUylIvCjpjDOqM1UDaKIIuMJ9fAnMYFHV3TQaDpfTVxhwNK/GiCaHKuemTA==
 
 debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
   version "2.6.9"
@@ -3110,9 +3110,10 @@ svelte-routing@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/svelte-routing/-/svelte-routing-1.4.0.tgz#09285f3c7b19f509dfb1289fbc1235b348aa7d80"
 
-svelte@^3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.12.1.tgz#ddfacd43272ac3255907c682b74ee7d3d8b06b0c"
+svelte@^3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.14.1.tgz#dd884b5c0fcf8458333902cc7a64dea8ec3b64f8"
+  integrity sha512-7gMPjARR9D797MSVaiUkILVfqDaDLKRQAPTGK5kktSmrPWE0iuHRTKIdhpMOa/MSQBM94NMUv8owR4LXrhrgfQ==
 
 tar@^2.0.0:
   version "2.2.2"

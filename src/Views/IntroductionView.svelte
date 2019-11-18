@@ -30,9 +30,7 @@
 
   // *** PROPS
   export let slug = "";
-  export let category = "";
   export let language = "";
-  export let location = {};
 
   // ** VARIABLES
   let post = {};

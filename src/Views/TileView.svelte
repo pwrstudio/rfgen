@@ -55,10 +55,7 @@
   // *** PROPS
   export let category = "";
   export let categoryDisplayName = false;
-  export let dynamicTitle = "";
-  export let location = {};
   export let language = "";
-  export let slug = "";
 
   // ** VARIABLES
   let introductions = [];

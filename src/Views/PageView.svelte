@@ -30,7 +30,6 @@
 
   // *** PROPS
   export let slug = {};
-  export let location = {};
   export let language = "";
 
   // ** VARIABLES

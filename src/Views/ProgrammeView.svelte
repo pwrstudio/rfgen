@@ -29,10 +29,7 @@
   import { loadProgrammeData, renderBlockText } from "../sanity.js";
 
   // *** PROPS
-  export let slug = "";
-  export let category = "";
   export let language = "";
-  export let location = {};
 
   // ** CONSTANTS
   const query =

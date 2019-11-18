@@ -36,7 +36,6 @@
   export let slug = "";
   export let category = "";
   export let language = "";
-  export let location = {};
 
   // *** DOM REFERENCES
   let imageEl = {};
@@ -47,7 +46,7 @@
 
   // ** CONSTANTS
   const query =
-    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, en_content, ar_content, "slug": slug.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{en_title, ar_title, "slug": slug.current, "category": _type}}[0]';
+    '*[slug.current == $slug && _type == $category]{_id, "en_title": en_name, en_title, "ar_title": ar_name, ar_title, en_content, ar_content, "slug":language.current, mainImage, videoLink, posterImage, link, publisherName, "category": _type, participants[]->{en_title, ar_title, "slug": slug.current, "category": _type}}[0]';
 
   $: {
     post = loadSingleData(query, { slug: slug, category: category });
