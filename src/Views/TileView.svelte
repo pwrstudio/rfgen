@@ -86,7 +86,7 @@
   isTileView.set(true);
 
   const query =
-    '*[_type in [ "project",  "discussion",  "performance",  "workingGroup",  "writing",  "participant",  "categoryIntroduction"]]{en_title, ar_title, "slug": slug.current, mainImage, "category": _type, en_content, ar_content, eventDate, customOrder, "en_title": en_name, "ar_title": ar_name, participants[]->{en_title, ar_title, "slug": slug.current}, link, publisherName}';
+    '*[_type in [ "project",  "discussion",  "performance",  "workingGroup",  "writing",  "participant",  "categoryIntroduction"]]{en_title, ar_title, "slug": slug.current, mainImage, "category": _type, en_content, ar_content, eventDate, customOrder, "en_title": en_name, "ar_title": ar_name, participants[]->{en_title, ar_title, "slug": slug.current}, link, publisherName, ar_linkText, "ar_linkFile": ar_linkFile.asset->url }';
 
   const tracer = x => {
     console.dir(x);

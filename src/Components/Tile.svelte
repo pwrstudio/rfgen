@@ -67,6 +67,7 @@
   if (!post.mainImage) loaded = true;
 
   onMount(async () => {
+    console.dir(post);
     observer.observe(tileEl);
   });
 </script>
@@ -244,7 +245,7 @@
     use:links
     bind:this={tileEl}>
 
-    {#if post.category === 'writing' || post.category === 'socialMedia'}
+    {#if post.category === 'writing'}
       <div on:click={e => (linkOutActive = !linkOutActive)}>
         <div class="tile-bar">
           {#if !linkOutActive}
@@ -298,9 +299,16 @@
             </p>
 
             <p in:fly={{ duration: 150, delay: 200, y: 10 }}>
-              <a href={post.link} target="_blank" class="external-link">
-                Read on {post.publisherName}
-              </a>
+              {#if $isEnglish}
+                <a href={post.link} target="_blank" class="external-link">
+                  Read on {post.publisherName}
+                </a>
+              {/if}
+              {#if $isArabic && post.ar_linkFile}
+                <a href="{post.ar_linkFile}?dl=" class="external-link" download>
+                  {post.ar_linkText}
+                </a>
+              {/if}
             </p>
           {/if}
         </div>
