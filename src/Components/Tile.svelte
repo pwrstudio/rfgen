@@ -245,7 +245,7 @@
     use:links
     bind:this={tileEl}>
 
-    {#if post.category === 'writing'}
+    {#if post.category === 'writing' && !post.isSticky}
       <div on:click={e => (linkOutActive = !linkOutActive)}>
         <div class="tile-bar">
           {#if !linkOutActive}

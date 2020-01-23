@@ -300,13 +300,6 @@
           {#if $isArabic}
             {@html renderBlockText(post.content.arabic)}
           {/if}
-          {#if category === 'writing'}
-            <p>
-              <a href={post.link} target="_blank" class="external-link">
-                Read on {post.publisherName}
-              </a>
-            </p>
-          {/if}
         </div>
       </div>
       <div class="post-view-column right" class:arabic={$isArabic}>
