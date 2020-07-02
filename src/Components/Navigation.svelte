@@ -292,8 +292,18 @@
             <a
               href="/{$languagePrefix}/programme"
               class:active={$activeNavigation === 'programme'}>
-              {#if $isEnglish}Opening Programme{/if}
+              {#if $isEnglish}Opening{/if}
               {#if $isArabic}برنامج الافتتاح{/if}
+            </a>
+          </li>
+          <li
+            class="category-menu-list-item opening-programme-spacing-hack"
+            class:arabic={$isArabic}>
+            <a
+              href="/{$languagePrefix}/page/closing-programme"
+              class:active={$activeNavigation === 'closing'}>
+              {#if $isEnglish}Closing{/if}
+              {#if $isArabic}Closing{/if}
             </a>
           </li>
           {#each $categoryList as category}
@@ -306,19 +316,6 @@
               </a>
             </li>
           {/each}
-          <li
-            class="category-menu-list-item social-media-spacing-hack"
-            class:arabic={$isArabic}>
-            <a
-              href="https://www.instagram.com/explore/tags/rfgen/"
-              target="_blank"
-              class="force-ltr"
-              rel="noreferrer">
-              {#if $isEnglish}#rfgen{/if}
-              {#if $isArabic}rfgen#{/if}
-
-            </a>
-          </li>
           <!-- EXTRA WHITESPACE -->
           <li class="category-menu-list-item block">&nbsp;</li>
         </ul>
@@ -342,6 +339,18 @@
               </a>
             </li>
           {/each}
+          <li
+            class="category-menu-list-item social-media-spacing-hack"
+            class:arabic={$isArabic}>
+            <a
+              href="https://www.instagram.com/explore/tags/rfgen/"
+              target="_blank"
+              class="force-ltr"
+              rel="noreferrer">
+              {#if $isEnglish}#rfgen{/if}
+              {#if $isArabic}rfgen#{/if}
+            </a>
+          </li>
         </ul>
       </menu>
     </nav>

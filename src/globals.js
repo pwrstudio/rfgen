@@ -36,6 +36,13 @@ export const pageList = [
   },
   {
     name: {
+      english: 'Documentation',
+      arabic: 'Documentation'
+    },
+    slug: 'documentation'
+  },
+  {
+    name: {
       english: 'Venues',
       arabic: 'المواقع' //PLACEHOLDER
     },

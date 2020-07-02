@@ -39,9 +39,9 @@
     document.documentElement.lang = $languagePrefix;
   }
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js");
-  }
+  // if ("serviceWorker" in navigator) {
+  //   navigator.serviceWorker.register("/service-worker.js");
+  // }
 
   const query = '*[_type == "satoshi"]{mainImage}';
   const satoshis = loadSatoshis(query, {});
@@ -73,6 +73,7 @@
     line-height: $unified-line-height;
     margin: 0;
     overflow-x: hidden;
+    // overflow-y: hidden;
     padding: 0;
     text-align: left;
     // scroll-behavior: smooth;
@@ -143,6 +144,51 @@
       &:hover {
         text-decoration: none;
       }
+    }
+  }
+
+  .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 720px;
+    width: 100%;
+    margin-bottom: 1em;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  .soundcloud-container {
+    // height: 300px;
+    width: 100%;
+    overflow: hidden;
+    max-width: 100%;
+    margin-bottom: 1em;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  figure {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1em;
+  }
+
+  .page-view-text-inner {
+    img {
+      max-width: 100%;
     }
   }
 </style>
