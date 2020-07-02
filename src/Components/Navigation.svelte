@@ -301,7 +301,7 @@
             class:arabic={$isArabic}>
             <a
               href="/{$languagePrefix}/page/closing-programme"
-              class:active={$activeNavigation === 'closing'}>
+              class:active={$activeNavigation === 'closing-programme'}>
               {#if $isEnglish}Closing{/if}
               {#if $isArabic}Closing{/if}
             </a>
