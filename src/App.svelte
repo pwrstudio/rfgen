@@ -12,6 +12,7 @@
 
   // *** COMPONENTS
   import Navigation from "./Components/Navigation.svelte";
+  import DustMachine from "./Components/DustMachine.svelte";
 
   // *** ROUTES
   import TileView from "./Views/TileView.svelte";
@@ -191,6 +192,12 @@
       max-width: 100%;
     }
   }
+
+  .mote {
+    max-width: 50px;
+    max-height: 60px;
+    position: fixed;
+  }
 </style>
 
 <div class="app" class:arabic={$isArabic}>
@@ -207,5 +214,7 @@
     <Route path="/:language/page/:slug" component={PageView} />
     <Route component={Error404} title="404" />
   </Router>
+
+  <DustMachine />
 
 </div>

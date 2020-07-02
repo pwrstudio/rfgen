@@ -27,6 +27,7 @@
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
+    "poisson-process": "^1.0.0",
     "postcss": "^7.0.26",
     "regenerator-runtime": "^0.13.3",
     "rollup-plugin-babel": "^4.3.3",
