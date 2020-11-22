@@ -1,6 +1,7 @@
 import sanityClient from "@sanity/client"
 import blocksToHtml from "@sanity/block-content-to-html"
 import imageUrlBuilder from "@sanity/image-url"
+import getVideoId from "get-video-id"
 // _lodash
 import get from "lodash/get"
 import remove from "lodash/remove"
@@ -31,7 +32,59 @@ const serializers = {
   },
   types: {
     embed: (props) => {
-      return
+      // YOUTUBE
+      if (get(props, "node.url", "").includes("youtube")) {
+        return h(
+          "div",
+          { className: "embed-container" },
+          h("iframe", {
+            width: "720",
+            height: "480",
+            src:
+              "https://www.youtube.com/embed/" + getVideoId(props.node.url).id,
+            frameborder: "no",
+            allow:
+              "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
+            allowfullscreen: true,
+          })
+        )
+      }
+      // VIMEO
+      if (get(props, "node.url", "").includes("vimeo")) {
+        return h(
+          "div",
+          { className: "embed-container" },
+          h("iframe", {
+            width: "720",
+            height: "480",
+            src:
+              "https://player.vimeo.com/video/" + getVideoId(props.node.url).id,
+            frameborder: "no",
+            byline: false,
+            color: "#ffffff",
+            allow: "autoplay; fullscreen",
+            allowfullscreen: true,
+          })
+        )
+      }
+      // SOUNDCLOUD
+      if (get(props, "node.url", "").includes("soundcloud")) {
+        return h(
+          "div",
+          { className: "soundcloud-container" },
+          h("iframe", {
+            width: "100%",
+            height: "300",
+            src:
+              "https://w.soundcloud.com/player/?url=" +
+              props.node.url +
+              "&color=%23fffff",
+            frameborder: "no",
+            scrolling: "no",
+            allow: "autoplay",
+          })
+        )
+      }
     },
   },
 }
@@ -40,6 +93,9 @@ export const renderBlockText = (text) =>
   blocksToHtml({
     blocks: text,
     serializers: serializers,
+    projectId: "s581o0va",
+    dataset: "rfgen-live",
+    imageOptions: { w: 720, h: 500, fit: "max" },
   })
 
 export const toPlainText = (blocks = []) => {

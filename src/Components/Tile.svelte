@@ -67,7 +67,6 @@
   if (!post.mainImage) loaded = true;
 
   onMount(async () => {
-    console.dir(post);
     observer.observe(tileEl);
   });
 </script>
