@@ -6,25 +6,25 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import "intersection-observer";
-  import { Router, Route } from "svelte-routing";
-  import shuffle from "lodash/shuffle";
+  import "intersection-observer"
+  import { Router, Route } from "svelte-routing"
+  import shuffle from "lodash/shuffle"
 
   // *** COMPONENTS
-  import Navigation from "./Components/Navigation.svelte";
-  import DustMachine from "./Components/DustMachine.svelte";
+  import Navigation from "./Components/Navigation.svelte"
+  import DustMachine from "./Components/DustMachine.svelte"
 
   // *** ROUTES
-  import TileView from "./Views/TileView.svelte";
-  import PageView from "./Views/PageView.svelte";
-  import PostView from "./Views/PostView.svelte";
-  import IntroductionView from "./Views/IntroductionView.svelte";
-  import ProgrammeView from "./Views/ProgrammeView.svelte";
-  import Error404 from "./Views/Error404.svelte";
+  import TileView from "./Views/TileView.svelte"
+  import PageView from "./Views/PageView.svelte"
+  import PostView from "./Views/PostView.svelte"
+  import IntroductionView from "./Views/IntroductionView.svelte"
+  import ProgrammeView from "./Views/ProgrammeView.svelte"
+  import Error404 from "./Views/Error404.svelte"
 
   // *** GLOBALS
-  import { categoryListDefaults, colorList } from "./globals.js";
-  import { loadSatoshis } from "./sanity.js";
+  import { categoryListDefaults, colorList } from "./globals.js"
+  import { loadSatoshis } from "./sanity.js"
 
   // *** STORES
   import {
@@ -33,31 +33,27 @@
     categoryList,
     satoshiList,
     isArabic,
-    isEnglish
-  } from "./stores.js";
+    isEnglish,
+  } from "./stores.js"
 
   $: {
-    document.documentElement.lang = $languagePrefix;
+    document.documentElement.lang = $languagePrefix
   }
 
-  // if ("serviceWorker" in navigator) {
-  //   navigator.serviceWorker.register("/service-worker.js");
-  // }
-
-  const query = '*[_type == "satoshi"]{mainImage}';
-  const satoshis = loadSatoshis(query, {});
+  const query = '*[_type == "satoshi"]{mainImage}'
+  const satoshis = loadSatoshis(query, {})
   satoshis.then(sats => {
-    satoshiList.set(shuffle(sats));
-  });
+    satoshiList.set(shuffle(sats))
+  })
 
   // Randomize category colors on each reload
-  const shuffledColors = shuffle(colorList);
+  const shuffledColors = shuffle(colorList)
   categoryList.set(
     categoryListDefaults.map((c, i) => {
-      c.color = shuffledColors[i];
-      return c;
+      c.color = shuffledColors[i]
+      return c
     })
-  );
+  )
 </script>
 
 <style lang="scss" global>
@@ -201,7 +197,6 @@
 </style>
 
 <div class="app" class:arabic={$isArabic}>
-
   <Navigation />
 
   <Router>
@@ -216,5 +211,4 @@
   </Router>
 
   <DustMachine />
-
 </div>
