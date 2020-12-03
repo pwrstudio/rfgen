@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { Router, links } from "svelte-routing";
+  import { Router, links } from "svelte-routing"
 
   // *** STORES
   import {
@@ -16,15 +16,15 @@
     activeNavigation,
     navigationColor,
     categoryList,
-    languagePrefix
-  } from "../stores.js";
+    languagePrefix,
+  } from "../stores.js"
 
   // *** GLOBALS
-  import { siteInfo, pageList } from "../globals.js";
+  import { siteInfo, pageList } from "../globals.js"
 
   // ** FUNCTIONS
   const changeLanguage = () =>
-    globalLanguage.set($isEnglish ? "arabic" : "english");
+    globalLanguage.set($isEnglish ? "arabic" : "english")
 </script>
 
 <style lang="scss">
@@ -262,9 +262,7 @@
 </style>
 
 <Router>
-
   <header class="navigation top {$navigationColor}" use:links>
-
     <nav>
       <a href="/{$languagePrefix}/" class="text-logo">
         {#if $isEnglish}{siteInfo.title.english}{/if}
@@ -303,7 +301,7 @@
               href="/{$languagePrefix}/page/closing-programme"
               class:active={$activeNavigation === 'closing-programme'}>
               {#if $isEnglish}Closing{/if}
-              {#if $isArabic}Closing{/if}
+              {#if $isArabic}الختام{/if}
             </a>
           </li>
           {#each $categoryList as category}
@@ -364,5 +362,4 @@
       {#if $isArabic}Sharjah Architecture Triennial{/if}
     </a>
   </footer>
-
 </Router>
