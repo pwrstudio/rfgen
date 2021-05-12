@@ -28,7 +28,7 @@
     "lodash": "^4.17.19",
     "node-sass": "^4.13.1",
     "poisson-process": "^1.0.0",
-    "postcss": "^7.0.26",
+    "postcss": "^8.2.10",
     "regenerator-runtime": "^0.13.3",
     "rollup-plugin-babel": "^4.3.3",
     "sirv-cli": "^0.4.5",
