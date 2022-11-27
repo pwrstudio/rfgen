@@ -153,7 +153,7 @@
       introductions = remove(res, isCategoryIntroduction);
       return intertwineCategories(res);
     } catch (err) {
-      Sentry.captureException(err);
+      // Sentry.captureException(err);
     }
   }
   // <<< RE-USE

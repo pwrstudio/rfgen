@@ -1,127 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
 
-    <title>
-      Rights of Future Generations – Sharjah Architecture Triennial 2019
-    </title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
 
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/img/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/img/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/img/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="theme-color" content="#ffffff" />
+  <title>
+    Rights of Future Generations – Sharjah Architecture Triennial 2019
+  </title>
 
-    <meta name="robots" content="index, follow" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  <meta name="theme-color" content="#ffffff" />
 
-    <meta
-      name="description"
-      content="Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence."
-    />
+  <meta name="robots" content="index, follow" />
 
-    <meta
-      property="og:site_name"
-      content="Rights of Future Generations – Sharjah Architecture Triennial 2019"
-    />
-    <meta property="og:type" content="website" />
+  <meta name="description"
+    content="Rights of Future Generations is an invitation to radically rethink fundamental questions about architecture and its power to create and sustain alternative modes of existence." />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:creator" content="@sharjaharch" />
-    <meta name="twitter:site" content="@sharjaharch" />
-    <meta
-      name="twitter:image:alt"
-      content=" Rights of Future Generations – Sharjah Architecture Triennial 2019"
-    />
+  <meta property="og:site_name" content="Rights of Future Generations – Sharjah Architecture Triennial 2019" />
+  <meta property="og:type" content="website" />
 
-    <style>
-      @font-face {
-        font-family: 'HelveticaNeue';
-        src: url('/fonts/HelveticaNeueLTArabic-Bold.woff2') format('woff2'),
-          url('/fonts/HelveticaNeueLTArabic-Bold.woff') format('woff');
-        /* font-display: fallback; */
-        font-weight: bold;
-        font-style: normal;
-      }
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@sharjaharch" />
+  <meta name="twitter:site" content="@sharjaharch" />
+  <meta name="twitter:image:alt" content=" Rights of Future Generations – Sharjah Architecture Triennial 2019" />
 
-      @font-face {
-        font-family: 'HelveticaNeue';
-        src: url('/fonts/HelveticaNeueLTArabic-Roman.woff2') format('woff2'),
-          url('/fonts/HelveticaNeueLTArabic-Roman.woff') format('woff');
-        /* font-display: fallback; */
-        font-weight: normal;
-        font-style: normal;
-      }
+  <style>
+    @font-face {
+      font-family: 'HelveticaNeue';
+      src: url('/fonts/HelveticaNeueLTArabic-Bold.woff2') format('woff2'),
+        url('/fonts/HelveticaNeueLTArabic-Bold.woff') format('woff');
+      /* font-display: fallback; */
+      font-weight: bold;
+      font-style: normal;
+    }
 
-      @font-face {
-        font-family: 'HelveticaNeue';
-        src: url('/fonts/HelveticaNeueLTStd-Bd.woff2') format('woff2'),
-          url('/fonts/HelveticaNeueLTStd-Bd.woff') format('woff');
-        /* font-display: fallback; */
-        font-weight: bold;
-        font-style: normal;
-      }
+    @font-face {
+      font-family: 'HelveticaNeue';
+      src: url('/fonts/HelveticaNeueLTArabic-Roman.woff2') format('woff2'),
+        url('/fonts/HelveticaNeueLTArabic-Roman.woff') format('woff');
+      /* font-display: fallback; */
+      font-weight: normal;
+      font-style: normal;
+    }
 
-      @font-face {
-        font-family: 'HelveticaNeue';
-        src: url('/fonts/HelveticaNeueLTStd-Roman.woff2') format('woff2'),
-          url('/fonts/HelveticaNeueLTStd-Roman.woff') format('woff');
-        /* font-display: fallback; */
-        font-weight: normal;
-        font-style: normal;
-      }
+    @font-face {
+      font-family: 'HelveticaNeue';
+      src: url('/fonts/HelveticaNeueLTStd-Bd.woff2') format('woff2'),
+        url('/fonts/HelveticaNeueLTStd-Bd.woff') format('woff');
+      /* font-display: fallback; */
+      font-weight: bold;
+      font-style: normal;
+    }
 
-      * {
-        overscroll-behavior: none;
-      }
+    @font-face {
+      font-family: 'HelveticaNeue';
+      src: url('/fonts/HelveticaNeueLTStd-Roman.woff2') format('woff2'),
+        url('/fonts/HelveticaNeueLTStd-Roman.woff') format('woff');
+      /* font-display: fallback; */
+      font-weight: normal;
+      font-style: normal;
+    }
 
-    </style>
+    * {
+      overscroll-behavior: none;
+    }
+  </style>
 
-    <script
+  <!-- <script
       src="https://browser.sentry-cdn.com/5.7.0/bundle.min.js"
       integrity="sha384-pHnCJ3bbzJ+LzI19wAdyBvGAjJ5vNAC59uxeRpw5WpgkSlZUQstEADxkSbBnI95q"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
 
-    <link rel="stylesheet" href="/bundle.css" />
+  <link rel="stylesheet" href="/bundle.css" />
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-39005519-13"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39005519-13"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
 
-      gtag('config', 'UA-39005519-13')
-    </script>
+    gtag('config', 'UA-39005519-13')
+  </script>
 
-    <script defer src="/bundle.js"></script>
-  </head>
+  <script defer src="/bundle.js"></script>
+</head>
 
-  <body>
-    <noscript>
-      This site requires Javascript
-    </noscript>
-  </body>
+<body>
+  <noscript>
+    This site requires Javascript
+  </noscript>
+</body>
+
 </html>

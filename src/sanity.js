@@ -178,7 +178,7 @@ export const loadSingleData = async (query, params) => {
 
     return postConstruction
   } catch (err) {
-    Sentry.captureException(err)
+    // Sentry.captureException(err)
     return Promise.reject(new Error(404))
   }
 }
@@ -205,7 +205,7 @@ export const loadProgrammeData = async (query, params) => {
       events: processedEvents,
     }
   } catch (err) {
-    Sentry.captureException(err)
+    // Sentry.captureException(err)
   }
 }
 
@@ -217,7 +217,7 @@ export const loadSatoshis = async (query) => {
     }
     return res.map(sanitizePost)
   } catch (err) {
-    Sentry.captureException(err)
+    // Sentry.captureException(err)
     return Promise.reject(new Error(404))
   }
 }
