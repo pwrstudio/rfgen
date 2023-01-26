@@ -26,7 +26,7 @@
     "get-video-id": "^3.1.4",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.19",
-    "node-sass": "^8.0.0",
+    "node-sass": "^7.0.0",
     "poisson-process": "^1.0.0",
     "postcss": "^7.0.26",
     "regenerator-runtime": "^0.13.3",
