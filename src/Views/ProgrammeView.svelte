@@ -6,13 +6,13 @@
   // # # # # # # # # # # # # #
 
   // *** IMPORT
-  import { fade } from "svelte/transition";
+  import { fade } from "svelte/transition"
   // _lodash
-  import get from "lodash/get";
+  import get from "lodash/get"
 
   // *** COMPONENTS
-  import ProgrammeSection from "../Components/ProgrammeSection.svelte";
-  import MetaData from "../Components/MetaData.svelte";
+  import ProgrammeSection from "../Components/ProgrammeSection.svelte"
+  import MetaData from "../Components/MetaData.svelte"
 
   // *** STORES
   import {
@@ -22,29 +22,71 @@
     categoryList,
     activeNavigation,
     languagePrefix,
-    globalLanguage
-  } from "../stores.js";
+    globalLanguage,
+  } from "../stores.js"
 
   // *** GLOBALS
-  import { loadProgrammeData, renderBlockText } from "../sanity.js";
+  import { loadProgrammeData, renderBlockText } from "../sanity.js"
 
   // *** PROPS
-  export let language = "";
+  export let language = ""
 
   // ** CONSTANTS
   const query =
-    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {simpleDate, startTime, performanceDate, eventType, _id, en_title, ar_title, en_content,  ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, ar_title, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}';
+    '*[_type == "event" || (_type == "categoryIntroduction" && slug.current == "opening-programme")] | order(performanceDate asc) {simpleDate, startTime, performanceDate, eventType, _id, en_title, ar_title, en_content,  ar_content, mainImage, videoLink,  "category": _type, participants[]->{"en_title": en_name, en_title, ar_title, "slug": slug.current, "category": _type}, discussions[]->{en_title, ar_title, "slug": slug.current, "category": _type}}'
 
-  let programme = loadProgrammeData(query, {});
+  let programme = loadProgrammeData(query, {})
 
   const getEventColor = type =>
-    get($categoryList.find(c => c.categorySlug === type), "color", "");
+    get(
+      $categoryList.find(c => c.categorySlug === type),
+      "color",
+      ""
+    )
 
   // Set globals
-  globalLanguage.set(language === "ar" ? "arabic" : "english");
-  isTileView.set(true);
-  activeNavigation.set("programme");
+  globalLanguage.set(language === "ar" ? "arabic" : "english")
+  isTileView.set(true)
+  activeNavigation.set("programme")
 </script>
+
+{#await programme}
+  <div />
+{:then programme}
+  <MetaData post={programme.introduction} />
+  <div class="programme">
+    <div class="programme-text" class:arabic={$isArabic} in:fade>
+      <div class="programme-text-inner" class:arabic={$isArabic}>
+        {#if $isEnglish}
+          {@html renderBlockText(programme.introduction.content.english)}
+        {/if}
+        {#if $isArabic}
+          {@html renderBlockText(programme.introduction.content.arabic)}
+        {/if}
+      </div>
+    </div>
+    <div class="programme-calendar" class:arabic={$isArabic}>
+      <ProgrammeSection
+        date="Saturday, November 9th"
+        events={programme.events["9"]}
+      />
+      <ProgrammeSection
+        date="Sunday, November 10th"
+        events={programme.events["10"]}
+      />
+      <ProgrammeSection
+        date="Monday, November 11th"
+        events={programme.events["11"]}
+      />
+      <ProgrammeSection
+        date="Tuesday, November 12th"
+        events={programme.events["12"]}
+      />
+    </div>
+  </div>
+{:catch error}
+  <p style="color: red">{error.message}</p>
+{/await}
 
 <style lang="scss">
   @import "../variables.scss";
@@ -136,37 +178,3 @@
     }
   }
 </style>
-
-{#await programme}
-  <div />
-{:then programme}
-  <MetaData post={programme.introduction} />
-  <div class="programme">
-    <div class="programme-text" class:arabic={$isArabic} in:fade>
-      <div class="programme-text-inner" class:arabic={$isArabic}>
-        {#if $isEnglish}
-          {@html renderBlockText(programme.introduction.content.english)}
-        {/if}
-        {#if $isArabic}
-          {@html renderBlockText(programme.introduction.content.arabic)}
-        {/if}
-      </div>
-    </div>
-    <div class="programme-calendar" class:arabic={$isArabic}>
-      <ProgrammeSection
-        date="Saturday, November 9th"
-        events={programme.events['9']} />
-      <ProgrammeSection
-        date="Sunday, November 10th"
-        events={programme.events['10']} />
-      <ProgrammeSection
-        date="Monday, November 11th"
-        events={programme.events['11']} />
-      <ProgrammeSection
-        date="Tuesday, November 12th"
-        events={programme.events['12']} />
-    </div>
-  </div>
-{:catch error}
-  <p style="color: red">{error.message}</p>
-{/await}
